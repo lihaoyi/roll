@@ -25,35 +25,12 @@ object Color{
   )
 }
 
-case class Point(x: Double, y: Double){
-  def +(other: Point) = Point(x + other.x, y + other.y)
-  def -(other: Point) = Point(x - other.x, y - other.y)
-  def %(other: Point) = Point(x % other.x, y % other.y)
-  def <(other: Point) = x < other.x && y < other.y
-  def >(other: Point) = x > other.x && y > other.y
-  def /(value: Double) = Point(x / value, y / value)
-  def *(value: Double) = Point(x * value, y * value)
-  def *(other: Point) = x * other.x + y * other.y
-  def length = Math.sqrt(lengthSquared)
-  def lengthSquared = x * x + y * y
-  def within(a: Point, b: Point, extra: Point = Point(0, 0)) = {
-    import math.{min, max}
-    x >= min(a.x, b.x) - extra.x &&
-    x < max(a.x, b.x) + extra.y &&
-    y >= min(a.y, b.y) - extra.x &&
-    y < max(a.y, b.y) + extra.y
-  }
-  def rotate(theta: Double) = {
-    val (cos, sin) = (Math.cos(theta), math.sin(theta))
-    Point(cos * x - sin * y, sin * x + cos * y)
-  }
-}
 
-class GameHolder(canvasName: String, gameMaker: (Point, () => Unit) => Game){
+class GameHolder(canvasName: String, gameMaker: (() => Point, () => Unit) => Game){
   private[this] val canvas = JsGlobals.window.document.getElementById(canvasName).asInstanceOf[HTMLCanvasElement]
-  private[this] val bounds = Point(canvas.width, canvas.height)
+  private[this] def bounds = Point(canvas.width, canvas.height)
   private[this] val keys = mutable.Set.empty[Int]
-  var game: Game = gameMaker(bounds, () => resetGame())
+  var game: Game = gameMaker(bounds _, () => resetGame())
 
   canvas.onkeydown = {(e: KeyboardEvent) =>
     keys.add(e.keyCode.toInt)
@@ -80,6 +57,8 @@ class GameHolder(canvasName: String, gameMaker: (Point, () => Unit) => Game){
       game.draw(ctx)
       firstFrame = true
     }
+    canvas.width = JsGlobals.innerWidth
+    canvas.height = JsGlobals.innerHeight
     if (active && message.isEmpty) {
       game.draw(ctx)
       game.update(keys.toSet)
@@ -99,7 +78,7 @@ class GameHolder(canvasName: String, gameMaker: (Point, () => Unit) => Game){
   def resetGame(): Unit = {
     message = game.result
     println("MESSAGE " + message)
-    game = gameMaker(bounds, () => resetGame())
+    game = gameMaker(bounds _, () => resetGame())
   }
   ctx.font = "12pt Arial"
   ctx.textAlign = "center"
@@ -109,8 +88,19 @@ abstract class Game{
   def update(keys: Set[Int]): Unit
 
   def draw(ctx: CanvasRenderingContext2D): Unit
+}
 
+object ScalaJSExample {
+  def main(): Unit = {
+    println("Main")
+    val ribbonGame = new GameHolder("screen", Tetris)
+    val games = Seq(ribbonGame)
+    JsGlobals.setInterval(() => games.foreach(_.update()), 15)
+  }
 
+  def loadFile(path: String) = {
+    new XMLHttpRequest().open("GET", path)
+  }
   implicit class pimpedContext(val ctx: CanvasRenderingContext2D){
     def fillCircle(x: Double, y: Double, r: Double) = {
       ctx.beginPath()
@@ -126,18 +116,5 @@ abstract class Game{
       }
       ctx.stroke()
     }
-  }
-}
-
-object ScalaJSExample {
-  def main(): Unit = {
-    val asteroids = new GameHolder("asteroids", Asteroids)
-    val astrolander = new GameHolder("astrolander", AstroLander)
-    val snake = new GameHolder("snake", Snake)
-    val pong = new GameHolder("pong", Pong)
-    val bricks = new GameHolder("bricks", BrickBreaker)
-    val tetris = new GameHolder("tetris", Tetris)
-    val games = Seq(asteroids, astrolander, snake, pong, bricks, tetris)
-    JsGlobals.setInterval(() => games.foreach(_.update()), 15)
   }
 }
