@@ -17,13 +17,16 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
   val space = js.Dynamic.newInstance(spaceCls)()
   space.gravity = cp.v(0, 500)
 
-
-//  val rock = space.addBody(New(cp.Body)(m, cp.momentForBox(m, w, h)))
-//  rock.setPos(cp.v(500, 100))
-//  rock.setAngle(1)
-//  val shape = space.addShape(New(cp.BoxShape)(rock, w, h))
-//  shape.setFriction(0.3)
-//  shape.setElasticity(0.3)
+  val w = 50
+  val h = 50
+  val m = w * h * 0.001
+  val rock = space.addBody(New(cp.Body)(m, cp.momentForBox(m, w, h)))
+  rock.setVel(cp.v(400, 0))
+  rock.setPos(cp.v(500, 300))
+  rock.setAngle(1)
+  val shape = space.addShape(New(cp.BoxShape)(rock, w, h))
+  shape.setFriction(0.3)
+  shape.setElasticity(0.3)
   val floor = space.addShape(New(cp.SegmentShape)(
     space.staticBody,
     cp.v(0, 840),
@@ -57,7 +60,7 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
         case _ => None
       }
     }
-  }.flatten
+  }.flatten :+ (rock -> shape)
 
   def draw(ctx: js.CanvasRenderingContext2D) = {
 
@@ -66,10 +69,10 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
       ctx.save()
       val x = rock.p.x.to[js.Number]
       val y = rock.p.y.to[js.Number]
-      val a = rock.a.to[js.Number]
+
       ctx.translate(x, y)
 
-      ctx.rotate(a)
+      ctx.rotate(rock.a.to[js.Number])
 
       val nums = shape.verts.to[js.Array[js.Number]]
       ctx.strokePath(
@@ -80,16 +83,7 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
       )
       ctx.restore()
     }
-//    ctx.save()
-//    ctx.translate(rock.p.x.asInstanceOf[js.Number], rock.p.y.asInstanceOf[js.Number])
-//    ctx.rotate(rock.a.asInstanceOf[js.Number])
-//    ctx.fillRect(
-//      -w/2,
-//      -h/2,
-//      w,
-//      h
-//    )
-//    ctx.restore()
+
   }
   def update(keys: Set[Int]) = {
     space.step(1.0/60)
