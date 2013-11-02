@@ -69,10 +69,10 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
       ctx.save()
       val x = rock.p.x.to[js.Number]
       val y = rock.p.y.to[js.Number]
-
+      val a = rock.a.to[js.Number]
       ctx.translate(x, y)
 
-      ctx.rotate(rock.a.to[js.Number])
+      ctx.rotate(a)
 
       val nums = shape.verts.to[js.Array[js.Number]]
       ctx.strokePath(
