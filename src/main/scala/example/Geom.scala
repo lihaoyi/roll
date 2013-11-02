@@ -1,8 +1,6 @@
 package example
 
-
 import java.lang.Math
-
 
 case class Point(x: Double, y: Double){
   def +(other: Point) = Point(x + other.x, y + other.y)
@@ -45,7 +43,7 @@ case class Line(p1: Point, p2: Point){
     directions == 1
   }
   def perpDist(p: Point): Double = {
-    val d = (p2 - p1)
+    val d = p2 - p1
     val parHit = p1 + d * (p * d) / d.lengthSquared
     val parDist = (parHit - p1).length
     if (parDist > 0 && parDist < d.length) (parHit - p).length
@@ -58,4 +56,5 @@ case class Rect(p1: Point, p2: Point){
 }
 
 case class Circle(center: Point, radius: Double)
+
 case class Polygon(points: Seq[Point])
