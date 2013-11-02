@@ -4,6 +4,7 @@ import scala.collection.mutable
 import scala.scalajs.js
 
 import ScalaJSExample.pimpedContext
+import example.chipmunk._
 
 
 case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
@@ -11,26 +12,25 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
     def to[T] = x.asInstanceOf[T]
   }
   println("Tetris")
-  import js.Dynamic.{newInstance => New}
-  val cp = js.Dynamic.global.cp
-  val spaceCls = cp.Space
-  val space = js.Dynamic.newInstance(spaceCls)()
-  space.gravity = cp.v(0, 500)
+
+  val space = new Space()
+
+  space.gravity = new Vect(0, 500)
 
   val w = 50
   val h = 50
   val m = w * h * 0.001
-  val rock = space.addBody(New(cp.Body)(m, cp.momentForBox(m, w, h)))
-  rock.setVel(cp.v(400, 0))
-  rock.setPos(cp.v(500, 300))
+  val rock = space.addBody(new Body(m, 1))
+  rock.setVel(new Vect(400, 0))
+  rock.setPos(new Vect(500, 300))
   rock.setAngle(1)
-  val shape = space.addShape(New(cp.BoxShape)(rock, w, h))
+  val shape = space.addShape(BoxShape(rock, w, h))
   shape.setFriction(0.3)
   shape.setElasticity(0.3)
-  val floor = space.addShape(New(cp.SegmentShape)(
+  val floor = space.addStaticShape(new SegmentShape(
     space.staticBody,
-    cp.v(0, 840),
-    cp.v(1600, 840),
+    new Vect(0, 840),
+    new Vect(1600, 840),
     0
   ))
   floor.setFriction(0.3)
@@ -49,11 +49,11 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
             elem.getAttribute(c).toString.toInt
           )
           val m = w * h * 0.001
-          val body = space.addBody(New(cp.Body)(m, cp.momentForBox(m, w, h)))
-          body.setPos(cp.v(x + w/2, y + h/2))
+          val body = space.addBody(new Body(m, 1))
+          body.setPos(new Vect(x + w/2, y + h/2))
           body.setAngle(0)
 
-          val shape = space.addShape(New(cp.BoxShape)(body, w, h))
+          val shape = space.addShape(BoxShape(body, w, h))
           shape.setFriction(0.3)
           shape.setElasticity(0.3)
           Some(body -> shape)
@@ -67,14 +67,14 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
     ctx.fillStyle = Color.Red
     for((rock, shape) <- boxes){
       ctx.save()
-      val x = rock.p.x.to[js.Number]
-      val y = rock.p.y.to[js.Number]
-      val a = rock.a.to[js.Number]
+      val x = rock.getPos().x
+      val y = rock.getPos().y
+      val a = rock.getAngleVel()
       ctx.translate(x, y)
 
       ctx.rotate(a)
 
-      val nums = shape.verts.to[js.Array[js.Number]]
+      val nums = shape.asInstanceOf[PolyShape].verts
       ctx.strokePath(
         nums.toSeq
             .grouped(2)
