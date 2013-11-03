@@ -24,7 +24,7 @@ class Shape(body: Body) extends js.Object{
   def update(pos: Vect, rot: Num): js.Any = ???
 
 }
-@JSName("cp.PointQueryExtendedInfo")
+
 @JSName("cp.PointQueryExtendedInfo")
 class PointQueryExtendedInfo(var shape: Shape) extends js.Object
 @JSName("cp.NearestPointQueryInfo")
@@ -43,8 +43,9 @@ object BoxShape extends js.Object{
   def apply(body: Body, width: Num, height: Num): PolyShape = ???
 }
 @JSName("cp.Body")
-class Body(m: Num, i: Num) extends js.Object{
+class Body(val m: Num, val i: Num) extends js.Object{
   var a: Num = ???
+
   def getPos(): Vect = ???
   def getVel(): Vect = ???
   def getAngVel(): Num = ???
@@ -58,7 +59,7 @@ class Body(m: Num, i: Num) extends js.Object{
   def removeConstraint(constraint: js.Any): Unit = ???
   def setPos(pos: Vect): Unit = ???
   def setVel(velocity: Vect): Unit = ???
-  def setAngleVel(w: Num): Unit = ???
+  def setAngVel(w: Num): Unit = ???
   def setAngle(angle: Num): Unit = ???
   def applyForce(force: Vect, r: Vect): Unit = ???
   def applyImpulse(j: Vect, r: Vect): Unit = ???

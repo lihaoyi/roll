@@ -26,6 +26,9 @@ case class Point(x: Double, y: Double){
   }
 }
 
+object Point{
+  implicit def TupleToPoint[A <% Double, B <% Double](t: (A, B)) = Point(t._1, t._2)
+}
 
 case class Line(p1: Point, p2: Point){
   def intersects(o: Line) = {
