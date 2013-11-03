@@ -1,11 +1,16 @@
 package example.chipmunk
 
 import scala.scalajs.js
-
-
+import js.annotation.JSName
+object cp extends js.Object{
+  def momentForBox(m: Num, width: Num, height: Num): Num = ???
+}
+@JSName("cp.Vect")
 class Vect(var x: Num, var y: Num) extends js.Object
+@JSName("cp.BB")
 class BB(var l: Num, var b: Num, var r: Num, var t: Num)
 
+@JSName("cp.Shape")
 class Shape(body: Body) extends js.Object{
   def setElasticity(e: Num): Unit = ???
   def setFriction(u: Num): Unit = ???
@@ -19,19 +24,30 @@ class Shape(body: Body) extends js.Object{
   def update(pos: Vect, rot: Num): js.Any = ???
 
 }
+@JSName("cp.PointQueryExtendedInfo")
+@JSName("cp.PointQueryExtendedInfo")
 class PointQueryExtendedInfo(var shape: Shape) extends js.Object
+@JSName("cp.NearestPointQueryInfo")
 class NearestPointQueryInfo(var shape: Shape, p: Vect, d: Num) extends js.Object
+@JSName("cp.SegmentQueryInfo")
 class SegmentQueryInfo(var shape: Shape, t: Num, n: Vect) extends js.Object
+@JSName("cp.CircleShape")
 class CircleShape(body: Body, radius: Num, offset: Vect) extends Shape(body)
+@JSName("cp.SegmentShape")
 class SegmentShape(body: Body, a: Vect, b: Vect, r: Num) extends Shape(body)
+@JSName("cp.PolyShape")
 class PolyShape(body: Body, var verts: js.Array[Num], var offset: Vect) extends Shape(body)
+
+@JSName("cp.BoxShape")
 object BoxShape extends js.Object{
   def apply(body: Body, width: Num, height: Num): PolyShape = ???
 }
+@JSName("cp.Body")
 class Body(m: Num, i: Num) extends js.Object{
+  var a: Num = ???
   def getPos(): Vect = ???
   def getVel(): Vect = ???
-  def getAngleVel(): Num = ???
+  def getAngVel(): Num = ???
   def isSleeping(): js.Boolean = ???
   def isStatic(): js.Boolean = ???
   def isRogue(): js.Boolean = ???
@@ -48,6 +64,7 @@ class Body(m: Num, i: Num) extends js.Object{
   def applyImpulse(j: Vect, r: Vect): Unit = ???
   def getVelAtPoint(p: Vect): Vect = ???
 }
+@JSName("cp.Space")
 class Space() extends js.Object{
   def getCurrentTimeStep(): Num = ???
   def setIterations(iter: Num): Unit = ???
@@ -72,16 +89,27 @@ class Space() extends js.Object{
   var gravity: Vect = ???
   var staticBody: Body = ???
 }
+@JSName("cp.Constraint")
 class Constraint(a: Body, b: Body) extends js.Object{
   def activateBodies(): js.Any = ???
 }
+@JSName("cp.PinJoint")
 class PinJoint(a: Body, b: Body, anchr1: Vect, anchr2: Vect) extends Constraint(a, b)
+@JSName("cp.SlideJoint")
 class SlideJoint(a: Body, b: Body, anchr1: Vect, anchr2: Vect, min: Num, max: Num) extends Constraint(a, b)
+@JSName("cp.PivotJoint")
 class PivotJoint(a: Body, b: Body, anchr1: Vect, anchr2: Vect) extends Constraint(a, b)
+@JSName("cp.GrooveJoint")
 class GrooveJoint(a: Body, b: Body, groove_a: Vect, groove_b: Vect, anchr2: Vect) extends Constraint(a, b)
+@JSName("cp.DampedSpring")
 class DampedSpring(a: Body, b: Body, anchr1: Vect, anchr2: Vect, restLength: Num, stiffness: Num, damping: Num) extends Constraint(a, b)
+@JSName("cp.DampedRotarySpring")
 class DampedRotarySpring(a: Body, b: Body, anchr1: Vect, anchr2: Vect, restAngle: Num, stiffness: Num, damping: Num) extends Constraint(a, b)
+@JSName("cp.RotaryLimitJoint")
 class RotaryLimitJoint(a: Body, b: Body, min: Num, max: Num) extends Constraint(a, b)
+@JSName("cp.RatchetJoint")
 class RatchetJoint(a: Body, b: Body, phase: js.Any, ratchet: js.Any) extends Constraint(a, b)
+@JSName("cp.GearJoint")
 class GearJoint(a: Body, b: Body, phase: js.Any, ratio: Num) extends Constraint(a, b)
+@JSName("cp.SimpleMotor")
 class SimpleMotor(a: Body, b: Body, rate: Num) extends Constraint(a, b)

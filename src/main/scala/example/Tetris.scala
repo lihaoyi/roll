@@ -20,14 +20,14 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
   val w = 50
   val h = 50
   val m = w * h * 0.001
-  val rock = space.addBody(new Body(m, 1))
+  val rock = space.addBody(new Body(m, cp.momentForBox(m, w, h)))
   rock.setVel(new Vect(400, 0))
   rock.setPos(new Vect(500, 300))
   rock.setAngle(1)
   val shape = space.addShape(BoxShape(rock, w, h))
   shape.setFriction(0.3)
   shape.setElasticity(0.3)
-  val floor = space.addStaticShape(new SegmentShape(
+  val floor = space.addShape(new SegmentShape(
     space.staticBody,
     new Vect(0, 840),
     new Vect(1600, 840),
@@ -49,7 +49,7 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
             elem.getAttribute(c).toString.toInt
           )
           val m = w * h * 0.001
-          val body = space.addBody(new Body(m, 1))
+          val body = space.addBody(new Body(m, cp.momentForBox(m, w, h)))
           body.setPos(new Vect(x + w/2, y + h/2))
           body.setAngle(0)
 
@@ -67,12 +67,13 @@ case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
     ctx.fillStyle = Color.Red
     for((rock, shape) <- boxes){
       ctx.save()
-      val x = rock.getPos().x
-      val y = rock.getPos().y
-      val a = rock.getAngleVel()
-      ctx.translate(x, y)
 
-      ctx.rotate(a)
+      ctx.translate(
+        rock.getPos().x,
+        rock.getPos().y
+      )
+
+      ctx.rotate(rock.a)
 
       val nums = shape.asInstanceOf[PolyShape].verts
       ctx.strokePath(
