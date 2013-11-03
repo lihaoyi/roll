@@ -1,6 +1,5 @@
 package example
 
-import scala.collection.mutable
 import scala.scalajs.js
 
 import ScalaJSExample.pimpedContext
@@ -27,9 +26,8 @@ class RectShape(pos: Point,
   shape.setFriction(friction)
   shape.setElasticity(friction)
 }
-case class Tetris(bounds: () => Point, reset: () => Unit) extends Game {
 
-  println("Tetris")
+case class Tetris() extends Game {
 
   implicit val space = new Space()
 

@@ -4,104 +4,89 @@ import scala.collection.mutable
 import scala.scalajs.js._
 import scala.scalajs.js.Any._
 
-object Color{
-  def rgb(r: Int, g: Int, b: Int) = s"rgb($r, $g, $b)"
-  val White = rgb(255, 255, 255)
-  val Red = rgb(255, 0, 0)
-  val Green = rgb(0, 255, 0)
-  val Blue = rgb(0, 0, 255)
-  val Cyan = rgb(0, 255, 255)
-  val Magenta = rgb(255, 0, 255)
-  val Yellow = rgb(255, 255, 0)
-  val Black = rgb(0, 0, 0)
-  val all = Seq(
-    White,
-    Red,
-    Green,
-    Blue,
-    Cyan,
-    Magenta,
-    Yellow,
-    Black
+
+class Camera(ctx: CanvasRenderingContext2D, var pos: Point, var scale: Point){
+
+  val offsets = Map(
+    KeyCode.right -> Point(-1, 0),
+    KeyCode.left -> Point(1, 0),
+    KeyCode.up -> Point(0, 1),
+    KeyCode.down -> Point(0, -1)
   )
+  var speed = 300
+
+  def update(dt: Double, keys: Set[Int]) = for{
+    (key, pt) <- offsets
+    if keys(key)
+  }{
+    pos += pt * dt * speed
+  }
+
+  def transform[T](thunk: CanvasRenderingContext2D => T) = {
+    ctx.save()
+    println(pos)
+    ctx.translate(pos.x, pos.y)
+    ctx.scale(scale.x, scale.y)
+    thunk(ctx)
+    ctx.restore()
+  }
 }
+class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
 
+  val bounds = Calc(Point(canvas.width, canvas.height))
 
-class GameHolder(canvasName: String, gameMaker: (() => Point, () => Unit) => Game){
-  private[this] val canvas = JsGlobals.window.document.getElementById(canvasName).asInstanceOf[HTMLCanvasElement]
-  private[this] def bounds = Point(canvas.width, canvas.height)
   private[this] val keys = mutable.Set.empty[Int]
-  var game: Game = gameMaker(bounds _, () => resetGame())
+
+  val camera = new Camera(
+    canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D],
+    pos = (0, 0),
+    scale = (1, 1)
+  )
+  var game: Game = gameMaker()
 
   canvas.onkeydown = {(e: KeyboardEvent) =>
     keys.add(e.keyCode.toInt)
-    if (Seq(32, 37, 38, 39, 40).contains(e.keyCode.toInt)) e.preventDefault()
-    message = None
   }
   canvas.onkeyup = {(e: KeyboardEvent) =>
     keys.remove(e.keyCode.toInt)
-    if (Seq(32, 37, 38, 39, 40).contains(e.keyCode.toInt)) e.preventDefault()
   }
 
-  canvas.onfocus = {(e: FocusEvent) =>
-    active = true
-  }
-  canvas.onblur = {(e: FocusEvent) =>
-    active = false
-  }
-
-  private[this] val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
   var active = false
-  var firstFrame = false
+
+  var now = Calc(Date.now() / 1000)
+
   def update() = {
-    if (!firstFrame){
-      game.draw(ctx)
-      firstFrame = true
-    }
     canvas.width = JsGlobals.innerWidth
     canvas.height = JsGlobals.innerHeight
-    if (active && message.isEmpty) {
+    val oldNow = now()
+    now.recalc()
+    camera.update(now() - oldNow, keys.toSet)
+    game.update(keys.toSet)
+
+    camera.transform{ ctx =>
       game.draw(ctx)
-      game.update(keys.toSet)
-    }else if (message.isDefined){
-      ctx.fillStyle = Color.Black
-      ctx.fillRect(0, 0, bounds.x, bounds.y)
-      ctx.fillStyle = Color.White
-      ctx.font = "20pt Arial"
-      ctx.textAlign = "center"
-      ctx.fillText(message.get, bounds.x/2, bounds.y/2)
-      ctx.font = "14pt Arial"
-      ctx.fillText("Press any key to continue", bounds.x/2, bounds.y/2 + 30)
     }
   }
 
-  var message: Option[String] = None
-  def resetGame(): Unit = {
-    message = game.result
-    println("MESSAGE " + message)
-    game = gameMaker(bounds _, () => resetGame())
-  }
-  ctx.font = "12pt Arial"
-  ctx.textAlign = "center"
 }
+
 abstract class Game{
   var result: Option[String] = None
   def update(keys: Set[Int]): Unit
-
   def draw(ctx: CanvasRenderingContext2D): Unit
 }
 
 object ScalaJSExample {
   def main(): Unit = {
-    println("Main")
-    val ribbonGame = new GameHolder("screen", Tetris)
-    val games = Seq(ribbonGame)
-    JsGlobals.setInterval(() => games.foreach(_.update()), 15)
+    val canvas = JsGlobals.window.document.getElementById("screen").asInstanceOf[HTMLCanvasElement]
+    val ribbonGame = Calc(new GameHolder(canvas, Tetris))
+    canvas.onfocus = {(e: FocusEvent) =>
+      ribbonGame.recalc()
+    }
+
+    JsGlobals.setInterval(() => ribbonGame().update(), 15)
   }
 
-  def loadFile(path: String) = {
-    new XMLHttpRequest().open("GET", path)
-  }
   implicit class pimpedContext(val ctx: CanvasRenderingContext2D){
     def fillCircle(x: Double, y: Double, r: Double) = {
       ctx.beginPath()
