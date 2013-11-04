@@ -6,26 +6,115 @@ import ScalaJSExample.pimpedContext
 import example.chipmunk._
 
 import EasySeq._
+import scala.scalajs.js.Element
 
-class RectShape(pos: Point,
-                dims: Point,
-                density: Double,
-                vel: Point = (0, 0),
-                angularVel: Double = 0,
-                friction: Double = 0.3,
-                elasticity: Double = 0.3)
-               (implicit space: Space){
-  val mass = dims.x * dims.y * density
-  val body = space.addBody(
-    new Body(mass, cp.momentForBox(mass, dims.x, dims.y))
-  )
-  body.setVel(new Vect(vel.x, vel.y))
-  body.setPos(new Vect(pos.x, pos.y))
-  body.setAngVel(angularVel)
-  val shape = space.addShape(BoxShape(body, dims.x, dims.y))
-  shape.setFriction(friction)
-  shape.setElasticity(friction)
+object Forms{
+  def makeRect(pos: Point,
+               dims: Point,
+               density: Double,
+               static: Boolean,
+               friction: Double = 0.3,
+               elasticity: Double = 0.3)
+              (implicit space: Space) = {
+    makePoly(
+      Seq(
+        pos,
+        pos + (0, dims.y),
+        pos + dims,
+        pos + (dims.x, 0)
+      ),
+      density,
+      static,
+      friction,
+      elasticity
+    )
+  }
+
+  def makePoly(points: Seq[Point],
+               density: Double,
+               static: Boolean,
+               friction: Double,
+               elasticity: Double)
+              (implicit space: Space) = {
+    val flatPoints: js.Array[Num] = points.flatMap(p => Seq(p.x: Num, p.y: Num)).toArray[Num]
+    val center = cp.centroidForPoly(flatPoints)
+
+    cp.recenterPoly(flatPoints)
+    val area = cp.areaForPoly(flatPoints)
+    val mass = density * area
+
+    if (static) {
+      for(i <- 0 until points.length){
+        val p1 = points(i)
+        val p2 = points((i + 1) % points.length)
+        val shape = new SegmentShape(
+          space.staticBody,
+          (p1.x, p1.y),
+          (p2.x, p2.y),
+          0
+        )
+        space.addShape(shape)
+        shape.setFriction(friction)
+        shape.setElasticity(elasticity)
+      }
+
+      space.staticBody
+    }else{
+      val body = space.addBody(
+        new Body(mass, cp.momentForPoly(mass, flatPoints, (0, 0)))
+      )
+      body.setPos(center)
+      val shape = space.addShape(
+        new PolyShape(body, flatPoints, (0, 0))
+      )
+
+      shape.setFriction(friction)
+      shape.setElasticity(elasticity)
+      body
+    }
+
+  }
+  def processElement(elem: Element,
+                     density: Double,
+                     friction: Double,
+                     elasticity: Double,
+                     static: Boolean)
+                    (implicit space: Space) = {
+
+    elem.nodeName.toString match{
+      case "rect" =>
+        val Seq(x, y, w, h) = Seq("x", "y", "width", "height").map(c =>
+          elem.getAttribute(c).toString.toInt
+        )
+        Forms.makeRect(
+          pos = (x, y),
+          dims = (w, h),
+          density = density,
+          static = static,
+          elasticity = elasticity,
+          friction = friction
+        )
+      case "polyline" =>
+        val points =
+          elem.getAttribute("points")
+              .toString
+              .split("\\s+")
+              .map(s => s.split(","))
+              .map(p => Point(p(0).toDouble, p(1).toDouble))
+
+        Forms.makePoly(
+          points,
+          density,
+          static,
+          friction,
+          elasticity
+        )
+
+      case _ =>
+    }
+  }
 }
+
 
 case class Tetris() extends Game {
 
@@ -33,63 +122,60 @@ case class Tetris() extends Game {
 
   space.gravity = new Vect(0, 500)
 
-  val rock = new RectShape(
+  val rock = Forms.makeRect(
     pos = (500, 300),
     dims = (50, 50),
-    density = 0.01,
-    vel = (400, 0)
+    density = 1,
+    static = false
   )
-  val floor = space.addShape(new SegmentShape(
-    space.staticBody,
-    new Vect(0, 840),
-    new Vect(1600, 840),
-    0
-  ))
-  floor.setFriction(0.3)
-  floor.setElasticity(0.3)
+  rock.setVel((400, 0))
+
   val svg = new js.DOMParser().parseFromString(
     js.Resource("Blocks.svg").string,
     "text/xml"
-  ).getElementById("Layer_1")
+  )
 
-  val boxes = {
-    val children = svg.children
-    for(elem <- children) yield {
-      elem.nodeName.toString match{
-        case "rect" =>
-          val Seq(x, y, w, h) = Seq("x", "y", "width", "height").map(c =>
-            elem.getAttribute(c).toString.toInt
-          )
-          Some(new RectShape(
-            pos = (x + w/2, y + h/2),
-            dims = (w, h),
-            density = 0.01
-          ))
-        case _ => None
-      }
-    }
-  }.flatten :+ rock
+
+  val static =
+    svg.getElementById("Static")
+       .children
+       .foreach(Forms.processElement(_, density = 1, friction = 0.3, elasticity = 0.3, static = true))
+  val dynamic =
+    svg.getElementById("Dynamic")
+       .children
+       .foreach(Forms.processElement(_, density = 1, friction = 0.3, elasticity = 0.3, static = false))
+
 
   def draw(ctx: js.CanvasRenderingContext2D) = {
 
-    ctx.fillStyle = Color.Red
-    for(rect <- boxes){
+
+    for(rect <- space.bodies :+ space.staticBody){
       ctx.save()
 
       ctx.translate(
-        rect.body.getPos().x,
-        rect.body.getPos().y
+        rect.getPos().x,
+        rect.getPos().y
       )
 
-      ctx.rotate(rect.body.a)
+      ctx.rotate(rect.a)
+      rect.shapeList.foreach{
+        case shape: PolyShape =>
+          ctx.strokeStyle = Color.Red
+          val nums = shape.verts
+          ctx.strokePath(
+            nums.toSeq
+                .grouped(2)
+                .map{case Seq(x, y) => Point(x, y)}
+                .toSeq:_*
+          )
+        case shape: SegmentShape =>
+          ctx.strokeStyle = Color.Black
+          ctx.strokePath(
+            Point(shape.a.x, shape.a.y),
+            Point(shape.b.x, shape.b.y)
+          )
 
-      val nums = rect.shape.asInstanceOf[PolyShape].verts
-      ctx.strokePath(
-        nums.toSeq
-            .grouped(2)
-            .map{case Seq(x, y) => Point(x, y)}
-            .toSeq:_*
-      )
+      }
 
       ctx.restore()
     }

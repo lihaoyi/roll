@@ -4,6 +4,10 @@ import scala.scalajs.js
 import js.annotation.JSName
 object cp extends js.Object{
   def momentForBox(m: Num, width: Num, height: Num): Num = ???
+  def areaForPoly(verts: js.Array[Num]): Num = ???
+  def momentForPoly(m: Num, verts: js.Array[Num], offset: Vect): Num = ???
+  def centroidForPoly(verts: js.Array[Num]): Vect = ???
+  def recenterPoly(verts: js.Array[Num]): Unit = ???
 }
 @JSName("cp.Vect")
 class Vect(var x: Num, var y: Num) extends js.Object
@@ -22,7 +26,6 @@ class Shape(body: Body) extends js.Object{
   def setBody(b: Body) = ???
   def cacheBB(): js.Any = ???
   def update(pos: Vect, rot: Num): js.Any = ???
-
 }
 
 @JSName("cp.PointQueryExtendedInfo")
@@ -34,7 +37,7 @@ class SegmentQueryInfo(var shape: Shape, t: Num, n: Vect) extends js.Object
 @JSName("cp.CircleShape")
 class CircleShape(body: Body, radius: Num, offset: Vect) extends Shape(body)
 @JSName("cp.SegmentShape")
-class SegmentShape(body: Body, a: Vect, b: Vect, r: Num) extends Shape(body)
+class SegmentShape(body: Body, var a: Vect, var b: Vect, r: Num) extends Shape(body)
 @JSName("cp.PolyShape")
 class PolyShape(body: Body, var verts: js.Array[Num], var offset: Vect) extends Shape(body)
 
@@ -45,7 +48,7 @@ object BoxShape extends js.Object{
 @JSName("cp.Body")
 class Body(val m: Num, val i: Num) extends js.Object{
   var a: Num = ???
-
+  var shapeList: js.Array[Shape] = ???
   def getPos(): Vect = ???
   def getVel(): Vect = ???
   def getAngVel(): Num = ???
@@ -89,6 +92,7 @@ class Space() extends js.Object{
   def step(dt: Num): Unit = ???
   var gravity: Vect = ???
   var staticBody: Body = ???
+  var bodies: js.Array[Body] = ???
 }
 @JSName("cp.Constraint")
 class Constraint(a: Body, b: Body) extends js.Object{

@@ -24,7 +24,6 @@ class Camera(ctx: CanvasRenderingContext2D, var pos: Point, var scale: Point){
 
   def transform[T](thunk: CanvasRenderingContext2D => T) = {
     ctx.save()
-    println(pos)
     ctx.translate(pos.x, pos.y)
     ctx.scale(scale.x, scale.y)
     thunk(ctx)

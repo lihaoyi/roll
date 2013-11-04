@@ -1,6 +1,7 @@
 package example
 
 import java.lang.Math
+import scala.collection.mutable.Buffer
 
 case class Point(x: Double, y: Double){
   def +(other: Point) = Point(x + other.x, y + other.y)
