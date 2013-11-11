@@ -4438,7 +4438,7 @@ Space.prototype.nearestPointQuery = function(point, maxDistance, layers, group, 
 	} this.unlock(true);
 };
 
-// Unlike the version in chipmunk, this returns a NearestPointQueryInfo object. Use its .shape
+// Unlike the version in cp, this returns a NearestPointQueryInfo object. Use its .shape
 // property to get the actual shape.
 Space.prototype.nearestPointQueryNearest = function(point, maxDistance, layers, group)
 {
@@ -4658,7 +4658,7 @@ Space.prototype.unlock = function(runPostStep)
  * need to be changes in cpCollision.js to fill a passed array instead of creating
  * new arrays each time.
  *
- * TODO: Benchmark me once chipmunk is working.
+ * TODO: Benchmark me once cp is working.
  */
 
 /*

@@ -3,36 +3,42 @@ package example
 import scala.collection.mutable
 import scala.scalajs.js._
 import scala.scalajs.js.Any._
+import cp.Implicits._
 
+class Camera(ctx: CanvasRenderingContext2D, var pos: cp.Vect, var scale: cp.Vect){
 
-class Camera(ctx: CanvasRenderingContext2D, var pos: Point, var scale: Point){
-
-  val offsets = Map(
-    KeyCode.right -> Point(-1, 0),
-    KeyCode.left -> Point(1, 0),
-    KeyCode.up -> Point(0, 1),
-    KeyCode.down -> Point(0, -1)
+  val offsets = Map[Int, cp.Vect](
+    KeyCode.right -> (-1, 0),
+    KeyCode.left -> (1, 0),
+    KeyCode.up -> (0, 1),
+    KeyCode.down -> (0, -1)
   )
   var speed = 300
 
-  def update(dt: Double, keys: Set[Int]) = for{
-    (key, pt) <- offsets
-    if keys(key)
-  }{
-    pos += pt * dt * speed
+  def update(dt: Double, keys: Set[Int]) = {
+    for{
+      (key, pt) <- offsets
+      if keys(key)
+    }{
+      pos += pt * dt * speed
+    }
+    if (keys(KeyCode.pageUp)) scale *= 1.01
+    if (keys(KeyCode.pageDown)) scale /= 1.01
   }
 
-  def transform[T](thunk: CanvasRenderingContext2D => T) = {
+  def transform[T](w: Double, h: Double)(thunk: CanvasRenderingContext2D => T) = {
     ctx.save()
     ctx.translate(pos.x, pos.y)
+    ctx.translate(w, h)
     ctx.scale(scale.x, scale.y)
+    ctx.translate(-w, -h)
     thunk(ctx)
     ctx.restore()
   }
 }
 class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
 
-  val bounds = Calc(Point(canvas.width, canvas.height))
+  val bounds = Calc(new cp.Vect(canvas.width, canvas.height))
 
   private[this] val keys = mutable.Set.empty[Int]
 
@@ -62,7 +68,7 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
     camera.update(now() - oldNow, keys.toSet)
     game.update(keys.toSet)
 
-    camera.transform{ ctx =>
+    camera.transform(canvas.width/2, canvas.height/2){ ctx =>
       game.draw(ctx)
     }
   }
@@ -77,8 +83,14 @@ abstract class Game{
 
 object ScalaJSExample {
   def main(): Unit = {
-    val canvas = JsGlobals.window.document.getElementById("screen").asInstanceOf[HTMLCanvasElement]
-    val ribbonGame = Calc(new GameHolder(canvas, Tetris))
+    val canvas =
+      JsGlobals
+        .window
+        .document
+        .getElementById("screen")
+        .asInstanceOf[HTMLCanvasElement]
+
+    val ribbonGame = Calc(new GameHolder(canvas, Roll))
     canvas.onfocus = {(e: FocusEvent) =>
       ribbonGame.recalc()
     }
@@ -92,8 +104,7 @@ object ScalaJSExample {
       ctx.arc(x, y, r, 0, math.Pi * 2)
       ctx.fill()
     }
-    def strokePath(points: Point*) = {
-
+    def strokePath(points: cp.Vect*) = {
       ctx.beginPath()
       ctx.moveTo(points.last.x, points.last.y)
       for(p <- points){
