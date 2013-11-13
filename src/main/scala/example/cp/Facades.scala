@@ -31,7 +31,9 @@ class NearestPointQueryInfo(var shape: Shape, p: Vect, d: Num) extends js.Object
 class SegmentQueryInfo(var shape: Shape, t: Num, n: Vect) extends js.Object
 
 @JSName("cp.CircleShape")
-class CircleShape(body: Body, var radius: Num, var offset: Vect) extends Shape(body)
+class CircleShape(body: Body, radius: Num, var offset: Vect) extends Shape(body){
+  var r: Num = ???
+}
 @JSName("cp.SegmentShape")
 class SegmentShape(body: Body, var a: Vect, var b: Vect, var r: Num) extends Shape(body)
 @JSName("cp.PolyShape")
@@ -44,6 +46,9 @@ object BoxShape extends js.Object{
 @JSName("cp.Body")
 class Body(val m: Num, val i: Num) extends js.Object{
   var a: Num = ???
+  var f:  Vect= ???
+  var t: Num = ???
+  var w: Num = ???
   var shapeList: js.Array[Shape] = ???
   def getPos(): Vect = ???
   def getVel(): Vect = ???
@@ -64,6 +69,27 @@ class Body(val m: Num, val i: Num) extends js.Object{
   def applyImpulse(j: Vect, r: Vect): Unit = ???
   def getVelAtPoint(p: Vect): Vect = ???
 }
+
+@JSName("cp.CollisionHandler")
+class CollisionHandler extends js.Object{
+  var a: Shape = ???
+  var b: Shape = ???
+  var begin: (Arbiter, Space) => Boolean = ???
+  var preSolve: (Arbiter, Space) => Boolean = ???
+  var postSolve: (Arbiter, Space) => Unit = ???
+  var separate: (Arbiter, Space) => Boolean = ???
+}
+@JSName("cp.Arbiter")
+class Arbiter extends js.Object{
+  def getShapes(): Seq[Shape] = ???
+  def totalImpulse(): Vect = ???
+  def totalImpulseWithFriction(): Vect = ???
+  def totalKE(): Vect = ???
+  def ignore(): Unit = ???
+  def getA(): Shape = ???
+  def getB(): Shape = ???
+  def isFirstContact(): js.Boolean = ???
+}
 @JSName("cp.Space")
 class Space() extends js.Object{
   def getCurrentTimeStep(): Num = ???
@@ -71,7 +97,7 @@ class Space() extends js.Object{
   def isLocked(): js.Boolean = ???
   def addCollisionHandler(a: js.Any, b: js.Any, preSolve: js.Any, postSolve: js.Any, separate: js.Any): Num = ???
   def removeCollisionHandler(a: js.Any, b: js.Any): Num = ???
-  def setDefaultCollisionHandler(a: js.Any, b: js.Any, preSolve: js.Any, postSolve: js.Any, separate: js.Any): Num = ???
+  def setDefaultCollisionHandler(preSolve: js.Any, postSolve: js.Any, separate: js.Any): Num = ???
   def lookupHandler(a: js.Any, b: js.Any): Num = ???
   def addShape(shape: Shape): Shape = ???
   def addStaticShape(shape: Shape): Shape = ???

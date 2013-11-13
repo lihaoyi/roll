@@ -15,7 +15,7 @@ object ForwardCp extends js.Object{
 }
 object Implicits {
   implicit def TupleToVect[A <% js.Number, B <% js.Number](t: (A, B)) = new cp.Vect(t._1, t._2)
-  
+  implicit def VectToTuple(t: Vect) = (t.x, t.y)
   implicit class Point(val p: cp.Vect){
     import p._
     def +(other: cp.Vect) = new cp.Vect(x + other.x, y + other.y)

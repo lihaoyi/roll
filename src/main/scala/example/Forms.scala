@@ -15,11 +15,9 @@ object Forms{
                  elasticity: Double = 0.3)
                 (implicit space: cp.Space) = {
 
-
     val body =
       if (static) space.staticBody
       else {
-        println("MAKE CIRCLE DYNAMIC")
         val mass = density * math.Pi * radius * radius
         val moment = 0.5 * mass * radius * radius
         val newBody = space.addBody(
@@ -58,7 +56,7 @@ object Forms{
                friction: Double,
                elasticity: Double)
               (implicit space: cp.Space) = {
-    val flatPoints: js.Array[js.Number] = points.flatMap(p => Seq(p.x: js.Number, p.y: js.Number)).toArray[js.Number]
+    val flatPoints: js.Array[js.Number] = points.flatMap(p => Seq[js.Number](p.x, p.y)).toArray[js.Number]
     val center = Cp.centroidForPoly(flatPoints)
 
     Cp.recenterPoly(flatPoints)
@@ -116,15 +114,16 @@ object Forms{
           elasticity = elasticity,
           friction = friction
         )
+
       case "polyline" =>
         val points =
-          elem.getAttribute("points")
+          elem
+            .getAttribute("points")
             .toString
             .split("\\s+")
             .toSeq
             .map(s => s.split(","))
             .map(p => new cp.Vect(p(0).toDouble, p(1).toDouble))
-
 
         Forms.makePoly(
           points,
@@ -133,6 +132,7 @@ object Forms{
           friction,
           elasticity
         )
+
       case "circle" =>
         val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
           elem.getAttribute(c).toString.toDouble

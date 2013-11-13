@@ -4,50 +4,43 @@ import scala.collection.mutable
 import scala.scalajs.js._
 import scala.scalajs.js.Any._
 import cp.Implicits._
+import scala.scalajs.extensions._
 
-class Camera(ctx: CanvasRenderingContext2D, var pos: cp.Vect, var scale: cp.Vect){
-
-  val offsets = Map[Int, cp.Vect](
-    KeyCode.right -> (-1, 0),
-    KeyCode.left -> (1, 0),
-    KeyCode.up -> (0, 1),
-    KeyCode.down -> (0, -1)
-  )
-  var speed = 300
+class Camera(ctx: CanvasRenderingContext2D, pos: => cp.Vect, canvasDims: => cp.Vect, var scale: cp.Vect){
 
   def update(dt: Double, keys: Set[Int]) = {
-    for{
-      (key, pt) <- offsets
-      if keys(key)
-    }{
-      pos += pt * dt * speed
-    }
     if (keys(KeyCode.pageUp)) scale *= 1.01
     if (keys(KeyCode.pageDown)) scale /= 1.01
   }
 
-  def transform[T](w: Double, h: Double)(thunk: CanvasRenderingContext2D => T) = {
+  def transform[T](thunk: CanvasRenderingContext2D => T) = {
     ctx.save()
-    ctx.translate(pos.x, pos.y)
-    ctx.translate(w, h)
+    ctx.translate(canvasDims.x/2-pos.x, canvasDims.y/2-pos.y)
     ctx.scale(scale.x, scale.y)
-    ctx.translate(-w, -h)
     thunk(ctx)
+
+    ctx.strokeStyle = Color.Red
+    ctx.fillStyle = Color.Red
+
     ctx.restore()
   }
 }
+
 class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
 
-  val bounds = Calc(new cp.Vect(canvas.width, canvas.height))
+  def bounds = new cp.Vect(canvas.width, canvas.height)
 
   private[this] val keys = mutable.Set.empty[Int]
 
+  var game: Game = gameMaker()
+
   val camera = new Camera(
     canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D],
-    pos = (0, 0),
+    pos = game.cameraPos,
+    canvasDims = bounds,
     scale = (1, 1)
   )
-  var game: Game = gameMaker()
+
 
   canvas.onkeydown = {(e: KeyboardEvent) =>
     keys.add(e.keyCode.toInt)
@@ -68,17 +61,17 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
     camera.update(now() - oldNow, keys.toSet)
     game.update(keys.toSet)
 
-    camera.transform(canvas.width/2, canvas.height/2){ ctx =>
+    camera.transform{ ctx =>
       game.draw(ctx)
     }
   }
-
 }
 
 abstract class Game{
   var result: Option[String] = None
   def update(keys: Set[Int]): Unit
   def draw(ctx: CanvasRenderingContext2D): Unit
+  def cameraPos: cp.Vect
 }
 
 object ScalaJSExample {
@@ -96,21 +89,5 @@ object ScalaJSExample {
     }
 
     JsGlobals.setInterval(() => ribbonGame().update(), 15)
-  }
-
-  implicit class pimpedContext(val ctx: CanvasRenderingContext2D){
-    def fillCircle(x: Double, y: Double, r: Double) = {
-      ctx.beginPath()
-      ctx.arc(x, y, r, 0, math.Pi * 2)
-      ctx.fill()
-    }
-    def strokePath(points: cp.Vect*) = {
-      ctx.beginPath()
-      ctx.moveTo(points.last.x, points.last.y)
-      for(p <- points){
-        ctx.lineTo(p.x, p.y)
-      }
-      ctx.stroke()
-    }
   }
 }

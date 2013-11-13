@@ -2,16 +2,14 @@ package example
 
 import scala.scalajs.js
 
-import ScalaJSExample.pimpedContext
-
 import example.cp.Implicits._
-import EasySeq._
+import scala.scalajs.extensions._
 
 
 case class Roll() extends Game {
 
   implicit val space = new cp.Space()
-
+  
   space.gravity = new cp.Vect(0, 500)
 
   val rock = Forms.makeRect(
@@ -30,16 +28,23 @@ case class Roll() extends Game {
   val static =
     svg.getElementById("Static")
        .children
-       .foreach(Forms.processElement(_, density = 1, friction = 0.3, elasticity = 0.3, static = true))
+       .foreach(Forms.processElement(_, density = 1, friction = 0.6, elasticity = 0.6, static = true))
 
   val dynamic =
     svg.getElementById("Dynamic")
        .children
-       .foreach(Forms.processElement(_, density = 1, friction = 0.3, elasticity = 0.3, static = false))
+       .foreach(Forms.processElement(_, density = 1, friction = 0.6, elasticity = 0.6, static = false))
 
+  val player =
+    space
+      .bodies
+      .toSeq
+      .filter(_.shapeList.toSeq.exists(_.isInstanceOf[cp.CircleShape]))
+      .head
+
+  def cameraPos = player.getPos()
 
   def draw(ctx: js.CanvasRenderingContext2D) = {
-
     for(body <- space.bodies :+ space.staticBody){
       ctx.save()
 
@@ -49,6 +54,7 @@ case class Roll() extends Game {
       )
 
       ctx.rotate(body.a)
+
       body.shapeList.foreach{
         case shape: cp.PolyShape =>
           ctx.strokeStyle = Color.Red
@@ -58,7 +64,7 @@ case class Roll() extends Game {
               .verts
               .toSeq
               .grouped(2)
-              .map{case Seq(x, y) => new cp.Vect(x, y)}
+              .map{case Seq(x, y) => (x, y)}
               .toSeq:_*
           )
 
@@ -69,10 +75,13 @@ case class Roll() extends Game {
         case shape: cp.CircleShape =>
           ctx.strokeStyle = Color.Red
           ctx.fillStyle = Color.Red
-          ctx.fillCircle(
-            0, 0,
-            shape.radius
-          )
+          ctx.beginPath()
+          ctx.arc(0, 0, shape.r, 0, 6.28)
+          val start = new cp.Vect(shape.r, 0).rotate(body.a)
+          val end = new cp.Vect(-shape.r, 0).rotate(body.a)
+          ctx.moveTo(start.x, start.y)
+          ctx.lineTo(end.x, end.y)
+          ctx.stroke()
       }
 
       ctx.restore()
@@ -80,6 +89,20 @@ case class Roll() extends Game {
   }
 
   def update(keys: Set[Int]) = {
+
+    if (keys(KeyCode.left)) {
+      js.Dynamic.global.console.log(player)
+      player.w -= 0.15
+    }
+    if (keys(KeyCode.right)){
+      js.Dynamic.global.console.log(player)
+      js.Dynamic.global.player = player
+      player.w += 0.15
+    }
+
+    for(body <- space.bodies :+ space.staticBody){
+
+    }
     space.step(1.0/60)
   }
 }
