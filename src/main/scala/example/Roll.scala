@@ -18,7 +18,7 @@ case class Roll() extends Game {
     density = 1,
     static = false
   )
-  rock.setVel((400, 0))
+  rock.setVel((0, 0))
 
   val svg = new js.DOMParser().parseFromString(
     js.Resource("Blocks.svg").string,
@@ -42,7 +42,12 @@ case class Roll() extends Game {
       .filter(_.shapeList.toSeq.exists(_.isInstanceOf[cp.CircleShape]))
       .head
 
-  def cameraPos = player.getPos()
+  player.shapeList.head.setFriction(2.5)
+  player.shapeList.head.setElasticity(0.3)
+
+  def cameraPos = {
+    player.getPos() + player.getVel()
+  }
 
   def draw(ctx: js.CanvasRenderingContext2D) = {
     for(body <- space.bodies :+ space.staticBody){
@@ -88,18 +93,29 @@ case class Roll() extends Game {
     }
   }
 
-  def update(keys: Set[Int]) = {
+  def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)]) = {
 
+    val baseT = 0.6
+    val maxW = 25
+    val decay = (maxW - baseT) / maxW
     if (keys(KeyCode.left)) {
-      js.Dynamic.global.console.log(player)
-      player.w -= 0.15
+      player.w = (player.w - baseT) * decay
     }
     if (keys(KeyCode.right)){
-      js.Dynamic.global.console.log(player)
-      js.Dynamic.global.player = player
-      player.w += 0.15
+      player.w = (player.w + baseT) * decay
     }
-
+    for ((p1, p2) <- lines){
+      println("Line")
+      val shape = new cp.SegmentShape(
+        space.staticBody,
+        (p1.x, p1.y),
+        (p2.x, p2.y),
+        0
+      )
+      space.addShape(shape)
+      shape.setFriction(0.6)
+      shape.setElasticity(0.6)
+    }
     for(body <- space.bodies :+ space.staticBody){
 
     }

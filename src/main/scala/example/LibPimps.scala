@@ -1,5 +1,8 @@
 package example
 
+import scala.scalajs.js.{Element, EventTarget, Window, MouseEvent}
+import scala.scalajs.js
+
 object Calc{
   def apply[T](thunk: => T) = new Calc(thunk)
 }
@@ -10,4 +13,32 @@ class Calc[T](thunk: => T){
     lastVal = thunk
     lastVal
   }
+}
+
+class PointerEvent extends MouseEvent {
+  var width: js.Number = _
+  var rotation: js.Number = _
+  var pressure: js.Number = _
+  var pointerType: js.Any = _
+  var isPrimary: js.Boolean = _
+  var tiltY: js.Number = _
+  var height: js.Number = _
+  var intermediatePoints: js.Any = _
+  var currentPoint: js.Any = _
+  var tiltX: js.Number = _
+  var hwTimestamp: js.Number = _
+  var pointerId: js.Number = _
+  def initPointerEvent(typeArg: js.String, canBubbleArg: js.Boolean, cancelableArg: js.Boolean, viewArg: Window, detailArg: js.Number, screenXArg: js.Number, screenYArg: js.Number, clientXArg: js.Number, clientYArg: js.Number, ctrlKeyArg: js.Boolean, altKeyArg: js.Boolean, shiftKeyArg: js.Boolean, metaKeyArg: js.Boolean, buttonArg: js.Number, relatedTargetArg: EventTarget, offsetXArg: js.Number, offsetYArg: js.Number, widthArg: js.Number, heightArg: js.Number, pressure: js.Number, rotation: js.Number, tiltX: js.Number, tiltY: js.Number, pointerIdArg: js.Number, pointerType: js.Any, hwTimestampArg: js.Number, isPrimary: js.Boolean): Unit = ???
+  def getCurrentPoint(element: Element): Unit = ???
+  def getIntermediatePoints(element: Element): Unit = ???
+  var MSPOINTER_TYPE_PEN: js.Number = _
+  var MSPOINTER_TYPE_MOUSE: js.Number = _
+  var MSPOINTER_TYPE_TOUCH: js.Number = _
+}
+
+object PointerEvent extends js.Object {
+  /* ??? ConstructorMember(FunSignature(List(),List(),Some(TypeRef(TypeName(MSPointerEvent),List())))) */
+  var MSPOINTER_TYPE_PEN: js.Number = _
+  var MSPOINTER_TYPE_MOUSE: js.Number = _
+  var MSPOINTER_TYPE_TOUCH: js.Number = _
 }

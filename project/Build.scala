@@ -8,7 +8,7 @@ object Build extends sbt.Build {
   lazy val root = project.in(file(".")).settings(
     scalaJSSettings: _*
   ).settings(
-    scala.js.resource.Plugin.resourceSettings:_*
+    scala.scalajs.js.resource.Plugin.resourceSettings:_*
   ).settings(
     name := "games",
     unmanagedSources in (Compile, ScalaJSKeys.packageJS) += baseDirectory.value / "js" / "startup.js"

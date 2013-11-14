@@ -585,26 +585,26 @@
                     }
                 }
             }; // Looking for touch-action in referenced stylesheets
-            try {
-                for (var index = 0; index < document.styleSheets.length; index++) {
-                    var sheet = document.styleSheets[index];
-
-                    if (sheet.href == undefined) { // it is an inline style
-                        continue;
-                    }
-
-                    // Loading the original stylesheet
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("get", sheet.href, false);
-                    xhr.send();
-
-                    var unfilteredSheet = xhr.responseText.replace(/(\n|\r)/g, "");
-
-                    processStylesheet(unfilteredSheet);
-                }
-            } catch (e) {
-                // Silently fail...
-            }
+//            try {
+//                for (var index = 0; index < document.styleSheets.length; index++) {
+//                    var sheet = document.styleSheets[index];
+//
+//                    if (sheet.href == undefined) { // it is an inline style
+//                        continue;
+//                    }
+//
+//                    // Loading the original stylesheet
+//                    var xhr = new XMLHttpRequest();
+//                    xhr.open("get", sheet.href, false);
+//                    xhr.send();
+//
+//                    var unfilteredSheet = xhr.responseText.replace(/(\n|\r)/g, "");
+//
+//                    processStylesheet(unfilteredSheet);
+//                }
+//            } catch (e) {
+//                // Silently fail...
+//            }
 
             // Looking for touch-action in inline styles
             var styles = document.getElementsByTagName("style");
@@ -617,5 +617,5 @@
             }
         }, false);
     }
-
+    if (!window.PointerEvent) window.PointerEvent = window.MouseEvent
 })();
