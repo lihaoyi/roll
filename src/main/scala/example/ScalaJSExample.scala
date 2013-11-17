@@ -54,8 +54,9 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
     case e: KeyboardEvent if e.`type` == "keyup" =>  keys.remove(e.keyCode.toInt)
     case e: PointerEvent if e.`type` == "pointerdown" => prev = screenToWorld(new cp.Vect(e.x, e.y))
     case e: PointerEvent if e.`type` == "pointermove" =>
-      if (prev != null){
-        val next = screenToWorld(new cp.Vect(e.x, e.y))
+      val next = screenToWorld(new cp.Vect(e.x, e.y))
+      if (prev != null && (next - prev).length > 3){
+
         lines = (prev, next) :: lines
         prev = next
       }
@@ -105,6 +106,8 @@ object ScalaJSExample {
     canvas.onfocus = {(e: FocusEvent) =>
       ribbonGame.recalc()
     }
+
+
     Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach(s =>
       canvas.addEventListener(s, (e: Event) => ribbonGame().event(e))
     )

@@ -42,8 +42,8 @@ case class Roll() extends Game {
       .filter(_.shapeList.toSeq.exists(_.isInstanceOf[cp.CircleShape]))
       .head
 
-  player.shapeList.head.setFriction(2.5)
-  player.shapeList.head.setElasticity(0.3)
+  player.shapeList.head.setFriction(1.5)
+  player.shapeList.head.setElasticity(0.6)
 
   def cameraPos = {
     player.getPos() + player.getVel()
@@ -95,8 +95,8 @@ case class Roll() extends Game {
 
   def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)]) = {
 
-    val baseT = 0.6
-    val maxW = 25
+    val baseT = 0.5
+    val maxW = 30
     val decay = (maxW - baseT) / maxW
     if (keys(KeyCode.left)) {
       player.w = (player.w - baseT) * decay
@@ -113,8 +113,8 @@ case class Roll() extends Game {
         0
       )
       space.addShape(shape)
-      shape.setFriction(0.6)
-      shape.setElasticity(0.6)
+      shape.setFriction(1.0)
+      shape.setElasticity(0.1)
     }
     for(body <- space.bodies :+ space.staticBody){
 
