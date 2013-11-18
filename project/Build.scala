@@ -12,6 +12,7 @@ object Build extends sbt.Build {
     .settings(
       name := "games",
       (managedSources in packageExportedProductsJS in Compile) := (managedSources in packageExportedProductsJS in Compile).value.filter(_.name.startsWith("00")),
+
       packageJS in Compile := {
         (packageJS in Compile).value ++ scala.js.resource.bundleJS.value :+ scala.js.workbench.generateClient.value
       },

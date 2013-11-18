@@ -137,7 +137,7 @@ object Forms{
         val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
           elem.getAttribute(c).toString.toDouble
         }
-        println(x + "    " + y + "    " + r)
+
         Forms.makeCircle(
           (x, y),
           r,

@@ -9,7 +9,7 @@ import scala.scalajs.extensions._
 case class Roll() extends Game {
 
   implicit val space = new cp.Space()
-  
+
   space.gravity = new cp.Vect(0, 500)
 
   val rock = Forms.makeRect(
@@ -105,7 +105,7 @@ case class Roll() extends Game {
       player.w = (player.w + baseT) * decay
     }
     for ((p1, p2) <- lines){
-      println("Line")
+
       val shape = new cp.SegmentShape(
         space.staticBody,
         (p1.x, p1.y),
