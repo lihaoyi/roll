@@ -10,8 +10,8 @@ import scala.scalajs.js
 class Camera(ctx: CanvasRenderingContext2D, targetPos: => cp.Vect, canvasDims: => cp.Vect, var scale: cp.Vect){
   var pos = new cp.Vect(targetPos.x, targetPos.y)
   def update(dt: Double, keys: Set[Int]) = {
-    if (keys(KeyCode.pageUp)) scale *= 1.01
-    if (keys(KeyCode.pageDown)) scale /= 1.01
+    if (keys(KeyCode.pageUp)) scale *= 1.02
+    if (keys(KeyCode.pageDown)) scale /= 1.02
 
     if (pos != targetPos){
       pos = targetPos * 0.03 + pos * 0.97

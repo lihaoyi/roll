@@ -21,7 +21,7 @@ case class Roll() extends Game {
   rock.setVel((0, 0))
 
   val svg = new js.DOMParser().parseFromString(
-    js.Resource("Blocks.svg").string,
+    scala.js.resource.apply("Blocks.svg").string,
     "text/xml"
   )
 
