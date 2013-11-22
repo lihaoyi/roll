@@ -4,52 +4,67 @@ import scala.scalajs.js
 
 import example.cp.Implicits._
 import scala.scalajs.extensions._
+import scala.scalajs.js.JsGlobals
 
 
 case class Roll() extends Game {
 
   implicit val space = new cp.Space()
+  space.damping = 0.95
+  space.gravity = new cp.Vect(0, 400)
 
-  space.gravity = new cp.Vect(0, 500)
-
-  val rock = Forms.makeRect(
-    pos = (500, 300),
-    dims = (50, 50),
+  val rock = Forms.makePoly(
+    points = Seq((1111500, 111300), (1111500, 111301), (1111501, 111300)),
     density = 1,
-    static = false
+    static = false,
+    friction = 0.6,
+    elasticity = 0.6
   )
   rock.setVel((0, 0))
 
   val svg = new js.DOMParser().parseFromString(
-    scala.js.resource.apply("Blocks.svg").string,
+    scala.js.resource.apply("Demo.svg").string,
     "text/xml"
   )
 
   val static =
     svg.getElementById("Static")
        .children
-       .foreach(Forms.processElement(_, density = 1, friction = 0.6, elasticity = 0.6, static = true))
+       .foreach(Forms.processElement(_, static = true))
 
   val dynamic =
     svg.getElementById("Dynamic")
        .children
-       .foreach(Forms.processElement(_, density = 1, friction = 0.6, elasticity = 0.6, static = false))
+       .foreach(Forms.processElement(_, static = false))
+
+  val staticJoints =
+    svg.getElementById("Joints")
+       .children
+       .map(Forms.processJoint(_))
+       .flatten
 
   val player =
-    space
-      .bodies
-      .toSeq
-      .filter(_.shapeList.toSeq.exists(_.isInstanceOf[cp.CircleShape]))
-      .head
+    Forms.processElement(svg.getElementById("Player"), static = false)
 
-  player.shapeList.head.setFriction(1.5)
-  player.shapeList.head.setElasticity(0.6)
 
   def cameraPos = {
     player.getPos() + player.getVel()
   }
 
   def draw(ctx: js.CanvasRenderingContext2D) = {
+    space.constraints.foreach{
+      case c: cp.PivotJoint =>
+        ctx.save()
+        ctx.fillStyle = Color.Red
+        ctx.strokeStyle = Color.Red
+        ctx.translate(c.a.getPos().x, c.a.getPos().y)
+        ctx.rotate(c.a.a)
+        if (c.a == space.staticBody || c.b == space.staticBody) ctx.fillCircle(c.anchr1.x, c.anchr1.y, 3)
+        else ctx.strokeCircle(c.anchr1.x, c.anchr1.y, 3)
+        ctx.restore()
+      case _ => ()
+    }
+
     for(body <- space.bodies :+ space.staticBody){
       ctx.save()
 
@@ -77,7 +92,7 @@ case class Roll() extends Game {
           ctx.strokeStyle = Color.Black
           ctx.strokePath(shape.a, shape.b)
 
-        case shape: cp.CircleShape =>
+          case shape: cp.CircleShape =>
           ctx.strokeStyle = Color.Red
           ctx.fillStyle = Color.Red
           ctx.beginPath()
@@ -95,8 +110,8 @@ case class Roll() extends Game {
 
   def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)]) = {
 
-    val baseT = 0.5
-    val maxW = 30
+    val baseT = 0.45
+    val maxW = 25
     val decay = (maxW - baseT) / maxW
     if (keys(KeyCode.left)) {
       player.w = (player.w - baseT) * decay
@@ -113,11 +128,8 @@ case class Roll() extends Game {
         0
       )
       space.addShape(shape)
-      shape.setFriction(1.0)
+      shape.setFriction(0.6)
       shape.setElasticity(0.1)
-    }
-    for(body <- space.bodies :+ space.staticBody){
-
     }
     space.step(1.0/60)
   }

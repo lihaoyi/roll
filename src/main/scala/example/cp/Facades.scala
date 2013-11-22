@@ -13,7 +13,7 @@ class BB(var l: Num, var b: Num, var r: Num, var t: Num)
 class Shape(body: Body) extends js.Object{
   def setElasticity(e: Num): Unit = ???
   def setFriction(u: Num): Unit = ???
-  def setLayers(layers: js.Any): Unit = ???
+  def setLayers(layers: Num): Unit = ???
   def setSensor(sensor: js.Any): Unit = ???
   def setCollisionType(collisionType: js.Any): Unit = ???
   def getBody(): Body = ???
@@ -21,6 +21,7 @@ class Shape(body: Body) extends js.Object{
   def setBody(b: Body) = ???
   def cacheBB(): js.Any = ???
   def update(pos: Vect, rot: Num): js.Any = ???
+  def layers: Num = ???
 }
 
 @JSName("cp.PointQueryExtendedInfo")
@@ -50,6 +51,7 @@ class Body(val m: Num, val i: Num) extends js.Object{
   var t: Num = ???
   var w: Num = ???
   var shapeList: js.Array[Shape] = ???
+
   def getPos(): Vect = ???
   def getVel(): Vect = ???
   def getAngVel(): Num = ???
@@ -112,26 +114,32 @@ class Space() extends js.Object{
   def containsBody(body: Body): js.Boolean= ???
   def containsConstraint(constaint: js.Any): js.Boolean = ???
   def step(dt: Num): Unit = ???
+
+  def pointQuery(point: Vect, layers: Num, group: Num, func: js.Function1[Shape, Unit]): Unit = ???
+
+  var damping: Num = ???
   var gravity: Vect = ???
   var staticBody: Body = ???
   var bodies: js.Array[Body] = ???
+  var constraints: js.Array[Constraint] = ???
 }
 @JSName("cp.Constraint")
-class Constraint(a: Body, b: Body) extends js.Object{
+class Constraint(var a: Body, var b: Body) extends js.Object{
   def activateBodies(): js.Any = ???
+  var maxForce: Num = ???
 }
 @JSName("cp.PinJoint")
 class PinJoint(a: Body, b: Body, anchr1: Vect, anchr2: Vect) extends Constraint(a, b)
 @JSName("cp.SlideJoint")
 class SlideJoint(a: Body, b: Body, anchr1: Vect, anchr2: Vect, min: Num, max: Num) extends Constraint(a, b)
 @JSName("cp.PivotJoint")
-class PivotJoint(a: Body, b: Body, anchr1: Vect, anchr2: Vect) extends Constraint(a, b)
+class PivotJoint(a: Body, b: Body, var anchr1: Vect, var anchr2: Vect) extends Constraint(a, b)
 @JSName("cp.GrooveJoint")
 class GrooveJoint(a: Body, b: Body, groove_a: Vect, groove_b: Vect, anchr2: Vect) extends Constraint(a, b)
 @JSName("cp.DampedSpring")
 class DampedSpring(a: Body, b: Body, anchr1: Vect, anchr2: Vect, restLength: Num, stiffness: Num, damping: Num) extends Constraint(a, b)
 @JSName("cp.DampedRotarySpring")
-class DampedRotarySpring(a: Body, b: Body, anchr1: Vect, anchr2: Vect, restAngle: Num, stiffness: Num, damping: Num) extends Constraint(a, b)
+class DampedRotarySpring(a: Body, b: Body, restAngle: Num, stiffness: Num, damping: Num) extends Constraint(a, b)
 @JSName("cp.RotaryLimitJoint")
 class RotaryLimitJoint(a: Body, b: Body, min: Num, max: Num) extends Constraint(a, b)
 @JSName("cp.RatchetJoint")

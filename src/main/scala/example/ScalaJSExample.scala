@@ -10,8 +10,8 @@ import scala.scalajs.js
 class Camera(ctx: CanvasRenderingContext2D, targetPos: => cp.Vect, canvasDims: => cp.Vect, var scale: cp.Vect){
   var pos = new cp.Vect(targetPos.x, targetPos.y)
   def update(dt: Double, keys: Set[Int]) = {
-    if (keys(KeyCode.pageUp)) scale *= 1.02
-    if (keys(KeyCode.pageDown)) scale /= 1.02
+    if (keys(KeyCode.pageUp)) scale *= 1.03
+    if (keys(KeyCode.pageDown)) scale /= 1.03
 
     if (pos != targetPos){
       pos = targetPos * 0.03 + pos * 0.97
@@ -20,8 +20,10 @@ class Camera(ctx: CanvasRenderingContext2D, targetPos: => cp.Vect, canvasDims: =
 
   def transform[T](thunk: CanvasRenderingContext2D => T) = {
     ctx.save()
-    ctx.translate(canvasDims.x/2-pos.x, canvasDims.y/2-pos.y)
+    ctx.translate(canvasDims.x/2, canvasDims.y/2)
     ctx.scale(scale.x, scale.y)
+
+    ctx.translate(-pos.x, -pos.y)
     thunk(ctx)
 
     ctx.strokeStyle = Color.Red
@@ -103,13 +105,9 @@ object ScalaJSExample {
         .asInstanceOf[HTMLCanvasElement]
 
     val ribbonGame = Calc(new GameHolder(canvas, Roll))
-    canvas.onfocus = {(e: FocusEvent) =>
-      ribbonGame.recalc()
-    }
-
 
     Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach(s =>
-      canvas.addEventListener(s, (e: Event) => ribbonGame().event(e))
+      JsGlobals.window.document.body.addEventListener(s, (e: Event) => ribbonGame().event(e))
     )
     JsGlobals.setInterval(() => ribbonGame().update(), 10)
   }
