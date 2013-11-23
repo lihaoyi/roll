@@ -7,7 +7,7 @@ import cp.Implicits._
 import scala.scalajs.extensions._
 import scala.scalajs.js
 
-class Camera(ctx: CanvasRenderingContext2D, targetPos: => cp.Vect, canvasDims: => cp.Vect, var scale: cp.Vect){
+class Camera(targetPos: => cp.Vect, canvasDims: => cp.Vect, var scale: cp.Vect){
   var pos = new cp.Vect(targetPos.x, targetPos.y)
   def update(dt: Double, keys: Set[Int]) = {
     if (keys(KeyCode.pageUp)) scale *= 1.03
@@ -18,7 +18,7 @@ class Camera(ctx: CanvasRenderingContext2D, targetPos: => cp.Vect, canvasDims: =
     }
   }
 
-  def transform[T](thunk: CanvasRenderingContext2D => T) = {
+  def transform[T](ctx: CanvasRenderingContext2D)(thunk: CanvasRenderingContext2D => T) = {
     ctx.save()
     ctx.translate(canvasDims.x/2, canvasDims.y/2)
     ctx.scale(scale.x, scale.y)
@@ -42,7 +42,6 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
   var game: Game = gameMaker()
 
   val camera = new Camera(
-    canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D],
     targetPos = game.cameraPos,
     canvasDims = bounds,
     scale = (1, 1)
@@ -50,7 +49,9 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
 
   var prev: cp.Vect = null
   var lines: List[(cp.Vect, cp.Vect)] = Nil
+
   def screenToWorld(p: cp.Vect) = p - bounds/2 + camera.pos
+
   def event(e: Event): Unit = e match{
     case e: KeyboardEvent if e.`type` == "keydown" =>  keys.add(e.keyCode.toInt)
     case e: KeyboardEvent if e.`type` == "keyup" =>  keys.remove(e.keyCode.toInt)
@@ -63,42 +64,45 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
         prev = next
       }
     case e: PointerEvent if e.`type` == "pointerup" => prev = null
-    case e: PointerEvent if e.`type` == "pointerout" =>
-    case e: PointerEvent if e.`type` == "pointerleave" =>
+    case e: PointerEvent if e.`type` == "pointerout" => prev = null
+    case e: PointerEvent if e.`type` == "pointerleave" => prev = null
     case _ => println("Unknown event " + e.`type`)
   }
 
   var active = false
 
   var now = Calc(Date.now() / 1000)
-
+  val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
   def update() = {
-    canvas.width = JsGlobals.innerWidth
-    canvas.height = JsGlobals.innerHeight
+    canvas.width = js.globals.innerWidth
+    canvas.height = js.globals.innerHeight
     val oldNow = now()
     now.recalc()
     camera.update(now() - oldNow, keys.toSet)
-    game.update(keys.toSet, lines)
+    game.update(keys.toSet, lines, prev != null)
     lines = Nil
+    canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
 
-    camera.transform{ ctx =>
+    camera.transform(ctx){ ctx =>
       game.draw(ctx)
     }
+
+    game.drawStatic(ctx, canvas.width.toInt, canvas.height.toInt)
   }
 }
 
 abstract class Game{
   var result: Option[String] = None
-  def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)]): Unit
+  def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)], touching: scala.Boolean): Unit
   def draw(ctx: CanvasRenderingContext2D): Unit
+  def drawStatic(ctx: CanvasRenderingContext2D, w: Int, h: Int): Unit
   def cameraPos: cp.Vect
 }
-
 
 object ScalaJSExample {
   def main(): Unit = {
     val canvas =
-      JsGlobals
+      js.globals
         .window
         .document
         .getElementById("screen")
@@ -107,8 +111,8 @@ object ScalaJSExample {
     val ribbonGame = Calc(new GameHolder(canvas, Roll))
 
     Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach(s =>
-      JsGlobals.window.document.body.addEventListener(s, (e: Event) => ribbonGame().event(e))
+      js.globals.window.document.body.addEventListener(s, (e: Event) => ribbonGame().event(e))
     )
-    JsGlobals.setInterval(() => ribbonGame().update(), 10)
+    js.globals.setInterval(() => ribbonGame().update(), 10)
   }
 }

@@ -179,7 +179,7 @@ object Forms{
 
     elem match{
       case elem: js.SVGRectElement =>
-        val svg = js.JsGlobals.document.createElementNS("http://www.w3.org/2000/svg", "svg").asInstanceOf[js.SVGSVGElement]
+        val svg = js.globals.document.createElementNS("http://www.w3.org/2000/svg", "svg").asInstanceOf[js.SVGSVGElement]
         val Seq(x, y, w, h) = Seq("x", "y", "width", "height").map{c =>
           elem.getAttribute(c).toString.toDouble
         }
@@ -229,7 +229,7 @@ object Forms{
 
       case _ =>
         println("Unknown!")
-        js.JsGlobals.console.log(elem)
+        js.globals.console.log(elem)
         js.Dynamic.global.elem = elem
         ???
     }
