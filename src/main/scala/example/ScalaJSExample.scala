@@ -26,8 +26,6 @@ class Camera(targetPos: => cp.Vect, canvasDims: => cp.Vect, var scale: cp.Vect){
     ctx.translate(-pos.x, -pos.y)
     thunk(ctx)
 
-    ctx.strokeStyle = Color.Red
-    ctx.fillStyle = Color.Red
 
     ctx.restore()
   }
@@ -52,20 +50,19 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
 
   def screenToWorld(p: cp.Vect) = p - bounds/2 + camera.pos
 
-  def event(e: Event): Unit = e match{
-    case e: KeyboardEvent if e.`type` == "keydown" =>  keys.add(e.keyCode.toInt)
-    case e: KeyboardEvent if e.`type` == "keyup" =>  keys.remove(e.keyCode.toInt)
-    case e: PointerEvent if e.`type` == "pointerdown" => prev = screenToWorld(new cp.Vect(e.x, e.y))
-    case e: PointerEvent if e.`type` == "pointermove" =>
+  def event(e: Event): Unit = (e, e.`type`.toString) match{
+    case (e: KeyboardEvent, "keydown") =>  keys.add(e.keyCode.toInt)
+    case (e: KeyboardEvent, "keyup") =>  keys.remove(e.keyCode.toInt)
+    case (e: PointerEvent, "pointerdown") => prev = screenToWorld(new cp.Vect(e.x, e.y))
+    case (e: PointerEvent, "pointermove") =>
       val next = screenToWorld(new cp.Vect(e.x, e.y))
       if (prev != null && (next - prev).length > 3){
-
         lines = (prev, next) :: lines
         prev = next
       }
-    case e: PointerEvent if e.`type` == "pointerup" => prev = null
-    case e: PointerEvent if e.`type` == "pointerout" => prev = null
-    case e: PointerEvent if e.`type` == "pointerleave" => prev = null
+    case (_, "pointerup") => prev = null
+    case (_, "pointerout") => prev = null
+    case (_, "pointerleave") => prev = null
     case _ => println("Unknown event " + e.`type`)
   }
 
@@ -81,7 +78,7 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
     camera.update(now() - oldNow, keys.toSet)
     game.update(keys.toSet, lines, prev != null)
     lines = Nil
-    canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
+
 
     camera.transform(ctx){ ctx =>
       game.draw(ctx)

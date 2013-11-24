@@ -5,8 +5,25 @@ import example.cp.Cp
 import scala.scalajs.js.{SVGRectElement, SVGElement, Element}
 import scala.scalajs.extensions._
 import example.cp.Implicits._
+trait Drawable
+object Drawable{
+  case class Circle(radius: Double) extends Drawable
+  case class Polygon(points: Seq[(js.Number, js.Number)]) extends Drawable
+}
 
-object Forms{
+class Form(val body: cp.Body,
+           val drawable: Drawable,
+           val color: Color){
+  lazy val strokeStyle = (color + Color(-64, -64, -64)).toString
+  lazy val fillStyle = (color + Color(64, 64, 64)).toString
+}
+class JointForm(val joint: cp.PivotJoint,
+            val color: Color){
+  lazy val strokeStyle = (color + Color(-64, -64, -64)).toString
+  lazy val fillStyle = (color + Color(64, 64, 64)).toString
+}
+
+object Form{
 
   def makeCircle(pos: cp.Vect,
                  radius: Double,
@@ -43,12 +60,6 @@ object Forms{
                friction: Double,
                elasticity: Double)
               (implicit space: cp.Space) = {
-    val flatPoints: js.Array[js.Number] = points.flatMap(p => Seq[js.Number](p.x, p.y)).toArray[js.Number]
-    val center = Cp.centroidForPoly(flatPoints)
-
-    Cp.recenterPoly(flatPoints)
-    val area = Cp.areaForPoly(flatPoints)
-    val mass = density * area
 
     if (static) {
       for(i <- 0 until points.length){
@@ -66,8 +77,14 @@ object Forms{
         shape.setElasticity(elasticity)
       }
 
-      space.staticBody
+      (space.staticBody, points.map(p => (p.x, p.y)))
     }else{
+      val flatPoints: js.Array[js.Number] = points.flatMap(p => Seq[js.Number](p.x, p.y)).toArray[js.Number]
+      val center = Cp.centroidForPoly(flatPoints)
+
+      Cp.recenterPoly(flatPoints)
+      val area = Cp.areaForPoly(flatPoints)
+      val mass = density * area
       val body = space.addBody(
         new cp.Body(mass, Cp.momentForPoly(mass, flatPoints, (0, 0)))
       )
@@ -78,20 +95,19 @@ object Forms{
 
       shape.setFriction(friction)
       shape.setElasticity(elasticity)
-      body
+
+      (body, flatPoints.grouped(2).map(s => (s(0), s(1))).toSeq)
     }
   }
 
-  def processJoint(elem: Element)(implicit space: cp.Space): Seq[cp.PivotJoint] = {
+  def processJoint(elem: Element)(implicit space: cp.Space): Seq[JointForm] = {
     val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
       elem.getAttribute(c).toString.toDouble
     }
     val static = elem.hasAttribute("stroke")
 
-    val color = Option[String](elem.getAttribute("fill"))
-    val (friction, springConstant, speed) = splitJointConfig(
-      color.getOrElse("#000000")
-    )
+    val color = Option[String](elem.getAttribute("fill")).getOrElse("#000000")
+    val (friction, springConstant, speed) = splitJointConfig(color)
 
     val shapes = collection.mutable.Buffer.empty[cp.Shape]
     space.pointQuery((x, y), ~0, 0, {(s: cp.Shape) => shapes += s; ()})
@@ -139,7 +155,7 @@ object Forms{
         existing |= current
       }
       space.addConstraint(joint)
-      joint
+      new JointForm(joint, Color(color))
     }
   }
 
@@ -175,7 +191,7 @@ object Forms{
   }
   def processElement(elem: Element,
                      static: Boolean)
-                    (implicit space: cp.Space): cp.Body = {
+                    (implicit space: cp.Space): Form = {
 
     elem match{
       case elem: js.SVGRectElement =>
@@ -203,7 +219,12 @@ object Forms{
           }
 
         val (elasticity, density, friction) = splitFill(elem.getAttribute("fill"))
-        makePoly(transformedPoints, density, static, friction, elasticity)
+        val (body, flatPoints) = makePoly(transformedPoints, density, static, friction, elasticity)
+        new Form(
+          body,
+          Drawable.Polygon(flatPoints),
+          Color(elem.getAttribute("fill"))
+        )
 
       case _: js.SVGPolylineElement =>
         val points =
@@ -215,8 +236,12 @@ object Forms{
             .map(s => s.split(","))
             .map(p => new cp.Vect(p(0).toDouble, p(1).toDouble))
         val (elasticity, density, friction) = splitFill(elem.getAttribute("fill"))
-
-        Forms.makePoly(points, density, static, friction, elasticity)
+        val (body, flatPoints) = Form.makePoly(points, density, static, friction, elasticity)
+        new Form(
+          body,
+          Drawable.Polygon(flatPoints),
+          Color(elem.getAttribute("fill"))
+        )
 
       case elem: js.SVGPolygonElement => null
 
@@ -225,7 +250,11 @@ object Forms{
           elem.getAttribute(c).toString.toDouble
         }
         val (elasticity, density, friction) = splitFill(elem.getAttribute("fill"))
-        Forms.makeCircle((x, y), r, density, static, friction, elasticity)
+        new Form(
+          Form.makeCircle((x, y), r, density, static, friction, elasticity),
+          Drawable.Circle(r),
+          Color(elem.getAttribute("fill"))
+        )
 
       case _ =>
         println("Unknown!")
