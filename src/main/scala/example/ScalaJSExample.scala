@@ -7,29 +7,6 @@ import cp.Implicits._
 import scala.scalajs.extensions._
 import scala.scalajs.js
 
-class Camera(targetPos: => cp.Vect, canvasDims: => cp.Vect, var scale: cp.Vect){
-  var pos = new cp.Vect(targetPos.x, targetPos.y)
-  def update(dt: Double, keys: Set[Int]) = {
-    if (keys(KeyCode.pageUp)) scale *= 1.03
-    if (keys(KeyCode.pageDown)) scale /= 1.03
-
-    if (pos != targetPos){
-      pos = targetPos * 0.03 + pos * 0.97
-    }
-  }
-
-  def transform[T](ctx: CanvasRenderingContext2D)(thunk: CanvasRenderingContext2D => T) = {
-    ctx.save()
-    ctx.translate(canvasDims.x/2, canvasDims.y/2)
-    ctx.scale(scale.x, scale.y)
-
-    ctx.translate(-pos.x, -pos.y)
-    thunk(ctx)
-
-
-    ctx.restore()
-  }
-}
 
 class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
 
@@ -38,11 +15,18 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
   private[this] val keys = mutable.Set.empty[Int]
 
   var game: Game = gameMaker()
-
-  val camera = new Camera(
-    targetPos = game.cameraPos,
-    canvasDims = bounds,
-    scale = (1, 1)
+  val scale = math.min(js.globals.innerWidth / game.widest.x, js.globals.innerHeight / game.widest.y)
+  var camera: Camera = new Camera.Pan(
+    canvasDims = () => bounds,
+    checkpoints = List(
+      (game.startCameraPos, new cp.Vect(1, 1)),
+      (game.widest / 2, new cp.Vect(1, 1) * scale)
+    ),
+    finalCamera = new Camera.Follow(
+      game.cameraPos,
+      () => bounds,
+      (1, 1)
+    )
   )
 
   var prev: cp.Vect = null
@@ -77,6 +61,7 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
     now.recalc()
     camera.update(now() - oldNow, keys.toSet)
     game.update(keys.toSet, lines, prev != null)
+
     lines = Nil
 
     ctx.fillStyle = Color(128, 128, 128).toString
@@ -96,6 +81,8 @@ abstract class Game{
   def draw(ctx: CanvasRenderingContext2D): Unit
   def drawStatic(ctx: CanvasRenderingContext2D, w: Int, h: Int): Unit
   def cameraPos: cp.Vect
+  def startCameraPos: cp.Vect
+  def widest: cp.Vect
 }
 
 object ScalaJSExample {

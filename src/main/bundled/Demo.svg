@@ -21,9 +21,9 @@
 	<text transform="matrix(1 0 0 1 674.5 245.5)" font-family="'MyriadPro-Regular'" font-size="12">G</text>
 	<text transform="matrix(1 0 0 1 682.312 245.5)" font-family="'MyriadPro-Regular'" font-size="12">oal</text>
 	
-		<rect x="511.687" y="405.607" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1137.3445 122.4321)" fill="#FF0000" width="21.408" height="171.081"/>
+		<rect x="511.704" y="405.599" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -92.5405 859.8718)" fill="#FF0000" width="21.407" height="171.076"/>
 	
-		<rect x="511.685" y="518.533" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1245.9905 266.1448)" fill="#0000FF" width="21.408" height="171.081"/>
+		<rect x="511.704" y="518.527" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -201.1902 942.0145)" fill="#0000FF" width="21.407" height="171.076"/>
 	<line fill="none" stroke="#231F20" stroke-miterlimit="10" x1="636.5" y1="441.5" x2="636.5" y2="637.708"/>
 	<text transform="matrix(1 0 0 1 649.5 333.383)" font-family="'MyriadPro-Regular'" font-size="12">P</text>
 	<text transform="matrix(1 0 0 1 655.824 333.383)" font-family="'MyriadPro-Regular'" font-size="12">h</text>
@@ -104,35 +104,34 @@
 	<text transform="matrix(1 0 0 1 506.5 432.5)" font-family="'MyriadPro-Regular'" font-size="12">Shapes</text>
 	<text transform="matrix(1 0 0 1 570.5005 604.0733)" font-family="'MyriadPro-Regular'" font-size="12">Bouncy</text>
 	
-		<rect x="510.384" y="464.959" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1192.7904 199.2183)" fill="#00FF00" width="21.408" height="171.081"/>
+		<rect x="510.402" y="464.953" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -150.5924 901.7927)" fill="#00FF00" width="21.407" height="171.077"/>
 	<text transform="matrix(1 0 0 1 570.5002 550.4998)" font-family="'MyriadPro-Regular'" font-size="12">Dense</text>
 	<text transform="matrix(1 0 0 1 570.5004 489.7067)" font-family="'MyriadPro-Regular'" font-size="12">Rough</text>
+	<text transform="matrix(1 0 0 1 69.5 85.5)" font-family="'ArialMT'" font-size="24">Tutorial</text>
+	<text transform="matrix(1 0 0 1 69.5 108.5)"><tspan x="0" y="0" font-family="'ArialMT'" font-size="18">On the right are some of the common types of</tspan><tspan x="0" y="21.6" font-family="'ArialMT'" font-size="18">materials and joints you will encounter in the </tspan><tspan x="0" y="43.2" font-family="'ArialMT'" font-size="18">game.</tspan><tspan x="0" y="86.4" font-family="'ArialMT'" font-size="18">Roll your ball left and right using the arrow keys, </tspan><tspan x="0" y="108" font-family="'ArialMT'" font-size="18">and draw paths using the mouse or touchscreen </tspan><tspan x="0" y="129.6" font-family="'ArialMT'" font-size="18">for your ball to roll on. </tspan><tspan x="0" y="172.8" font-family="'ArialMT'" font-size="18">When ready, roll your ball to the bottom right </tspan><tspan x="0" y="194.4" font-family="'ArialMT'" font-size="18">corner of the level and hit the light blue “Goal” </tspan><tspan x="0" y="216" font-family="'ArialMT'" font-size="18">block to proceed to the next level.</tspan></text>
 </g>
 <g id="Static">
 	<polyline fill="#8B7765" points="1333.564,901 1200,870 30,870 30,355 30,30 1570,31.192 1570,870 1200,870 1333.564,901 1600,901 
 		1600,1 0,0.5 0,901 0,901 	"/>
 	<rect x="681.5" y="644.5" fill="#8888E0" width="427" height="32"/>
+	<rect x="29.125" y="456.214" fill="#8B7765" width="85.875" height="22.408"/>
 </g>
 <g id="Special">
-	<circle id="Player" fill="#FF8877" cx="100.706" cy="430.5" r="38.998"/>
-	<rect id="Goal" x="1256.479" y="644.5" fill="#00FFFF" width="200" height="200"/>
+	<circle id="Player" fill="#FF8877" cx="73.378" cy="417.216" r="38.998"/>
+	<rect id="Goal" x="1251.135" y="644.5" fill="#00FFFF" width="200" height="200"/>
 </g>
 <g id="Dynamic">
 	<circle fill="#8B7765" cx="898.639" cy="832.495" r="38.998"/>
 	<rect x="751.693" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	<rect x="1034.969" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	
-		<rect x="274.984" y="671.959" transform="matrix(-0.731 0.6824 -0.6824 -0.731 1011.438 1116.2828)" fill="#8B7765" width="21.409" height="171.093"/>
+		<rect x="358.182" y="670.654" transform="matrix(0.731 -0.6824 0.6824 0.731 -416.7895 455.1512)" fill="#8B7765" width="21.409" height="171.096"/>
 	
-		<rect x="82.577" y="447.524" transform="matrix(0.8098 -0.5867 0.5867 0.8098 -295.0098 156.1165)" fill="#8B7765" width="21.409" height="171.086"/>
+		<rect x="165.784" y="446.225" transform="matrix(-0.8098 0.5867 -0.5867 -0.8098 631.3989 858.8481)" fill="#8B7765" width="21.409" height="171.085"/>
 	
-		<rect x="174.702" y="562.263" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 752.3406 1011.962)" fill="#8B7765" width="21.408" height="171.081"/>
+		<rect x="257.907" y="560.962" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -359.9595 338.254)" fill="#8B7765" width="21.408" height="171.082"/>
 	
-		<rect x="397.904" y="746.932" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1320.941 666.2775)" fill="#8B7765" width="21.408" height="171.081"/>
-	<polygon fill="#008800" points="77.3,364.445 83.455,322.9 52.72,294.276 94.135,287.292 111.86,249.216 131.3,286.445 
-		172.989,291.537 143.59,321.53 151.63,362.752 114.02,344.06 	"/>
-	<polygon fill="#008800" points="226.937,373.052 202.693,338.757 160.697,339.286 185.822,305.631 172.341,265.854 
-		212.113,279.349 245.777,254.236 245.233,296.232 279.52,320.488 239.411,332.948 	"/>
+		<rect x="481.138" y="745.631" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -441.9268 1077.7994)" fill="#8B7765" width="21.407" height="171.076"/>
 	
 		<rect x="1163" y="491.157" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 	
@@ -146,13 +145,11 @@
 <g id="Joints">
 	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="762.397" cy="697.174" r="10.704"/>
 	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1045.673" cy="697.174" r="10.704"/>
-	<circle cx="138.826" cy="593.383" r="10.704"/>
-	<circle cx="234.182" cy="701.47" r="10.704"/>
-	<circle cx="336.641" cy="810.07" r="10.704"/>
-	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="51.424" cy="472.704" r="10.704"/>
-	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="479.233" cy="852.464" r="10.704"/>
-	<circle fill="#000044" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="111.41" cy="310.331" r="10.704"/>
-	<circle fill="#0000BB" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="217.109" cy="310.331" r="10.704"/>
+	<circle cx="222.035" cy="592.085" r="10.704"/>
+	<circle cx="317.391" cy="700.172" r="10.704"/>
+	<circle cx="419.85" cy="808.772" r="10.704"/>
+	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="134.633" cy="471.406" r="10.704"/>
+	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="562.442" cy="851.166" r="10.704"/>
 	<circle fill="#000088" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1285.5" cy="500.411" r="10.704"/>
 	<circle fill="#008800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1285.5" cy="333.383" r="10.704"/>
 	<circle fill="#880000" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1285.5" cy="155.383" r="10.704"/>
