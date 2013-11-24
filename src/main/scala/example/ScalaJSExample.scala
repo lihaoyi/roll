@@ -71,14 +71,16 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
   var now = Calc(Date.now() / 1000)
   val ctx = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
   def update() = {
-    canvas.width = js.globals.innerWidth
-    canvas.height = js.globals.innerHeight
+    if (canvas.width != js.globals.innerWidth) canvas.width = js.globals.innerWidth
+    if (canvas.height != js.globals.innerHeight) canvas.height = js.globals.innerHeight
     val oldNow = now()
     now.recalc()
     camera.update(now() - oldNow, keys.toSet)
     game.update(keys.toSet, lines, prev != null)
     lines = Nil
 
+    ctx.fillStyle = Color(128, 128, 128).toString
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     camera.transform(ctx){ ctx =>
       game.draw(ctx)

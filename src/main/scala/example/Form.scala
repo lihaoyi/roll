@@ -5,13 +5,28 @@ import example.cp.Cp
 import scala.scalajs.js.{SVGRectElement, SVGElement, Element}
 import scala.scalajs.extensions._
 import example.cp.Implicits._
-trait Drawable
+trait Drawable{
+  def draw(ctx: js.CanvasRenderingContext2D): Unit
+}
 object Drawable{
-  case class Circle(radius: Double) extends Drawable
-  case class Polygon(points: Seq[(js.Number, js.Number)]) extends Drawable
+  case class Circle(radius: Double) extends Drawable{
+    def draw(ctx: js.CanvasRenderingContext2D) = {
+      ctx.fillCircle(0, 0, radius)
+      ctx.strokeCircle(0, 0, radius)
+      ctx.strokePathOpen((0, radius/1.5), (0, radius))
+    }
+
+  }
+  case class Polygon(points: Seq[(js.Number, js.Number)]) extends Drawable{
+    def draw(ctx: js.CanvasRenderingContext2D) = {
+      ctx.fillPath(points: _*)
+      ctx.strokePath(points: _*)
+    }
+  }
 }
 
 class Form(val body: cp.Body,
+           val shapes: Seq[cp.Shape],
            val drawable: Drawable,
            val color: Color){
   lazy val strokeStyle = (color + Color(-64, -64, -64)).toString
@@ -51,7 +66,7 @@ object Form{
 
     shape.setFriction(friction)
     shape.setElasticity(elasticity)
-    body
+    (body, Seq(shape))
   }
 
   def makePoly(points: Seq[cp.Vect],
@@ -62,7 +77,7 @@ object Form{
               (implicit space: cp.Space) = {
 
     if (static) {
-      for(i <- 0 until points.length){
+      val shapes = for(i <- 0 until points.length) yield {
         val p1 = points(i)
         val p2 = points((i + 1) % points.length)
         val shape = new cp.SegmentShape(
@@ -75,9 +90,10 @@ object Form{
 
         shape.setFriction(friction)
         shape.setElasticity(elasticity)
+        shape
       }
 
-      (space.staticBody, points.map(p => (p.x, p.y)))
+      (space.staticBody, shapes, points.map(p => (p.x, p.y)))
     }else{
       val flatPoints: js.Array[js.Number] = points.flatMap(p => Seq[js.Number](p.x, p.y)).toArray[js.Number]
       val center = Cp.centroidForPoly(flatPoints)
@@ -96,7 +112,7 @@ object Form{
       shape.setFriction(friction)
       shape.setElasticity(elasticity)
 
-      (body, flatPoints.grouped(2).map(s => (s(0), s(1))).toSeq)
+      (body, Seq(shape), flatPoints.grouped(2).map(s => (s(0), s(1))).toSeq)
     }
   }
 
@@ -167,12 +183,12 @@ object Form{
   def splitFill(s: String): (Double, Double, Double) = {
     val parts = s.drop(1).grouped(2).toSeq
 
-    val Seq(elasticity, density, friction) =
+    val Seq(friction, density, elasticity) =
       parts.map(p => Integer.parseInt(p, 16) / 255.0)
            .map(p => math.pow(2, 6 * p) / 16)
            .toSeq
 
-    (elasticity, density, friction)
+    (friction, density, elasticity)
   }
   def splitJointConfig(s: String): (Double, Double, Double) = {
     val parts = s.drop(1).grouped(2).toSeq
@@ -218,10 +234,11 @@ object Form{
             new cp.Vect(svgPt.x, svgPt.y)
           }
 
-        val (elasticity, density, friction) = splitFill(elem.getAttribute("fill"))
-        val (body, flatPoints) = makePoly(transformedPoints, density, static, friction, elasticity)
+        val (friction, density, elasticity) = splitFill(elem.getAttribute("fill"))
+        val (body, shapes, flatPoints) = makePoly(transformedPoints, density, static, friction, elasticity)
         new Form(
           body,
+          shapes,
           Drawable.Polygon(flatPoints),
           Color(elem.getAttribute("fill"))
         )
@@ -235,10 +252,11 @@ object Form{
             .toSeq
             .map(s => s.split(","))
             .map(p => new cp.Vect(p(0).toDouble, p(1).toDouble))
-        val (elasticity, density, friction) = splitFill(elem.getAttribute("fill"))
-        val (body, flatPoints) = Form.makePoly(points, density, static, friction, elasticity)
+        val (friction, density, elasticity) = splitFill(elem.getAttribute("fill"))
+        val (body, shapes, flatPoints) = Form.makePoly(points, density, static, friction, elasticity)
         new Form(
           body,
+          shapes,
           Drawable.Polygon(flatPoints),
           Color(elem.getAttribute("fill"))
         )
@@ -249,9 +267,11 @@ object Form{
         val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
           elem.getAttribute(c).toString.toDouble
         }
-        val (elasticity, density, friction) = splitFill(elem.getAttribute("fill"))
+        val (friction, density, elasticity)  = splitFill(elem.getAttribute("fill"))
+        val (body, shape) = Form.makeCircle((x, y), r, density, static, friction, elasticity)
         new Form(
-          Form.makeCircle((x, y), r, density, static, friction, elasticity),
+          body,
+          shape,
           Drawable.Circle(r),
           Color(elem.getAttribute("fill"))
         )

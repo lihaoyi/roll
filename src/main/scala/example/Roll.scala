@@ -6,6 +6,45 @@ import example.cp.Implicits._
 import scala.scalajs.extensions._
 import scala.scalajs.js.SVGElement
 
+class Goal(space: cp.Space, goalElement: js.Element){
+  var goal =
+    Form.processElement(goalElement, static = true)(space)
+
+  var won = false
+  var text = "Goal"
+  goal.shapes.foreach{s =>
+    s.setElasticity(0)
+    s.setFriction(0)
+    s.setCollisionType(1)
+  }
+
+  val p = {
+    val points  = goal.drawable.asInstanceOf[Drawable.Polygon].points.map(x => x: cp.Vect)
+    points.reduce(_ + _) / points.length
+
+  }
+  space.addCollisionHandler(1, 1, null, (arb: cp.Arbiter, space: cp.Space) => {
+    goal = new Form(
+      goal.body,
+      goal.shapes,
+      goal.drawable,
+      Color.Yellow
+    )
+    text = "Success!"
+  }, null)
+
+  def draw(ctx: js.CanvasRenderingContext2D) = {
+    ctx.textAlign = "center"
+    ctx.textBaseline = "middle"
+    ctx.font = "20pt arial"
+    ctx.lineWidth = 3
+    ctx.fillStyle = goal.fillStyle
+    ctx.strokeStyle = goal.strokeStyle
+    goal.drawable.draw(ctx)
+    ctx.fillStyle = Color.Black.toString
+    ctx.fillText(text, p.x, p.y)
+  }
+}
 case class Roll() extends Game {
 
   implicit val space = new cp.Space()
@@ -35,15 +74,13 @@ case class Roll() extends Game {
        .children
        .map(Form.processElement(_, static = false))
 
-
   val backgroundImg = js.globals.document.createElement("img").asInstanceOf[js.HTMLImageElement]
-  val dataString = s"<svg xmlns='http://www.w3.org/2000/svg' width='2000' height='2000'>" +
+
+  backgroundImg.src = "data:image/svg+xml;base64," + js.globals.btoa(
+    s"<svg xmlns='http://www.w3.org/2000/svg' width='2000' height='2000'>" +
     new js.XMLSerializer().serializeToString(svg.getElementById("Background")) +
     "</svg>"
-
-  backgroundImg.src = "data:image/svg+xml;base64," + js.globals.btoa(dataString)
-
-
+  )
 
   val staticJoints =
     svg.getElementById("Joints")
@@ -53,8 +90,11 @@ case class Roll() extends Game {
 
   val player =
     Form.processElement(svg.getElementById("Player"), static = false)
+  player.shapes(0).setCollisionType(1)
 
-  js.Dynamic.global.svg = svg.getElementById("Background")
+
+
+  val goal = new Goal(space, svg.getElementById("Goal"))
   val strokes = new Strokes(space)
 
   def cameraPos = {
@@ -79,19 +119,11 @@ case class Roll() extends Game {
       )
 
       ctx.rotate(body.a)
-      form.drawable match{
-        case Drawable.Circle(r) =>
-          ctx.fillCircle(0, 0, r)
-          ctx.strokeCircle(0, 0, r)
-          ctx.strokePathOpen((0, r/1.5), (0, r))
-
-        case Drawable.Polygon(pts) =>
-
-          ctx.fillPath(pts: _*)
-          ctx.strokePath(pts: _*)
-      }
+      form.drawable.draw(ctx)
       ctx.restore()
     }
+
+    goal.draw(ctx)
 
     staticJoints.foreach{ jform  =>
         ctx.save()
@@ -102,6 +134,7 @@ case class Roll() extends Game {
         ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)
         ctx.restore()
     }
+
 
     strokes.draw(ctx)
   }
@@ -120,70 +153,5 @@ case class Roll() extends Game {
     strokes.update(lines, touching)
 
     space.step(1.0/60)
-  }
-}
-
-class Strokes(space: cp.Space){
-  var duration = 1500
-  var max = 600.0
-  var remaining = max
-  var regenRate = 2.0
-  var delayMax = 60
-  var delay = delayMax
-  var strokes = Seq.empty[(cp.SegmentShape, Long)]
-  
-  def drawStatic(ctx: js.CanvasRenderingContext2D, w: Int, h: Int) = {
-    ctx.fillStyle = Color.Cyan.toString
-    ctx.fillRect(0, h - 10, w * 1.0 * remaining / max, 10)
-  }
-
-  def draw(ctx: js.CanvasRenderingContext2D) = {
-    ctx.strokeStyle = Color.Cyan.toString
-    ctx.lineWidth = 3
-    strokes.foreach{ case (first, dur) =>
-      ctx.strokePathOpen(first.a, first.b)
-    }
-  }
-  def update(lines: Seq[(cp.Vect, cp.Vect)], touching: Boolean) = {
-    val (liveStrokes, deadStrokes) = strokes.partition{
-      case (s, t) => t + duration > System.currentTimeMillis()
-    }
-    def hitDynamicShape(p1: cp.Vect, p2: cp.Vect) = {
-      val shapes = collection.mutable.Buffer.empty[cp.Shape]
-      space.segmentQuery(p1, p2, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
-      space.pointQuery(p1, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
-      space.pointQuery(p2, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
-      shapes.exists(!_.getBody().isStatic())
-    }
-    val newStrokes = for {
-      (p1, p2) <- lines
-      if remaining > 0
-      d = p2 - p1
-      lengthLeft = math.min(remaining, d.length)
-      p3 = d * lengthLeft / d.length + p1
-      if !hitDynamicShape(p1, p3)
-    } yield {
-      delay = delayMax
-
-      remaining -= lengthLeft
-      val shape = new cp.SegmentShape(
-        space.staticBody,
-        (p1.x, p1.y),
-        (p3.x, p3.y),
-        0
-      )
-      space.addShape(shape)
-
-      shape.setFriction(0.6)
-      shape.setElasticity(0.1)
-      shape -> System.currentTimeMillis()
-    }
-    if (!touching && remaining < max) {
-      if (delay > 0) delay -= 1
-      else remaining += regenRate
-    }
-
-    deadStrokes.map(_._1).foreach(space.removeShape)
-    strokes = newStrokes ++ liveStrokes
   }
 }
