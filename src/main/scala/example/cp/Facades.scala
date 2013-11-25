@@ -21,7 +21,8 @@ class Shape(body: Body) extends js.Object{
   def setBody(b: Body) = ???
   def cacheBB(): js.Any = ???
   def update(pos: Vect, rot: Num): js.Any = ???
-  def layers: Num = ???
+  var layers: Num = ???
+  var group: Num = ???
 }
 
 @JSName("cp.PointQueryExtendedInfo")
@@ -116,8 +117,8 @@ class Space() extends js.Object{
   def step(dt: Num): Unit = ???
 
   def pointQuery(point: Vect, layers: Num, group: Num, func: js.Function1[Shape, Unit]): Unit = ???
-  def segmentQuery(start: Vect, end: Vect, layers: Num, group: Num, func: js.Function1[Shape, Unit]): Unit = ???
-
+  def segmentQuery(start: Vect, end: Vect, layers: Num, group: Num, func: js.Function3[Shape, Num, Vect, Unit]): Unit = ???
+  def segmentQueryFirst(start: Vect, end: Vect, layers: Num, group: Num): SegmentQueryInfo = ???
   var damping: Num = ???
   var gravity: Vect = ???
   var staticBody: Body = ???

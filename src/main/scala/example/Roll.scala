@@ -5,6 +5,25 @@ import scala.scalajs.js
 import example.cp.Implicits._
 import scala.scalajs.extensions._
 
+case class Ref[T](var t: T)
+object Roll{
+  def draw(ctx: js.CanvasRenderingContext2D, form: Form) = {
+    val body = form.body
+    ctx.save()
+    ctx.lineWidth = 3
+    ctx.strokeStyle = form.strokeStyle
+    ctx.fillStyle = form.fillStyle
+    ctx.translate(
+      body.getPos().x,
+      body.getPos().y
+    )
+
+    ctx.rotate(body.a)
+    form.drawable.draw(ctx)
+    ctx.restore()
+  }
+}
+
 case class Roll() extends Game {
 
   implicit val space = new cp.Space()
@@ -48,18 +67,26 @@ case class Roll() extends Game {
        .map(Form.processJoint)
        .flatten
 
-  val player = Form.processElement(svg.getElementById("Player"), static = false)
-  player.shapes(0).setCollisionType(1)
+  val player = new Player(space, svg.getElementById("Player"))
+
+  val lasers = new Lasers(
+    space,
+    player.form,
+    svg.getElementById("Lasers"),
+    () => player.dead != 0.0,
+    () => player.dead = 1.0
+  )
 
   val goal = new Goal(space, svg.getElementById("Goal"))
   val strokes = new Strokes(space)
 
-  def cameraPos = player.body.getPos() + player.body.getVel()
+  def cameraPos = player.form.body.getPos() + player.form.body.getVel()
   def startCameraPos = goal.p
   def widest = (
     svg.childNodes(2).asInstanceOf[js.SVGSVGElement].width.baseVal.value,
     svg.childNodes(2).asInstanceOf[js.SVGSVGElement].height.baseVal.value
-    )
+  )
+
   def drawStatic(ctx: js.CanvasRenderingContext2D, w: Int, h: Int) = {
     strokes.drawStatic(ctx, w, h)
   }
@@ -67,22 +94,14 @@ case class Roll() extends Game {
   def draw(ctx: js.CanvasRenderingContext2D) = {
 
     ctx.drawImage(backgroundImg, 0, 0)
-    for(form <- static ++ dynamic :+ player if form != null){
-      val body = form.body
-      ctx.save()
-      ctx.lineWidth = 3
-      ctx.strokeStyle = form.strokeStyle
-      ctx.fillStyle = form.fillStyle
-      ctx.translate(
-        body.getPos().x,
-        body.getPos().y
-      )
 
-      ctx.rotate(body.a)
-      form.drawable.draw(ctx)
-      ctx.restore()
+
+    for(form <- static ++ dynamic if form != null){
+      Roll.draw(ctx, form)
     }
 
+    lasers.draw(ctx)
+    player.draw(ctx)
     goal.draw(ctx)
 
     staticJoints.foreach{ jform  =>
@@ -99,16 +118,9 @@ case class Roll() extends Game {
   }
 
   def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)], touching: Boolean) = {
+    lasers.update()
 
-    val baseT = 0.45
-    val maxW = 25
-    val decay = (maxW - baseT) / maxW
-    if (keys(KeyCode.left)) {
-      player.body.w = (player.body.w - baseT) * decay
-    }
-    if (keys(KeyCode.right)){
-      player.body.w = (player.body.w + baseT) * decay
-    }
+    player.update(keys)
     strokes.update(lines, touching)
 
     space.step(1.0/60)

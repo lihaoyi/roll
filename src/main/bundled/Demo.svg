@@ -6,109 +6,41 @@
 <g id="Foreground">
 </g>
 <g id="Background">
-	<circle fill="#00FF00" cx="521.088" cy="362.183" r="10.704"/>
-	<circle fill="#0000FF" cx="524.092" cy="240.119" r="38.998"/>
-	<rect x="580.479" y="201.121" fill="#00FFFF" width="219.521" height="77.996"/>
-	<text transform="matrix(1 0 0 1 510.5 170.5)" font-family="'MyriadPro-Regular'" font-size="12">Special</text>
-	<text transform="matrix(1 0 0 1 510.5 308.5)" font-family="'MyriadPro-Regular'" font-size="12">Joi</text>
-	<text transform="matrix(1 0 0 1 524.336 308.5)" font-family="'MyriadPro-Regular'" font-size="12">n</text>
-	<text transform="matrix(1 0 0 1 530.948 308.5)" font-family="'MyriadPro-Regular'" font-size="12">ts</text>
-	<text transform="matrix(1 0 0 1 510.5 245.5)" font-family="'MyriadPro-Regular'" font-size="12">P</text>
-	<text transform="matrix(1 0 0 1 516.824 245.5)" font-family="'MyriadPro-Regular'" font-size="12">l</text>
-	<text transform="matrix(1 0 0 1 519.656 245.5)" font-family="'MyriadPro-Regular'" font-size="12">a</text>
-	<text transform="matrix(1 0 0 1 525.344 245.5)" font-family="'MyriadPro-Regular'" font-size="12">y</text>
-	<text transform="matrix(1 0 0 1 530.876 245.5)" font-family="'MyriadPro-Regular'" font-size="12">er</text>
-	<text transform="matrix(1 0 0 1 674.5 245.5)" font-family="'MyriadPro-Regular'" font-size="12">G</text>
-	<text transform="matrix(1 0 0 1 682.312 245.5)" font-family="'MyriadPro-Regular'" font-size="12">oal</text>
+	<circle fill="#00FF00" cx="326.109" cy="524.823" r="10.704"/>
+	<circle fill="#FF8877" cx="502.697" cy="286.686" r="38.998"/>
+	<rect x="608.448" y="243.298" fill="#00FFFF" width="219.521" height="77.996"/>
+	<text transform="matrix(1 0 0 1 430.179 355.6866)" enable-background="new    "><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">You control a ball which </tspan><tspan x="0" y="19.2" font-family="'MyriadPro-Regular'" font-size="16">you can roll left or right </tspan><tspan x="0" y="38.4" font-family="'MyriadPro-Regular'" font-size="16">using the arrow keys</tspan></text>
 	
-		<rect x="511.704" y="405.599" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -92.5405 859.8718)" fill="#FF0000" width="21.407" height="171.076"/>
+		<rect x="769.078" y="384.065" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1444.1694 -152.6301)" fill="#FF8888" width="21.406" height="171.071"/>
 	
-		<rect x="511.704" y="518.527" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -201.1902 942.0145)" fill="#0000FF" width="21.407" height="171.076"/>
-	<line fill="none" stroke="#231F20" stroke-miterlimit="10" x1="636.5" y1="441.5" x2="636.5" y2="637.708"/>
-	<text transform="matrix(1 0 0 1 649.5 333.383)" font-family="'MyriadPro-Regular'" font-size="12">P</text>
-	<text transform="matrix(1 0 0 1 655.824 333.383)" font-family="'MyriadPro-Regular'" font-size="12">h</text>
-	<text transform="matrix(1 0 0 1 662.328 333.383)" font-family="'MyriadPro-Regular'" font-size="12">y</text>
-	<text transform="matrix(1 0 0 1 667.908 333.383)" font-family="'MyriadPro-Regular'" font-size="12">sical p</text>
-	<text transform="matrix(1 0 0 1 698.832 333.383)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 702.636 333.383)" font-family="'MyriadPro-Regular'" font-size="12">ope</text>
-	<text transform="matrix(1 0 0 1 722.063 333.383)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 726.275 333.383)" font-family="'MyriadPro-Regular'" font-size="12">ties de</text>
-	<text transform="matrix(1 0 0 1 759.143 333.383)" font-family="'MyriadPro-Regular'" font-size="12">t</text>
-	<text transform="matrix(1 0 0 1 763.042 333.383)" font-family="'MyriadPro-Regular'" font-size="12">e</text>
-	<text transform="matrix(1 0 0 1 769.054 333.383)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 773.026 333.383)" font-family="'MyriadPro-Regular'" font-size="12">mined </text>
-	<text transform="matrix(1 0 0 1 807.826 333.383)" font-family="'MyriadPro-Regular'" font-size="12">b</text>
-	<text transform="matrix(1 0 0 1 814.569 333.383)" font-family="'MyriadPro-Regular'" font-size="12">y </text>
-	<text transform="matrix(1 0 0 1 822.766 333.383)" font-family="'MyriadPro-Regular'" font-size="12">R</text>
-	<text transform="matrix(1 0 0 1 829.258 333.383)" font-family="'MyriadPro-Regular'" font-size="12">GB:</text>
-	<text transform="matrix(1 0 0 1 649.5 362.183)" font-family="'MyriadPro-Regular'" font-size="12">R: </text>
-	<text transform="matrix(1 0 0 1 660.983 362.183)" font-family="'MyriadPro-Regular'" font-size="12">A</text>
-	<text transform="matrix(1 0 0 1 668.292 362.183)" font-family="'MyriadPro-Regular'" font-size="12">ngular </text>
-	<text transform="matrix(1 0 0 1 703.355 362.183)" font-family="'MyriadPro-Regular'" font-size="12">F</text>
-	<text transform="matrix(1 0 0 1 708.887 362.183)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 712.859 362.183)" font-family="'MyriadPro-Regular'" font-size="12">i</text>
-	<text transform="matrix(1 0 0 1 715.667 362.183)" font-family="'MyriadPro-Regular'" font-size="12">c</text>
-	<text transform="matrix(1 0 0 1 721.199 362.183)" font-family="'MyriadPro-Regular'" font-size="12">tion 0 -&gt; la</text>
-	<text transform="matrix(1 0 0 1 774.466 362.183)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 778.294 362.183)" font-family="'MyriadPro-Regular'" font-size="12">ge number</text>
-	<text transform="matrix(1 0 0 1 649.5 376.583)" font-family="'MyriadPro-Regular'" font-size="12">G: </text>
-	<text transform="matrix(1 0 0 1 662.28 376.583)" font-family="'MyriadPro-Regular'" font-size="12">A</text>
-	<text transform="matrix(1 0 0 1 669.588 376.583)" font-family="'MyriadPro-Regular'" font-size="12">ngular Sp</text>
-	<text transform="matrix(1 0 0 1 717.395 376.583)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 721.367 376.583)" font-family="'MyriadPro-Regular'" font-size="12">ing </text>
-	<text transform="matrix(1 0 0 1 740.086 376.583)" font-family="'MyriadPro-Regular'" font-size="12">C</text>
-	<text transform="matrix(1 0 0 1 746.915 376.583)" font-family="'MyriadPro-Regular'" font-size="12">onsta</text>
-	<text transform="matrix(1 0 0 1 774.67 376.583)" font-family="'MyriadPro-Regular'" font-size="12">n</text>
-	<text transform="matrix(1 0 0 1 781.282 376.583)" font-family="'MyriadPro-Regular'" font-size="12">t 0 -&gt; la</text>
-	<text transform="matrix(1 0 0 1 818.493 376.583)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 822.321 376.583)" font-family="'MyriadPro-Regular'" font-size="12">ge number</text>
-	<text transform="matrix(1 0 0 1 649.5 390.983)" font-family="'MyriadPro-Regular'" font-size="12">B: </text>
-	<text transform="matrix(1 0 0 1 661.032 390.983)" font-family="'MyriadPro-Regular'" font-size="12">A</text>
-	<text transform="matrix(1 0 0 1 668.34 390.983)" font-family="'MyriadPro-Regular'" font-size="12">ngular Speed   -2pi/s -&gt; 2pi/s </text>
-	<text transform="matrix(1 0 0 1 649.5 452.5)" font-family="'MyriadPro-Regular'" font-size="12">P</text>
-	<text transform="matrix(1 0 0 1 655.824 452.5)" font-family="'MyriadPro-Regular'" font-size="12">h</text>
-	<text transform="matrix(1 0 0 1 662.328 452.5)" font-family="'MyriadPro-Regular'" font-size="12">y</text>
-	<text transform="matrix(1 0 0 1 667.908 452.5)" font-family="'MyriadPro-Regular'" font-size="12">sical p</text>
-	<text transform="matrix(1 0 0 1 698.832 452.5)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 702.636 452.5)" font-family="'MyriadPro-Regular'" font-size="12">ope</text>
-	<text transform="matrix(1 0 0 1 722.063 452.5)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 726.275 452.5)" font-family="'MyriadPro-Regular'" font-size="12">ties de</text>
-	<text transform="matrix(1 0 0 1 759.143 452.5)" font-family="'MyriadPro-Regular'" font-size="12">t</text>
-	<text transform="matrix(1 0 0 1 763.042 452.5)" font-family="'MyriadPro-Regular'" font-size="12">e</text>
-	<text transform="matrix(1 0 0 1 769.054 452.5)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 773.026 452.5)" font-family="'MyriadPro-Regular'" font-size="12">mined </text>
-	<text transform="matrix(1 0 0 1 807.826 452.5)" font-family="'MyriadPro-Regular'" font-size="12">b</text>
-	<text transform="matrix(1 0 0 1 814.569 452.5)" font-family="'MyriadPro-Regular'" font-size="12">y </text>
-	<text transform="matrix(1 0 0 1 822.766 452.5)" font-family="'MyriadPro-Regular'" font-size="12">R</text>
-	<text transform="matrix(1 0 0 1 829.258 452.5)" font-family="'MyriadPro-Regular'" font-size="12">GB:</text>
-	<text transform="matrix(1 0 0 1 649.5 481.3)" font-family="'MyriadPro-Regular'" font-size="12">R: Elastici</text>
-	<text transform="matrix(1 0 0 1 695.219 481.3)" font-family="'MyriadPro-Regular'" font-size="12">t</text>
-	<text transform="matrix(1 0 0 1 699.299 481.3)" font-family="'MyriadPro-Regular'" font-size="12">y 0 -&gt; 0.5 -&gt; 4</text>
-	<text transform="matrix(1 0 0 1 649.5 495.7)" font-family="'MyriadPro-Regular'" font-size="12">G: </text>
-	<text transform="matrix(1 0 0 1 662.28 495.7)" font-family="'MyriadPro-Regular'" font-size="12">D</text>
-	<text transform="matrix(1 0 0 1 670.319 495.7)" font-family="'MyriadPro-Regular'" font-size="12">ensi</text>
-	<text transform="matrix(1 0 0 1 690.551 495.7)" font-family="'MyriadPro-Regular'" font-size="12">t</text>
-	<text transform="matrix(1 0 0 1 694.631 495.7)" font-family="'MyriadPro-Regular'" font-size="12">y  0 -&gt; 0.5 -&gt; 4</text>
-	<text transform="matrix(1 0 0 1 649.5 510.1)" font-family="'MyriadPro-Regular'" font-size="12">B: </text>
-	<text transform="matrix(1 0 0 1 661.032 510.1)" font-family="'MyriadPro-Regular'" font-size="12">F</text>
-	<text transform="matrix(1 0 0 1 666.564 510.1)" font-family="'MyriadPro-Regular'" font-size="12">r</text>
-	<text transform="matrix(1 0 0 1 670.536 510.1)" font-family="'MyriadPro-Regular'" font-size="12">i</text>
-	<text transform="matrix(1 0 0 1 673.344 510.1)" font-family="'MyriadPro-Regular'" font-size="12">c</text>
-	<text transform="matrix(1 0 0 1 678.875 510.1)" font-family="'MyriadPro-Regular'" font-size="12">tion  0 -&gt; 0.5 -&gt; 4</text>
-	<line fill="none" stroke="#231F20" stroke-miterlimit="10" x1="636.5" y1="322.679" x2="636.5" y2="400.908"/>
-	<circle fill="#0000FF" cx="521.088" cy="390.983" r="10.704"/>
-	<circle fill="#FF0000" cx="521.436" cy="334.266" r="10.704"/>
-	<text transform="matrix(1 0 0 1 545.8335 334.2655)" font-family="'MyriadPro-Regular'" font-size="12">Frictiony</text>
-	<text transform="matrix(1 0 0 1 545.8335 365.1667)" font-family="'MyriadPro-Regular'" font-size="12">Springy</text>
-	<text transform="matrix(1 0 0 1 545.8335 397.1667)" font-family="'MyriadPro-Regular'" font-size="12">Spinny</text>
-	<text transform="matrix(1 0 0 1 506.5 432.5)" font-family="'MyriadPro-Regular'" font-size="12">Shapes</text>
-	<text transform="matrix(1 0 0 1 570.5005 604.0733)" font-family="'MyriadPro-Regular'" font-size="12">Bouncy</text>
+		<rect x="769.076" y="496.992" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1552.817 -8.9169)" fill="#8888FF" width="21.406" height="171.071"/>
+	<circle fill="#0000FF" cx="326.109" cy="553.622" r="10.704"/>
+	<circle fill="#FF0000" cx="326.457" cy="496.906" r="10.704"/>
+	<text transform="matrix(1 0 0 1 349.8542 499.905)" font-family="'MyriadPro-Regular'" font-size="16">Frictiony</text>
+	<text transform="matrix(1 0 0 1 350.8542 527.8062)" font-family="'MyriadPro-Regular'" font-size="16">Springy</text>
+	<text transform="matrix(1 0 0 1 350.8542 559.8062)" font-family="'MyriadPro-Regular'" font-size="16">Spinny</text>
+	<text transform="matrix(1 0 0 1 827.8907 582.5263)" font-family="'MyriadPro-Regular'" font-size="16">Bouncy</text>
 	
-		<rect x="510.402" y="464.953" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -150.5924 901.7927)" fill="#00FF00" width="21.407" height="171.077"/>
-	<text transform="matrix(1 0 0 1 570.5002 550.4998)" font-family="'MyriadPro-Regular'" font-size="12">Dense</text>
-	<text transform="matrix(1 0 0 1 570.5004 489.7067)" font-family="'MyriadPro-Regular'" font-size="12">Rough</text>
-	<text transform="matrix(1 0 0 1 69.5 85.5)" font-family="'ArialMT'" font-size="24">Tutorial</text>
-	<text transform="matrix(1 0 0 1 69.5 108.5)"><tspan x="0" y="0" font-family="'ArialMT'" font-size="18">On the right are some of the common types of</tspan><tspan x="0" y="21.6" font-family="'ArialMT'" font-size="18">materials and joints you will encounter in the </tspan><tspan x="0" y="43.2" font-family="'ArialMT'" font-size="18">game.</tspan><tspan x="0" y="86.4" font-family="'ArialMT'" font-size="18">Roll your ball left and right using the arrow keys, </tspan><tspan x="0" y="108" font-family="'ArialMT'" font-size="18">and draw paths using the mouse or touchscreen </tspan><tspan x="0" y="129.6" font-family="'ArialMT'" font-size="18">for your ball to roll on. </tspan><tspan x="0" y="172.8" font-family="'ArialMT'" font-size="18">When ready, roll your ball to the bottom right </tspan><tspan x="0" y="194.4" font-family="'ArialMT'" font-size="18">corner of the level and hit the light blue “Goal” </tspan><tspan x="0" y="216" font-family="'ArialMT'" font-size="18">block to proceed to the next level.</tspan></text>
+		<rect x="767.776" y="443.418" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1499.6183 -75.8437)" fill="#88FF88" width="21.406" height="171.073"/>
+	<text transform="matrix(1 0 0 1 827.8904 528.9528)" font-family="'MyriadPro-Regular'" font-size="16">Dense</text>
+	<text transform="matrix(1 0 0 1 827.8906 468.1597)" font-family="'MyriadPro-Regular'" font-size="16">Rough</text>
+	<text transform="matrix(1 0 0 1 69.5 85.5)" font-family="'MyriadPro-Regular'" font-size="24">Tutorial</text>
+	<text transform="matrix(1 0 0 1 69.5 108.5)" font-family="'MyriadPro-Regular'" font-size="18">On the right are some of the common types of</text>
+	<text transform="matrix(1 0 0 1 69.5 130.1)" font-family="'MyriadPro-Regular'" font-size="18">materials and joints you will encounter in the </text>
+	<text transform="matrix(1 0 0 1 69.5 151.7)" font-family="'MyriadPro-Regular'" font-size="18">game.</text>
+	<text transform="matrix(1 0 0 1 69.5 194.9)" font-family="'MyriadPro-Regular'" font-size="18">Roll your ball left and right using the arrow keys, </text>
+	<text transform="matrix(1 0 0 1 69.5 216.5)" font-family="'MyriadPro-Regular'" font-size="18">and draw paths using the mouse or touchscreen </text>
+	<text transform="matrix(1 0 0 1 69.5 238.1)" font-family="'MyriadPro-Regular'" font-size="18">for your ball to roll on. </text>
+	<text transform="matrix(1 0 0 1 69.5 281.3)" font-family="'MyriadPro-Regular'" font-size="18">When ready, roll your ball to the bottom right </text>
+	<text transform="matrix(1 0 0 1 69.5 302.9)" font-family="'MyriadPro-Regular'" font-size="18">corner of the level and hit the light blue “Goal” </text>
+	<text transform="matrix(1 0 0 1 69.5 324.5)" font-family="'MyriadPro-Regular'" font-size="18">block to proceed to the next level.</text>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="46.734" y1="704.662" x2="243.94" y2="704.662"/>
+	<text transform="matrix(1 0 0 1 46.734 695.6826)"><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">Lasers </tspan><tspan x="0" y="38.4" font-family="'MyriadPro-Regular'" font-size="16">These destroy your ball if you touch them,</tspan><tspan x="0" y="57.6" font-family="'MyriadPro-Regular'" font-size="16">forcing you to restart from your last check</tspan><tspan x="0" y="76.8" font-family="'MyriadPro-Regular'" font-size="16">point. They can be blocked by drawn paths</tspan><tspan x="0" y="96" font-family="'MyriadPro-Regular'" font-size="16">or other shapes</tspan></text>
+	<text transform="matrix(1 0 0 1 435.0787 477.5973)"><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">The properties of each joint (left) or </tspan><tspan x="0" y="19.2" font-family="'MyriadPro-Regular'" font-size="16">shape (right) is indicated by its color. </tspan><tspan x="0" y="38.4" font-family="'MyriadPro-Regular'" font-size="16">The brighter the color, the stronger </tspan><tspan x="0" y="57.6" font-family="'MyriadPro-Regular'" font-size="16">that property. </tspan><tspan x="0" y="96" font-family="'MyriadPro-Regular'" font-size="16">Mixed colors take on all the properties </tspan><tspan x="0" y="115.2" font-family="'MyriadPro-Regular'" font-size="16">of their constituents, e.g. purple shapes </tspan><tspan x="0" y="134.4" font-family="'MyriadPro-Regular'" font-size="16">being both bouncy and rough.</tspan></text>
+	<text transform="matrix(1 0 0 1 602.4788 355.6866)"><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">Touch the cyan-colored Goal block to turn </tspan><tspan x="0" y="19.2" font-family="'MyriadPro-Regular'" font-size="16">it yellow and progress to the next level</tspan></text>
+	<text transform="matrix(1 0 0 1 701.5 285.296)" font-family="'MyriadPro-Regular'" font-size="16">Goal</text>
+	<text transform="matrix(1 0 0 1 484.5 287.3052)" font-family="'MyriadPro-Regular'" font-size="16">Player</text>
+	<text transform="matrix(1 0 0 1 493.4122 449.9498)" font-family="'MyriadPro-Regular'" font-size="16">Joints and Shapes</text>
 </g>
 <g id="Static">
 	<polyline fill="#8B7765" points="1333.564,901 1200,870 30,870 30,355 30,30 1570,31.192 1570,870 1200,870 1333.564,901 1600,901 
@@ -125,13 +57,11 @@
 	<rect x="751.693" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	<rect x="1034.969" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	
-		<rect x="358.182" y="670.654" transform="matrix(0.731 -0.6824 0.6824 0.731 -416.7895 455.1512)" fill="#8B7765" width="21.409" height="171.096"/>
+		<rect x="375.303" y="641.744" transform="matrix(-0.3656 0.9308 -0.9308 -0.3656 1204.0762 633.8996)" fill="#8B7765" width="21.41" height="171.1"/>
 	
-		<rect x="165.784" y="446.225" transform="matrix(-0.8098 0.5867 -0.5867 -0.8098 631.3989 858.8481)" fill="#8B7765" width="21.409" height="171.085"/>
+		<rect x="165.786" y="446.226" transform="matrix(0.8098 -0.5867 0.5867 0.8098 -278.4217 204.6882)" fill="#8B7765" width="21.409" height="171.084"/>
 	
-		<rect x="257.907" y="560.962" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -359.9595 338.254)" fill="#8B7765" width="21.408" height="171.082"/>
-	
-		<rect x="481.138" y="745.631" transform="matrix(0.2726 -0.9621 0.9621 0.2726 -441.9268 1077.7994)" fill="#8B7765" width="21.407" height="171.076"/>
+		<rect x="257.911" y="560.964" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 897.1906 954.7533)" fill="#8B7765" width="21.408" height="171.083"/>
 	
 		<rect x="1163" y="491.157" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 	
@@ -141,20 +71,23 @@
 	<rect x="886" y="325.154" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 	<rect x="886" y="491.157" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 	<rect x="886" y="147.154" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
+	<circle fill="#8B7765" cx="162.927" cy="832.495" r="38.998"/>
 </g>
 <g id="Joints">
 	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="762.397" cy="697.174" r="10.704"/>
 	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1045.673" cy="697.174" r="10.704"/>
 	<circle cx="222.035" cy="592.085" r="10.704"/>
 	<circle cx="317.391" cy="700.172" r="10.704"/>
-	<circle cx="419.85" cy="808.772" r="10.704"/>
 	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="134.633" cy="471.406" r="10.704"/>
-	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="562.442" cy="851.166" r="10.704"/>
+	<circle stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="452.896" cy="754.166" r="10.704"/>
 	<circle fill="#000088" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1285.5" cy="500.411" r="10.704"/>
 	<circle fill="#008800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1285.5" cy="333.383" r="10.704"/>
 	<circle fill="#880000" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1285.5" cy="155.383" r="10.704"/>
 	<circle fill="#FF0000" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1008.5" cy="155.383" r="10.704"/>
 	<circle fill="#00FF00" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1008.5" cy="333.383" r="10.704"/>
 	<circle fill="#0000FF" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="1008.5" cy="499.386" r="10.704"/>
+</g>
+<g id="Lasers">
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="29.125" y1="844.5" x2="1261.5" y2="844.5"/>
 </g>
 </svg>

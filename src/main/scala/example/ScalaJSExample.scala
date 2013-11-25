@@ -94,7 +94,7 @@ object ScalaJSExample {
         .getElementById("screen")
         .asInstanceOf[HTMLCanvasElement]
 
-    val ribbonGame = Calc(new GameHolder(canvas, Roll))
+    val ribbonGame = Calc(new GameHolder(canvas, () => Roll.apply()))
 
     Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach(s =>
       js.globals.window.document.body.addEventListener(s, (e: Event) => ribbonGame().event(e))

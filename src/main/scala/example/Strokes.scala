@@ -14,14 +14,18 @@ class Strokes(space: cp.Space){
   var delay = delayMax
   var strokes = Seq.empty[(cp.SegmentShape, Long)]
 
+
   def drawStatic(ctx: js.CanvasRenderingContext2D, w: Int, h: Int) = {
     ctx.fillStyle = Color.Cyan.toString
     ctx.fillRect(0, h - 10, w * 1.0 * remaining / max, 10)
   }
 
+  var strokeWidth = 1
   def draw(ctx: js.CanvasRenderingContext2D) = {
+
     ctx.strokeStyle = Color.Cyan.toString
-    ctx.lineWidth = 3
+    strokeWidth += 1
+    ctx.lineWidth = (math.sin(strokeWidth / 5) + 1) * 1 + 2
     strokes.foreach{ case (first, dur) =>
       ctx.strokePathOpen(first.a, first.b)
     }
@@ -32,7 +36,7 @@ class Strokes(space: cp.Space){
     }
     def hitDynamicShape(p1: cp.Vect, p2: cp.Vect) = {
       val shapes = collection.mutable.Buffer.empty[cp.Shape]
-      space.segmentQuery(p1, p2, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
+      space.segmentQuery(p1, p2, ~0, 0, {(s: cp.Shape, t: js.Number , n: cp.Vect) => shapes += s; ()})
       space.pointQuery(p1, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
       space.pointQuery(p2, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
       shapes.exists(!_.getBody().isStatic())

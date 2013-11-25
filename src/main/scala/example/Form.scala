@@ -144,6 +144,7 @@ object Form{
         (x, y),
         js.Dynamic.global.undefined.asInstanceOf[cp.Vect]
       )
+
       val effectiveI = 1.0/ (1.0 / baseBody.i + 1.0 / s.getBody().i)
       if (springConstant != 0 || friction != 0){
 
@@ -275,6 +276,7 @@ object Form{
           Drawable.Circle(r),
           Color(elem.getAttribute("fill"))
         )
+
 
       case _ =>
         println("Unknown!")
