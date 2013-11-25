@@ -1,8 +1,11 @@
-package example
+package example.roll
 
-import scala.scalajs.extensions.KeyCode
+import scala.scalajs.extensions._
 import scala.scalajs.js
-import cp.Implicits._
+import example.roll.Form
+import example.cp
+import example.cp.Implicits._
+
 class Player(space: cp.Space, playerElement: js.Element) {
   var dead = 0.0
   val form = Form.processElement(playerElement, static = false)(space)

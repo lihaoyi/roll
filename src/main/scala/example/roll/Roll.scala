@@ -1,11 +1,13 @@
-package example
+package example.roll
 
 import scala.scalajs.js
 
 import example.cp.Implicits._
 import scala.scalajs.extensions._
+import example.roll.{Lasers, Goal, Form}
+import example.{cp, Game}
 
-case class Ref[T](var t: T)
+
 object Roll{
   def draw(ctx: js.CanvasRenderingContext2D, form: Form) = {
     val body = form.body

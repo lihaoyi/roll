@@ -1,10 +1,12 @@
-package example
+package example.roll
 
 import scala.scalajs.js
 import example.cp.Cp
 import scala.scalajs.js.{SVGRectElement, SVGElement, Element}
 import scala.scalajs.extensions._
 import example.cp.Implicits._
+import example.cp
+
 trait Drawable{
   def draw(ctx: js.CanvasRenderingContext2D): Unit
 }

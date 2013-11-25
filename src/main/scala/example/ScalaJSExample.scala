@@ -6,6 +6,7 @@ import scala.scalajs.js.Any._
 import cp.Implicits._
 import scala.scalajs.extensions._
 import scala.scalajs.js
+import example.roll.{Roll, Camera}
 
 
 class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){

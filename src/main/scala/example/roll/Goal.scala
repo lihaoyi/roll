@@ -1,8 +1,9 @@
-package example
+package example.roll
 
 import example.cp.Implicits._
 import scala.scalajs.extensions._
 import scala.scalajs.js
+import example.cp
 
 class Goal(space: cp.Space, goalElement: js.Element){
   var goal =

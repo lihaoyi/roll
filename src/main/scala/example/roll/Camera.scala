@@ -1,9 +1,9 @@
-package example
+package example.roll
 
 import scala.scalajs.js.CanvasRenderingContext2D
 import scala.scalajs.extensions._
-
-import cp.Implicits._
+import example.cp.Implicits._
+import example.cp
 
 trait Camera{
   def update(dt: Double, keys: Set[Int])

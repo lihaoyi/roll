@@ -1,9 +1,10 @@
-package example
+package example.roll
 
 import scala.scalajs.js
 import scala.scalajs.extensions.Color
 import example.cp.Implicits._
 import scala.scalajs.extensions._
+import example.cp
 
 class Strokes(space: cp.Space){
   var duration = 1500

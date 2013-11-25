@@ -14,6 +14,10 @@ class Calc[T](thunk: => T){
     lastVal
   }
 }
+case class Ref[T](var v: T){
+  def apply() = v
+  def update(newT: T) = v = newT
+}
 
 class PointerEvent extends MouseEvent {
   var width: js.Number = _

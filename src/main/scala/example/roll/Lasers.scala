@@ -1,9 +1,10 @@
 package example
+package roll
 
 import scala.scalajs.js
 import scala.scalajs.extensions._
-import cp.Implicits._
-
+import example.cp
+import example.cp.Implicits._
 
 class Lasers(space: cp.Space, player: Form, laserElement: js.HTMLElement, dead: () => Boolean, kill: () => Unit){
   var strokeWidth = 1
@@ -19,12 +20,12 @@ class Lasers(space: cp.Space, player: Form, laserElement: js.HTMLElement, dead: 
 
   def update() = {
     for ((start, end, hit) <- lasers){
-      hit.t = None
+      hit() = None
       space.segmentQuery(start, end, ~1, 0, (shape: cp.Shape, t: js.Number, n: cp.Vect) => {
         val body = shape.getBody()
-        if (hit.t == None && body == player.body && !dead()) kill()
-        if (!(body.isStatic: Boolean) && hit.t == None && body != player.body){
-          hit.t = Some(start + (end - start) * t)
+        if (hit() == None && body == player.body && !dead()) kill()
+        if (!(body.isStatic: Boolean) && hit() == None && body != player.body){
+          hit() = Some(start + (end - start) * t)
         }
       })
     }
@@ -36,7 +37,7 @@ class Lasers(space: cp.Space, player: Form, laserElement: js.HTMLElement, dead: 
       ctx.strokeStyle = Color.Red.toString()
       ctx.strokePathOpen(
         start,
-        hit.t.getOrElse(end: cp.Vect): cp.Vect
+        hit().getOrElse(end: cp.Vect): cp.Vect
       )
     }
   }
