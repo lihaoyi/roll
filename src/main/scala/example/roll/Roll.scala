@@ -41,7 +41,7 @@ case class Roll() extends Game {
   )
 
   val svg = new js.DOMParser().parseFromString(
-    scala.js.resource.apply("Demo.svg").string,
+    scala.js.bundle.apply("Demo.svg").string,
     "text/xml"
   )
 

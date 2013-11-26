@@ -7,7 +7,7 @@ object Build extends sbt.Build {
 
   lazy val root = project.in(file("."))
     .settings(scalaJSSettings: _*)
-    .settings(scala.js.resource.buildSettingsX: _*)
+    .settings(scala.js.bundle.buildSettingsX: _*)
     .settings(scala.js.workbench.buildSettingsX: _*)
     .settings(
       name := "games",
@@ -15,7 +15,7 @@ object Build extends sbt.Build {
       (managedSources in packageExportedProductsJS in Compile) := (managedSources in packageExportedProductsJS in Compile).value.filter(_.name.startsWith("00")),
 
       packageJS in Compile := {
-        (packageJS in Compile).value ++ scala.js.resource.bundleJS.value :+ scala.js.workbench.generateClient.value
+        (packageJS in Compile).value ++ scala.js.bundle.bundleJS.value :+ scala.js.workbench.generateClient.value
       },
 
     updateBrowsers <<= updateBrowsers.triggeredBy(packageJS in Compile)

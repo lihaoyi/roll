@@ -3,6 +3,8 @@ scala-js-game-2
 
 A work-in-progress game being developed using [scala-js](http://lampwww.epfl.ch/~doeraene/scala-js/)
 
+See the [live demo](http://lihaoyi.github.io/scala-js-game-2/), best under Firefox or Chrome
+
 License
 -------
 The MIT License (MIT)

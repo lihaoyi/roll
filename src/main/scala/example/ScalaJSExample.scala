@@ -10,7 +10,7 @@ import example.roll.{Roll, Camera}
 
 
 class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
-
+  js.globals.console.log(canvas)
   def bounds = new cp.Vect(canvas.width, canvas.height)
 
   private[this] val keys = mutable.Set.empty[Int]
@@ -38,9 +38,12 @@ class GameHolder(canvas: HTMLCanvasElement, gameMaker: () => Game){
   def event(e: Event): Unit = (e, e.`type`.toString) match{
     case (e: KeyboardEvent, "keydown") =>  keys.add(e.keyCode.toInt)
     case (e: KeyboardEvent, "keyup") =>  keys.remove(e.keyCode.toInt)
-    case (e: PointerEvent, "pointerdown") => prev = screenToWorld(new cp.Vect(e.x, e.y))
+    case (e: PointerEvent, "pointerdown") =>
+
+      prev = screenToWorld(new cp.Vect(e.clientX, e.clientY))
+      
     case (e: PointerEvent, "pointermove") =>
-      val next = screenToWorld(new cp.Vect(e.x, e.y))
+      val next = screenToWorld(new cp.Vect(e.clientX, e.clientY))
       if (prev != null && (next - prev).length > 3){
         lines = (prev, next) :: lines
         prev = next
@@ -97,9 +100,10 @@ object ScalaJSExample {
 
     val ribbonGame = Calc(new GameHolder(canvas, () => Roll.apply()))
 
-    Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach(s =>
+    Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach{s =>
+
       js.globals.window.document.body.addEventListener(s, (e: Event) => ribbonGame().event(e))
-    )
+    }
     js.globals.setInterval(() => ribbonGame().update(), 10)
   }
 }
