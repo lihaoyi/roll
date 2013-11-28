@@ -1,17 +1,18 @@
 package example.roll
 
-import scala.scalajs.extensions._
+import org.scalajs.dom.extensions._
 import scala.scalajs.js
 import example.roll.Form
 import example.cp
 import example.cp.Implicits._
+import org.scalajs.dom
 
-class Player(space: cp.Space, playerElement: js.Element) {
+class Player(space: cp.Space, playerElement: dom.Element) {
   var dead = 0.0
   val form = Form.processElement(playerElement, static = false)(space)
   form.shapes(0).setCollisionType(1)
   val startPos = (form.body.getPos.x, form.body.getPos.y)
-  def draw(ctx: js.CanvasRenderingContext2D) = {
+  def draw(ctx: dom.CanvasRenderingContext2D) = {
     if (dead > 0) ctx.globalAlpha = dead
     Roll.draw(ctx, form)
     ctx.globalAlpha = 1.0

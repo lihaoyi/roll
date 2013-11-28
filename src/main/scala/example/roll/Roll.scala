@@ -3,13 +3,14 @@ package example.roll
 import scala.scalajs.js
 
 import example.cp.Implicits._
-import scala.scalajs.extensions._
+import org.scalajs.dom.extensions._
 import example.roll.{Lasers, Goal, Form}
 import example.{cp, Game}
+import org.scalajs.dom
 
 
 object Roll{
-  def draw(ctx: js.CanvasRenderingContext2D, form: Form) = {
+  def draw(ctx: dom.CanvasRenderingContext2D, form: Form) = {
     val body = form.body
     ctx.save()
     ctx.lineWidth = 3
@@ -40,7 +41,7 @@ case class Roll() extends Game {
     elasticity = 0.6
   )
 
-  val svg = new js.DOMParser().parseFromString(
+  val svg = new dom.DOMParser().parseFromString(
     scala.js.bundle.apply("Demo.svg").string,
     "text/xml"
   )
@@ -55,11 +56,11 @@ case class Roll() extends Game {
        .children
        .map(Form.processElement(_, static = false))
 
-  val backgroundImg = js.globals.document.createElement("img").asInstanceOf[js.HTMLImageElement]
+  val backgroundImg = dom.document.createElement("img").asInstanceOf[dom.HTMLImageElement]
 
-  backgroundImg.src = "data:image/svg+xml;base64," + js.globals.btoa(
+  backgroundImg.src = "data:image/svg+xml;base64," + dom.btoa(
     s"<svg xmlns='http://www.w3.org/2000/svg' width='2000' height='2000'>" +
-    new js.XMLSerializer().serializeToString(svg.getElementById("Background")) +
+    new dom.XMLSerializer().serializeToString(svg.getElementById("Background")) +
     "</svg>"
   )
 
@@ -85,15 +86,15 @@ case class Roll() extends Game {
   def cameraPos = player.form.body.getPos() + player.form.body.getVel()
   def startCameraPos = goal.p
   def widest = (
-    svg.childNodes(2).asInstanceOf[js.SVGSVGElement].width.baseVal.value,
-    svg.childNodes(2).asInstanceOf[js.SVGSVGElement].height.baseVal.value
+    svg.childNodes(2).asInstanceOf[dom.SVGSVGElement].width.baseVal.value,
+    svg.childNodes(2).asInstanceOf[dom.SVGSVGElement].height.baseVal.value
   )
 
-  def drawStatic(ctx: js.CanvasRenderingContext2D, w: Int, h: Int) = {
+  def drawStatic(ctx: dom.CanvasRenderingContext2D, w: Int, h: Int) = {
     strokes.drawStatic(ctx, w, h)
   }
 
-  def draw(ctx: js.CanvasRenderingContext2D) = {
+  def draw(ctx: dom.CanvasRenderingContext2D) = {
 
     ctx.drawImage(backgroundImg, 0, 0)
 

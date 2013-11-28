@@ -1,9 +1,10 @@
 package example.roll
 
 import scala.scalajs.js
-import scala.scalajs.extensions.Color
+
 import example.cp.Implicits._
-import scala.scalajs.extensions._
+import org.scalajs.dom.extensions._
+import org.scalajs.dom
 import example.cp
 
 class Strokes(space: cp.Space){
@@ -16,13 +17,13 @@ class Strokes(space: cp.Space){
   var strokes = Seq.empty[(cp.SegmentShape, Long)]
 
 
-  def drawStatic(ctx: js.CanvasRenderingContext2D, w: Int, h: Int) = {
+  def drawStatic(ctx: dom.CanvasRenderingContext2D, w: Int, h: Int) = {
     ctx.fillStyle = Color.Cyan.toString
     ctx.fillRect(0, h - 10, w * 1.0 * remaining / max, 10)
   }
 
   var strokeWidth = 1
-  def draw(ctx: js.CanvasRenderingContext2D) = {
+  def draw(ctx: dom.CanvasRenderingContext2D) = {
 
     ctx.strokeStyle = Color.Cyan.toString
     strokeWidth += 1

@@ -2,17 +2,18 @@ package example
 package roll
 
 import scala.scalajs.js
-import scala.scalajs.extensions._
+import org.scalajs.dom.extensions._
+import org.scalajs.dom
 import example.cp
 import example.cp.Implicits._
 
-class Lasers(space: cp.Space, player: Form, laserElement: js.HTMLElement, dead: () => Boolean, kill: () => Unit){
+class Lasers(space: cp.Space, player: Form, laserElement: dom.HTMLElement, dead: () => Boolean, kill: () => Unit){
   var strokeWidth = 1
 
   val lasers: Seq[(cp.Vect, cp.Vect, Ref[Option[cp.Vect]])] =
     laserElement
       .children
-      .map{ case (e: js.SVGLineElement) => (
+      .map{ case (e: dom.SVGLineElement) => (
         new cp.Vect(e.x1.baseVal.value, e.y1.baseVal.value),
         new cp.Vect(e.x2.baseVal.value, e.y2.baseVal.value),
         Ref[Option[cp.Vect]](None)
@@ -30,7 +31,7 @@ class Lasers(space: cp.Space, player: Form, laserElement: js.HTMLElement, dead: 
       })
     }
   }
-  def draw(ctx: js.CanvasRenderingContext2D) = {
+  def draw(ctx: dom.CanvasRenderingContext2D) = {
     for((start, end, hit) <- lasers){
       strokeWidth += 1
       ctx.lineWidth = (math.sin(strokeWidth / 5) + 1) * 1 + 2

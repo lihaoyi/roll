@@ -1,7 +1,7 @@
 package example.roll
 
-import scala.scalajs.js.CanvasRenderingContext2D
-import scala.scalajs.extensions._
+import org.scalajs.dom
+import org.scalajs.dom.extensions._
 import example.cp.Implicits._
 import example.cp
 
@@ -13,7 +13,7 @@ trait Camera{
 
   def toTuple = (pos, scale)
 
-  def transform[T](ctx: CanvasRenderingContext2D)(thunk: CanvasRenderingContext2D => T) = {
+  def transform[T](ctx: dom.CanvasRenderingContext2D)(thunk: dom.CanvasRenderingContext2D => T) = {
     ctx.save()
     ctx.translate(canvasDims().x/2, canvasDims().y/2)
     ctx.scale(scale.x, scale.y)

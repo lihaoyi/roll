@@ -1,11 +1,12 @@
 package example.roll
 
 import example.cp.Implicits._
-import scala.scalajs.extensions._
+import org.scalajs.dom.extensions._
 import scala.scalajs.js
 import example.cp
+import org.scalajs.dom
 
-class Goal(space: cp.Space, goalElement: js.Element){
+class Goal(space: cp.Space, goalElement: dom.Element){
   var goal =
     Form.processElement(goalElement, static = true)(space)
 
@@ -32,7 +33,7 @@ class Goal(space: cp.Space, goalElement: js.Element){
     text = "Success!"
   }, null)
 
-  def draw(ctx: js.CanvasRenderingContext2D) = {
+  def draw(ctx: dom.CanvasRenderingContext2D) = {
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
     ctx.font = "20pt arial"

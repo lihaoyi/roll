@@ -2,17 +2,19 @@ package example.roll
 
 import scala.scalajs.js
 import example.cp.Cp
-import scala.scalajs.js.{SVGRectElement, SVGElement, Element}
-import scala.scalajs.extensions._
+import org.scalajs.dom
+import org.scalajs.dom.extensions._
 import example.cp.Implicits._
 import example.cp
+import org.scalajs.dom
+
 
 trait Drawable{
-  def draw(ctx: js.CanvasRenderingContext2D): Unit
+  def draw(ctx: dom.CanvasRenderingContext2D): Unit
 }
 object Drawable{
   case class Circle(radius: Double) extends Drawable{
-    def draw(ctx: js.CanvasRenderingContext2D) = {
+    def draw(ctx: dom.CanvasRenderingContext2D) = {
       ctx.fillCircle(0, 0, radius)
       ctx.strokeCircle(0, 0, radius)
       ctx.strokePathOpen((0, radius/1.5), (0, radius))
@@ -20,7 +22,7 @@ object Drawable{
 
   }
   case class Polygon(points: Seq[(js.Number, js.Number)]) extends Drawable{
-    def draw(ctx: js.CanvasRenderingContext2D) = {
+    def draw(ctx: dom.CanvasRenderingContext2D) = {
       ctx.fillPath(points: _*)
       ctx.strokePath(points: _*)
     }
@@ -118,7 +120,7 @@ object Form{
     }
   }
 
-  def processJoint(elem: Element)(implicit space: cp.Space): Seq[JointForm] = {
+  def processJoint(elem: dom.Element)(implicit space: cp.Space): Seq[JointForm] = {
     val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
       elem.getAttribute(c).toString.toDouble
     }
@@ -208,13 +210,13 @@ object Form{
     )
     res
   }
-  def processElement(elem: Element,
+  def processElement(elem: dom.Element,
                      static: Boolean)
                     (implicit space: cp.Space): Form = {
 
     elem match{
-      case elem: js.SVGRectElement =>
-        val svg = js.globals.document.createElementNS("http://www.w3.org/2000/svg", "svg").asInstanceOf[js.SVGSVGElement]
+      case elem: dom.SVGRectElement =>
+        val svg = dom.document.createElementNS("http://www.w3.org/2000/svg", "svg").asInstanceOf[dom.SVGSVGElement]
         val Seq(x, y, w, h) = Seq("x", "y", "width", "height").map{c =>
           elem.getAttribute(c).toString.toDouble
         }
@@ -246,7 +248,7 @@ object Form{
           Color(elem.getAttribute("fill"))
         )
 
-      case _: js.SVGPolylineElement =>
+      case _: dom.SVGPolylineElement =>
         val points =
           elem
             .getAttribute("points")
@@ -264,9 +266,9 @@ object Form{
           Color(elem.getAttribute("fill"))
         )
 
-      case elem: js.SVGPolygonElement => null
+      case elem: dom.SVGPolygonElement => null
 
-      case elem: js.SVGCircleElement =>
+      case elem: dom.SVGCircleElement =>
         val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
           elem.getAttribute(c).toString.toDouble
         }
@@ -282,7 +284,7 @@ object Form{
 
       case _ =>
         println("Unknown!")
-        js.globals.console.log(elem)
+        dom.console.log(elem)
         js.Dynamic.global.elem = elem
         ???
     }
