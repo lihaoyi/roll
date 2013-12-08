@@ -9,7 +9,7 @@ import org.scalajs.dom
 
 class Player(space: cp.Space, playerElement: dom.Element) {
   var dead = 0.0
-  val form = Form.processElement(playerElement, static = false)(space)
+  val form = Form.processElement(playerElement, static = false)(space)(0)
   form.shapes(0).setCollisionType(1)
   val startPos = (form.body.getPos.x, form.body.getPos.y)
   def draw(ctx: dom.CanvasRenderingContext2D) = {

@@ -42,19 +42,19 @@ case class Roll() extends Game {
   )
 
   val svg = new dom.DOMParser().parseFromString(
-    scala.js.bundle.apply("Demo.svg").string,
+    scala.js.bundle.apply("Climb.svg").string,
     "text/xml"
   )
 
   val static =
     svg.getElementById("Static")
        .children
-       .map(Form.processElement(_, static = true))
+       .flatMap(Form.processElement(_, static = true))
 
   val dynamic =
     svg.getElementById("Dynamic")
        .children
-       .map(Form.processElement(_, static = false))
+       .flatMap(Form.processElement(_, static = false))
 
   val backgroundImg = dom.document.createElement("img").asInstanceOf[dom.HTMLImageElement]
 
@@ -64,7 +64,7 @@ case class Roll() extends Game {
     "</svg>"
   )
 
-  val staticJoints =
+  val staticJoints: Seq[JointForm] =
     svg.getElementById("Joints")
        .children
        .map(Form.processJoint)

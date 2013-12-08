@@ -8,7 +8,7 @@ import org.scalajs.dom
 
 class Goal(space: cp.Space, goalElement: dom.Element){
   var goal =
-    Form.processElement(goalElement, static = true)(space)
+    Form.processElement(goalElement, static = true)(space)(0)
 
   var won = false
   var text = "Goal"

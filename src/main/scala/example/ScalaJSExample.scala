@@ -35,7 +35,7 @@ class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: () => Game){
 
   def screenToWorld(p: cp.Vect) = p - bounds/2 + camera.pos
 
-  def event(e: dom.Event): Unit = (e, e.`type`) match{
+  def event(e: dom.Event): Unit = (e, e.`type`.toString) match{
     case (e: dom.KeyboardEvent, "keydown") =>  keys.add(e.keyCode.toInt)
     case (e: dom.KeyboardEvent, "keyup") =>  keys.remove(e.keyCode.toInt)
     case (e: PointerEvent, "pointerdown") =>

@@ -212,7 +212,7 @@ object Form{
   }
   def processElement(elem: dom.Element,
                      static: Boolean)
-                    (implicit space: cp.Space): Form = {
+                    (implicit space: cp.Space): Seq[Form] = {
 
     elem match{
       case elem: dom.SVGRectElement =>
@@ -241,12 +241,12 @@ object Form{
 
         val (friction, density, elasticity) = splitFill(elem.getAttribute("fill"))
         val (body, shapes, flatPoints) = makePoly(transformedPoints, density, static, friction, elasticity)
-        new Form(
+        Seq(new Form(
           body,
           shapes,
           Drawable.Polygon(flatPoints),
           Color(elem.getAttribute("fill"))
-        )
+        ))
 
       case _: dom.SVGPolylineElement =>
         val points =
@@ -259,12 +259,12 @@ object Form{
             .map(p => new cp.Vect(p(0).toDouble, p(1).toDouble))
         val (friction, density, elasticity) = splitFill(elem.getAttribute("fill"))
         val (body, shapes, flatPoints) = Form.makePoly(points, density, static, friction, elasticity)
-        new Form(
+        Seq(new Form(
           body,
           shapes,
           Drawable.Polygon(flatPoints),
           Color(elem.getAttribute("fill"))
-        )
+        ))
 
       case elem: dom.SVGPolygonElement => null
 
@@ -274,13 +274,17 @@ object Form{
         }
         val (friction, density, elasticity)  = splitFill(elem.getAttribute("fill"))
         val (body, shape) = Form.makeCircle((x, y), r, density, static, friction, elasticity)
-        new Form(
+        Seq(new Form(
           body,
           shape,
           Drawable.Circle(r),
           Color(elem.getAttribute("fill"))
-        )
+        ))
 
+      case elem: dom.SVGGElement =>
+        elem.childNodes
+            .collect{case e: dom.SVGElement => e}
+            .flatMap(processElement(_, static))
 
       case _ =>
         println("Unknown!")

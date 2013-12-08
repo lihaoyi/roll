@@ -33,13 +33,18 @@ class Lasers(space: cp.Space, player: Form, laserElement: dom.HTMLElement, dead:
   }
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     for((start, end, hit) <- lasers){
+      ctx.strokeStyle = Color.Red.toString()
+      ctx.fillStyle = Color.Red.toString()
       strokeWidth += 1
       ctx.lineWidth = (math.sin(strokeWidth / 5) + 1) * 1 + 2
-      ctx.strokeStyle = Color.Red.toString()
-      ctx.strokePathOpen(
-        start,
-        hit().getOrElse(end: cp.Vect): cp.Vect
-      )
+      val realEnd = hit() match{
+        case None => end
+        case Some(hit) =>
+          ctx.fillCircle(hit.x, hit.y, ctx.lineWidth)
+          hit
+      }
+
+      ctx.strokePathOpen(start, realEnd)
     }
   }
 }

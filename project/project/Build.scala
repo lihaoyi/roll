@@ -11,6 +11,7 @@ object Build extends sbt.Build {
       .dependsOn(uri("../../scala-js-resource/plugin"))
       .dependsOn(uri("../../scala-js-workbench"))
       .settings(
-        addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.2-SNAPSHOT")
+        resolvers += Resolver.url("scala-js-releases", url("http://repo.scala-js.org/repo/releases/"))(Resolver.ivyStylePatterns),
+        addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.1")
       )
 }
