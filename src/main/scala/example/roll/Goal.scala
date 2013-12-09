@@ -30,7 +30,8 @@ class Goal(space: cp.Space, goalElement: dom.Element){
       goal.drawable,
       Color.Yellow
     )
-    text = "Success!"
+    text = "Success!\n\nTouch to\nContinue"
+
     won = true
   }, null)
 
@@ -43,6 +44,10 @@ class Goal(space: cp.Space, goalElement: dom.Element){
     ctx.strokeStyle = goal.strokeStyle
     goal.drawable.draw(ctx)
     ctx.fillStyle = Color.Black.toString
-    ctx.fillText(text, p.x, p.y)
+    val chunks = text.split("\n")
+    for(i <- 0 until chunks.length){
+      ctx.fillText(chunks(i), p.x, p.y - 25 * (chunks.length / 2.0 - 0.5 - i))
+    }
+
   }
 }
