@@ -7,36 +7,29 @@ import org.scalajs.dom
 import example.cp
 import example.cp.Implicits._
 
-class Lasers(space: cp.Space, player: Form, laserElement: dom.HTMLElement, dead: () => Boolean, kill: () => Unit){
+class Lasers(space: cp.Space, player: Form, ignored: Set[cp.Shape], laserElement: dom.HTMLElement, dead: () => Boolean, kill: () => Unit){
   var strokeWidth = 1
   case class Laser(start: cp.Vect,
                    end: cp.Vect,
-                   ignored: Set[cp.Shape],
-                   var hit: Option[(cp.Vect, cp.Body)])
+                   var hit: Option[cp.Vect])
   val lasers: Seq[Laser] =
     laserElement
       .children
       .map{ case (e: dom.SVGLineElement) =>
         val start = new cp.Vect(e.x1.baseVal.value, e.y1.baseVal.value)
         val end = new cp.Vect(e.x2.baseVal.value, e.y2.baseVal.value)
-        val hits = mutable.Buffer.empty[cp.Shape]
-        space.segmentQuery(start, end, ~1, 0, (shape: cp.Shape, t: js.Number, n: cp.Vect) => {
-          if (shape.getBody().isStatic()) hits.append(shape)
-        })
-
-        new Laser(start, end, hits.toSet, None)
+        new Laser(start, end, None)
       }
 
   def update() = {
     for (laser <- lasers){
       laser.hit = None
       space.segmentQuery(laser.start, laser.end, ~1, 0, (shape: cp.Shape, t: js.Number, n: cp.Vect) => {
-        val body = shape.getBody()
-        if (!laser.ignored.contains(shape) && laser.hit == None){
-          if(body == player.body) {
+        if (!ignored.contains(shape) && laser.hit == None){
+          if(shape.getBody() == player.body) {
             if (!dead()) kill()
           }else {
-            laser.hit = Some((laser.start + (laser.end - laser.start) * t, body))
+            laser.hit = Some(laser.start + (laser.end - laser.start) * t)
           }
         }
       })
@@ -52,8 +45,8 @@ class Lasers(space: cp.Space, player: Form, laserElement: dom.HTMLElement, dead:
       val realEnd = laser.hit match{
         case None => laser.end
         case Some(hit) =>
-          ctx.fillCircle(hit._1.x, hit._1.y, ctx.lineWidth)
-          hit._1
+          ctx.fillCircle(hit.x, hit.y, ctx.lineWidth)
+          hit
       }
 
       ctx.strokePathOpen(laser.start, realEnd)

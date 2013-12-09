@@ -85,14 +85,16 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
 
 
   val goal = new Goal(space, svgDoc.getElementById("Goal"))
+
   val strokes = new Strokes(space)
 
   val lasers = new Lasers(
     space,
-    player.form,
-    svgDoc.getElementById("Lasers"),
-    () => player.dead != 0.0,
-    () => player.dead = 1.0
+    player = player.form,
+    ignored = static.flatMap(_.shapes).toSet ++ goal.goal.shapes,
+    laserElement = svgDoc.getElementById("Lasers"),
+    dead = () => player.dead != 0.0,
+    kill = () => player.dead = 1.0
   )
 
   def cameraPos =
