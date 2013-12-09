@@ -8,7 +8,7 @@ import org.scalajs.dom
 import example.cp
 
 class Strokes(space: cp.Space){
-  var duration = 1500
+  var duration = 150
   var max = 600.0
   var remaining = max
   var regenRate = 2.0
@@ -16,6 +16,7 @@ class Strokes(space: cp.Space){
   var delay = delayMax
   var strokes = Seq.empty[(cp.SegmentShape, Long)]
 
+  var frame = 0L
 
   def drawStatic(ctx: dom.CanvasRenderingContext2D, w: Int, h: Int) = {
     ctx.fillStyle = Color.Cyan.toString
@@ -33,8 +34,9 @@ class Strokes(space: cp.Space){
     }
   }
   def update(lines: Seq[(cp.Vect, cp.Vect)], touching: Boolean) = {
+    frame = frame + 1
     val (liveStrokes, deadStrokes) = strokes.partition{
-      case (s, t) => t + duration > System.currentTimeMillis()
+      case (s, t) => t + duration > frame
     }
     def hitDynamicShape(p1: cp.Vect, p2: cp.Vect) = {
       val shapes = collection.mutable.Buffer.empty[cp.Shape]
@@ -63,7 +65,7 @@ class Strokes(space: cp.Space){
 
       shape.setFriction(0.6)
       shape.setElasticity(0.1)
-      shape -> System.currentTimeMillis()
+      shape -> frame
     }
 
     newStrokes.map(_._1).foreach(space.addShape)
