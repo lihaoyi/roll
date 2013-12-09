@@ -42,7 +42,7 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
   )
 
   val svgDoc = new dom.DOMParser().parseFromString(
-    scala.js.bundle.apply("BarrelWalk.svg").string,
+    scala.js.bundle.apply("Demo.svg").string,
     "text/xml"
   )
 
@@ -88,12 +88,10 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
   val strokes = new Strokes(space)
 
   val lasers = new Lasers(
-    space,
     player = player.form,
-    ignored = static.flatMap(_.shapes).toSet ++ goal.goal.shapes,
     laserElement = svgDoc.getElementById("Lasers"),
-    dead = player.dead != 0.0,
-    kill = player.dead = 1.0
+    query = space.segmentQueryFirst(_, _, ~Layers.Static, 0),
+    kill = if (player.dead == 0.0) player.dead = 1.0
   )
 
   def cameraPos =

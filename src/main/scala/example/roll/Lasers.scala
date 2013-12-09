@@ -6,12 +6,11 @@ import org.scalajs.dom.extensions._
 import org.scalajs.dom
 import example.cp
 import example.cp.Implicits._
+import example.cp.SegmentQueryInfo
 
-class Lasers(space: cp.Space,
-             player: Form,
-             ignored: Set[cp.Shape],
+class Lasers(player: Form,
              laserElement: dom.HTMLElement,
-             dead: => Boolean,
+             query: (cp.Vect, cp.Vect) => SegmentQueryInfo,
              kill: => Unit){
   var strokeWidth = 1
   case class Laser(start: cp.Vect,
@@ -27,15 +26,11 @@ class Lasers(space: cp.Space,
   def update() = {
     for (laser <- lasers){
       laser.hit = None
-      space.segmentQuery(laser.start, laser.end, ~1, 0, (shape: cp.Shape, t: js.Number, n: cp.Vect) => {
-        if (!ignored.contains(shape) && laser.hit == None){
-          if(shape.getBody() == player.body) {
-            if (!dead) kill
-          }else {
-            laser.hit = Some(laser.start + (laser.end - laser.start) * t)
-          }
-        }
-      })
+      val res = query(laser.start, laser.end)
+      if(res != null){
+        laser.hit = Some(laser.start + (laser.end - laser.start) * res.t)
+        if (res.shape.getBody == player.body) kill
+      }
     }
   }
 

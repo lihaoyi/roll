@@ -30,7 +30,7 @@ class PointQueryExtendedInfo(var shape: Shape) extends js.Object
 @JSName("cp.NearestPointQueryInfo")
 class NearestPointQueryInfo(var shape: Shape, p: Vect, d: Num) extends js.Object
 @JSName("cp.SegmentQueryInfo")
-class SegmentQueryInfo(var shape: Shape, t: Num, n: Vect) extends js.Object
+class SegmentQueryInfo(var shape: Shape, var t: Num, var n: Vect) extends js.Object
 
 @JSName("cp.CircleShape")
 class CircleShape(body: Body, radius: Num, var offset: Vect) extends Shape(body){

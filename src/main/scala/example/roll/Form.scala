@@ -42,6 +42,11 @@ class JointForm(val joint: cp.PivotJoint,
   lazy val fillStyle = (color + Color(64, 64, 64)).toString
 }
 
+object Layers{
+  val Static = 1
+  val Strokes = 2
+}
+
 object Form{
 
   def makeCircle(pos: cp.Vect,
@@ -94,7 +99,9 @@ object Form{
 
         shape.setFriction(friction)
         shape.setElasticity(elasticity)
+        shape.layers = 1
         shape
+
       }
 
       (space.staticBody, shapes, points.map(p => (p.x, p.y)))
