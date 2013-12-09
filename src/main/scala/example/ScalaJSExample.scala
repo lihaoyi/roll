@@ -68,7 +68,8 @@ class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: () => Game){
 
     lines = Nil
 
-    ctx.fillStyle = Color(128, 128, 128).toString
+
+    ctx.fillStyle = "#82CAFF"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     camera.transform(ctx){ ctx =>
@@ -92,6 +93,8 @@ abstract class Game{
 object ScalaJSExample {
   def main(): Unit = {
 //    dom.console.log("Hello World")
+
+
     val canvas =
       dom.document
          .getElementById("screen")

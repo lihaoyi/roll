@@ -56,13 +56,25 @@ case class Roll() extends Game {
        .children
        .flatMap(Form.processElement(_, static = false))
 
-  val backgroundImg = dom.document.createElement("img").asInstanceOf[dom.HTMLImageElement]
-
-  backgroundImg.src = "data:image/svg+xml;base64," + dom.btoa(
-    s"<svg xmlns='http://www.w3.org/2000/svg' width='2000' height='2000'>" +
-    new dom.XMLSerializer().serializeToString(svg.getElementById("Background")) +
-    "</svg>"
+  val backgroundImg = dom.extensions.Image.createBase64Svg(
+    dom.btoa(
+      s"<svg xmlns='http://www.w3.org/2000/svg' width='2000' height='2000'>" +
+        new dom.XMLSerializer().serializeToString(svg.getElementById("Background")) +
+        "</svg>"
+    )
   )
+
+  val cloudImg =
+    dom.extensions
+       .Image
+       .createBase64Svg(scala.js.bundle.apply("CloudIcon.svg").base64)
+
+  val clouds = Seq.fill(50){
+    new cp.Vect(
+      util.Random.nextInt(widest.x.toInt) - cloudImg.width/2,
+      util.Random.nextInt(widest.y.toInt) - cloudImg.height/2
+    )
+  }
 
   val staticJoints: Seq[JointForm] =
     svg.getElementById("Joints")
@@ -101,6 +113,9 @@ case class Roll() extends Game {
 
     ctx.drawImage(backgroundImg, 0, 0)
 
+    for(cloud <- clouds){
+      ctx.drawImage(cloudImg, cloud.x, cloud.y)
+    }
 
     for(form <- static ++ dynamic if form != null){
       Roll.draw(ctx, form)
