@@ -20,7 +20,8 @@ class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: (() => cp.Vect) => Ga
   val scale = math.min(dom.innerWidth / game.widest.x, dom.innerHeight / game.widest.y)
 
   var camera: Camera = new Camera.Pan(
-    canvasDims = () => bounds,
+    () => bounds,
+    game.widest,
     checkpoints = List(
       (game.startCameraPos, 1),
       (game.widest / 2, scale)

@@ -31,7 +31,7 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
 
   implicit val space = new cp.Space()
   space.damping = 0.95
-  space.gravity = new cp.Vect(0, 400)
+  space.gravity = (0, 400)
 
   val rock = Form.makePoly(
     points = Seq((1111500, 111300), (1111500, 111301), (1111501, 111300)),

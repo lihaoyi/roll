@@ -2,6 +2,7 @@ package example.roll
 
 import org.scalajs.dom
 import example.cp
+import cp.Implicits._
 
 
 class Clouds(widest: cp.Vect, view: () => cp.Vect) {
@@ -13,17 +14,14 @@ class Clouds(widest: cp.Vect, view: () => cp.Vect) {
   class Cloud(var pos: cp.Vect, val vel: Double)
   val clouds = Seq.fill(50){
     new Cloud(
-      new cp.Vect(
-        (widest.x + view().x) * math.random,
-        (widest.y + view().y) * math.random
-      ),
+      widest * (math.random, math.random) * 2,
       math.random
     )
   }
   def update() = {
     for(cloud <- clouds){
       cloud.pos.x += cloud.vel
-      cloud.pos.x %= (widest.x + view().x)
+      cloud.pos.x %= (widest.x * 2)
     }
   }
   def draw(ctx: dom.CanvasRenderingContext2D) = {
