@@ -106,6 +106,8 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
   }
 
   def draw(ctx: dom.CanvasRenderingContext2D) = {
+    ctx.lineCap = "round"
+    ctx.lineJoin = "round"
     clouds.draw(ctx)
     ctx.drawImage(backgroundImg, 0, 0)
 

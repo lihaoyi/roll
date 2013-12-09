@@ -96,20 +96,17 @@ abstract class Game{
 
 object ScalaJSExample {
   def main(): Unit = {
-//    dom.console.log("Hello World")
-
-
     val canvas =
       dom.document
-         .getElementById("screen")
+         .getElementById("canvas")
          .asInstanceOf[dom.HTMLCanvasElement]
 
     val ribbonGame = Calc(new GameHolder(canvas, x => Roll(x)))
 
     Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach{s =>
-
       dom.document.body.addEventListener(s, (e: dom.Event) => ribbonGame().event(e))
     }
-    dom.setInterval(() => ribbonGame().update(), 10)
+
+    dom.setInterval(() => ribbonGame().update(), 15)
   }
 }

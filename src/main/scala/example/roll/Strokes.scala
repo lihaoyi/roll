@@ -60,12 +60,14 @@ class Strokes(space: cp.Space){
         (p3.x, p3.y),
         0
       )
-      space.addShape(shape)
 
       shape.setFriction(0.6)
       shape.setElasticity(0.1)
       shape -> System.currentTimeMillis()
     }
+
+    newStrokes.map(_._1).foreach(space.addShape)
+
     if (!touching && remaining < max) {
       if (delay > 0) delay -= 1
       else remaining += regenRate
