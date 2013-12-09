@@ -10,19 +10,20 @@ trait Camera{
   def canvasDims: () => cp.Vect
   def widest: cp.Vect
   def pos = {
-    def bound(get: cp.Vect => Double) = {
+    def bound(get: cp.Vect => Double, log: Boolean = false) = {
       val w = get(canvasDims()) / 2 / scale
       val low = get(innerPos) < w
       val high = get(innerPos) > get(widest) - w
-      (low, high) match {
+
+      if (w * 2 > get(widest)) get(widest) / 2
+      else (low, high) match {
         case (false, false) => get(innerPos)
-        case (true, false) => w
-        case (false, true) => get(widest) - w
-        case (true, true) => get(widest)/2
+        case (true,  false) => w
+        case (false, true)  => get(widest) - w
       }
     }
     
-    new cp.Vect(bound(_.x), bound(_.y))
+    new cp.Vect(bound(_.x, log = true), bound(_.y))
   }
   def scale: Double
   def innerPos: cp.Vect
@@ -43,24 +44,17 @@ object Camera{
   class Follow(targetPos: => cp.Vect, val widest: cp.Vect, val canvasDims: () => cp.Vect, var scale: Double) extends Camera{
     var innerPos = new cp.Vect(targetPos.x, targetPos.y)
     def update(dt: Double, keys: Set[Int]) = {
-      if (keys(KeyCode.pageUp)) {
-        scale = scale * 1.03
-      }
-
-      if (keys(KeyCode.pageDown)) {
-        scale = scale / 1.03
-      }
+      if (keys(KeyCode.pageUp)) scale = scale * 1.03
+      if (keys(KeyCode.pageDown)) scale = scale / 1.03
 
       scale = scale max ((canvasDims().x / widest.x).toDouble min (canvasDims().y / widest.y))
 
       if (innerPos != targetPos){
         innerPos = targetPos * 0.03 + innerPos * 0.97
-
       }
     }
-
-
   }
+
   class Pan(val canvasDims: () => cp.Vect, val widest: cp.Vect, checkpoints: List[(cp.Vect, Double)], finalCamera: Camera) extends Camera{
     var (aPos, aScale) :: rest = checkpoints
     var fraction = 0.0

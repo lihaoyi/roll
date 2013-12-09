@@ -42,7 +42,7 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
   )
 
   val svg = new dom.DOMParser().parseFromString(
-    scala.js.bundle.apply("Bounce.svg").string,
+    scala.js.bundle.apply("Demo.svg").string,
     "text/xml"
   )
 

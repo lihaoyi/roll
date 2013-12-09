@@ -10,7 +10,7 @@ import example.roll.{Roll, Camera}
 
 
 class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: (() => cp.Vect) => Game){
-  dom.console.log(canvas)
+
   def bounds = new cp.Vect(canvas.width, canvas.height)
 
   private[this] val keys = mutable.Set.empty[Int]
