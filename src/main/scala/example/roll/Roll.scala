@@ -41,48 +41,57 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
     elasticity = 0.6
   )
 
-  val svg = new dom.DOMParser().parseFromString(
-    scala.js.bundle.apply("Demo.svg").string,
+  val svgDoc = new dom.DOMParser().parseFromString(
+    scala.js.bundle.apply("Bounce.svg").string,
     "text/xml"
   )
 
   val static =
-    svg.getElementById("Static")
+    svgDoc.getElementById("Static")
        .children
        .flatMap(Form.processElement(_, static = true))
 
   val dynamic =
-    svg.getElementById("Dynamic")
+    svgDoc.getElementById("Dynamic")
        .children
        .flatMap(Form.processElement(_, static = false))
 
-  val backgroundImg = dom.extensions.Image.createBase64Svg(
-    dom.btoa(
-      s"<svg xmlns='http://www.w3.org/2000/svg' width='2000' height='2000'>" +
-        new dom.XMLSerializer().serializeToString(svg.getElementById("Background")) +
-        "</svg>"
-    )
+  val svg = svgDoc.getElementsByTagName("svg")(0).asInstanceOf[dom.SVGSVGElement]
+
+  def widest = new cp.Vect(
+    svg.width,
+    svg.height
   )
+
+  val backgroundImg = {
+    dom.extensions.Image.createBase64Svg(
+      dom.btoa(
+        s"<svg xmlns='http://www.w3.org/2000/svg' width='${widest.x}' height='${widest.y}'>" +
+          new dom.XMLSerializer().serializeToString(svgDoc.getElementById("Background")) +
+          "</svg>"
+      )
+    )
+  }
 
   val clouds = new Clouds(widest, viewPort)
 
   val staticJoints: Seq[JointForm] =
-    svg.getElementById("Joints")
+    svgDoc.getElementById("Joints")
        .children
        .map(Form.processJoint)
        .flatten
 
-  val player = new Player(space, svg.getElementById("Player"))
+  val player = new Player(space, svgDoc.getElementById("Player"))
 
   val lasers = new Lasers(
     space,
     player.form,
-    svg.getElementById("Lasers"),
+    svgDoc.getElementById("Lasers"),
     () => player.dead != 0.0,
     () => player.dead = 1.0
   )
 
-  val goal = new Goal(space, svg.getElementById("Goal"))
+  val goal = new Goal(space, svgDoc.getElementById("Goal"))
   val strokes = new Strokes(space)
 
   def cameraPos =
@@ -90,10 +99,7 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
     else player.form.body.getPos() + player.form.body.getVel()
 
   def startCameraPos = goal.p
-  def widest = (
-    svg.childNodes(2).asInstanceOf[dom.SVGSVGElement].width.baseVal.value,
-    svg.childNodes(2).asInstanceOf[dom.SVGSVGElement].height.baseVal.value
-  )
+
 
   def drawStatic(ctx: dom.CanvasRenderingContext2D, w: Int, h: Int) = {
     strokes.drawStatic(ctx, w, h)
