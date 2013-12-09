@@ -19,7 +19,7 @@ class Goal(space: cp.Space, goalElement: dom.Element){
   }
 
   val p = {
-    val points  = goal.drawable.asInstanceOf[Drawable.Polygon].points.map(x => x: cp.Vect)
+    val points  = goal.drawable.cast[Drawable.Polygon].points.map(x => x: cp.Vect)
     points.reduce(_ + _) / points.length
 
   }

@@ -61,7 +61,7 @@ class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: (() => cp.Vect) => Ga
   var active = false
 
   var now = Calc(Date.now() / 1000)
-  val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+  val ctx = canvas.getContext("2d").cast[dom.CanvasRenderingContext2D]
   def update() = {
     if (canvas.width != dom.innerWidth) canvas.width = dom.innerWidth
     if (canvas.height != dom.innerHeight) canvas.height = dom.innerHeight
@@ -99,7 +99,7 @@ object ScalaJSExample {
     val canvas =
       dom.document
          .getElementById("canvas")
-         .asInstanceOf[dom.HTMLCanvasElement]
+         .cast[dom.HTMLCanvasElement]
 
     val ribbonGame = Calc(new GameHolder(canvas, x => Roll(x)))
 

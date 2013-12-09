@@ -146,7 +146,7 @@ object Form{
         s.getBody(),
         baseBody,
         (x, y),
-        js.Dynamic.global.undefined.asInstanceOf[cp.Vect]
+        js.Dynamic.global.undefined.cast[cp.Vect]
       )
 
       val effectiveI = 1.0/ (1.0 / baseBody.i + 1.0 / s.getBody().i)
@@ -216,7 +216,7 @@ object Form{
 
     elem match{
       case elem: dom.SVGRectElement =>
-        val svg = dom.document.createElementNS("http://www.w3.org/2000/svg", "svg").asInstanceOf[dom.SVGSVGElement]
+        val svg = dom.document.createElementNS("http://www.w3.org/2000/svg", "svg").cast[dom.SVGSVGElement]
         val Seq(x, y, w, h) = Seq("x", "y", "width", "height").map{c =>
           elem.getAttribute(c).toString.toDouble
         }
@@ -283,8 +283,8 @@ object Form{
 
       case elem: dom.SVGGElement =>
         elem.childNodes
-            .collect{case e: dom.SVGElement => e}
-            .flatMap(processElement(_, static))
+            .collect{case e: dom.SVGElement => processElement(e, static)}
+            .flatten
 
       case _ =>
         println("Unknown!")

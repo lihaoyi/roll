@@ -4,7 +4,7 @@ import scala.scalajs.js
 
 import example.cp.Implicits._
 import org.scalajs.dom.extensions._
-import example.roll.{Lasers, Goal, Form}
+
 import example.{cp, Game}
 import org.scalajs.dom
 
@@ -48,15 +48,15 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
 
   val static =
     svgDoc.getElementById("Static")
-       .children
-       .flatMap(Form.processElement(_, static = true))
+          .children
+          .flatMap(Form.processElement(_, static = true))
 
   val dynamic =
     svgDoc.getElementById("Dynamic")
-       .children
-       .flatMap(Form.processElement(_, static = false))
+          .children
+          .flatMap(Form.processElement(_, static = false))
 
-  val svg = svgDoc.getElementsByTagName("svg")(0).asInstanceOf[dom.SVGSVGElement]
+  val svg = svgDoc.getElementsByTagName("svg")(0).cast[dom.SVGSVGElement]
 
   def widest = new cp.Vect(
     svg.width,
@@ -75,11 +75,10 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
 
   val clouds = new Clouds(widest, viewPort)
 
-  val staticJoints: Seq[JointForm] =
+  val staticJoints =
     svgDoc.getElementById("Joints")
-       .children
-       .map(Form.processJoint)
-       .flatten
+          .children
+          .flatMap(Form.processJoint)
 
   val player = new Player(space, svgDoc.getElementById("Player"))
 
