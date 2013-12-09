@@ -12,7 +12,7 @@ class Clouds(widest: cp.Vect, view: () => cp.Vect) {
       .createBase64Svg(scala.js.bundle.apply("CloudIcon.svg").base64)
 
   class Cloud(var pos: cp.Vect, val vel: Double)
-  val clouds = Seq.fill(50){
+  val clouds = Seq.fill((widest.x * widest.y / 100000).toInt){
     new Cloud(
       widest * (math.random, math.random) * 2,
       math.random
@@ -21,15 +21,15 @@ class Clouds(widest: cp.Vect, view: () => cp.Vect) {
   def update() = {
     for(cloud <- clouds){
       cloud.pos.x += cloud.vel
-      cloud.pos.x %= (widest.x * 2)
+      cloud.pos.x = (cloud.pos.x + widest.x/2) % (widest.x * 2) - widest.x/2
     }
   }
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     for(cloud <- clouds){
       ctx.drawImage(
         cloudImg,
-        cloud.pos.x - cloudImg.width/2 - view().x/2,
-        cloud.pos.y - cloudImg.height/2 - view().y/2
+        cloud.pos.x - cloudImg.width/2,
+        cloud.pos.y - cloudImg.height/2
       )
     }
   }
