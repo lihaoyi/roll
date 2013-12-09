@@ -24,8 +24,9 @@ object Implicits {
     def <(other: cp.Vect) = x < other.x && y < other.y
     def >(other: cp.Vect) = x > other.x && y > other.y
     def /(value: Double) = new cp.Vect(x / value, y / value)
+    def /(other: cp.Vect) = new cp.Vect(x / other.x, y / other.y)
     def *(value: Double) = new cp.Vect(x * value, y * value)
-    def *(other: cp.Vect) = x * other.x + y * other.y
+    def *(other: cp.Vect) = new cp.Vect(x * other.x, y * other.y)
     def length: Double = Math.sqrt(lengthSquared)
     def lengthSquared = x * x + y * y
     def within(a: cp.Vect, b: cp.Vect, extra: cp.Vect = new cp.Vect(0, 0)) = {

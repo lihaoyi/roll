@@ -33,7 +33,7 @@ class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: () => Game){
   var prev: cp.Vect = null
   var lines: List[(cp.Vect, cp.Vect)] = Nil
 
-  def screenToWorld(p: cp.Vect) = p - bounds/2 + camera.pos
+  def screenToWorld(p: cp.Vect) = ((p - bounds/2) / camera.scale) + camera.pos
 
   def event(e: dom.Event): Unit = (e, e.`type`.toString) match{
     case (e: dom.KeyboardEvent, "keydown") =>  keys.add(e.keyCode.toInt)
