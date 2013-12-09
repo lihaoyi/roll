@@ -9,24 +9,27 @@ import org.scalajs.dom
 import example.roll.{Roll, Camera}
 
 
-class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: () => Game){
+class GameHolder(canvas: dom.HTMLCanvasElement, gameMaker: (() => cp.Vect) => Game){
   dom.console.log(canvas)
   def bounds = new cp.Vect(canvas.width, canvas.height)
 
   private[this] val keys = mutable.Set.empty[Int]
 
-  var game: Game = gameMaker()
+  var game: Game = gameMaker(() => bounds)
+
   val scale = math.min(dom.innerWidth / game.widest.x, dom.innerHeight / game.widest.y)
+
   var camera: Camera = new Camera.Pan(
     canvasDims = () => bounds,
     checkpoints = List(
-      (game.startCameraPos, new cp.Vect(1, 1)),
-      (game.widest / 2, new cp.Vect(1, 1) * scale)
+      (game.startCameraPos, 1),
+      (game.widest / 2, scale)
     ),
     finalCamera = new Camera.Follow(
       game.cameraPos,
+      game.widest,
       () => bounds,
-      (1, 1)
+      1
     )
   )
 
@@ -100,7 +103,7 @@ object ScalaJSExample {
          .getElementById("screen")
          .asInstanceOf[dom.HTMLCanvasElement]
 
-    val ribbonGame = Calc(new GameHolder(canvas, () => Roll.apply()))
+    val ribbonGame = Calc(new GameHolder(canvas, x => Roll(x)))
 
     Seq("keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave").foreach{s =>
 

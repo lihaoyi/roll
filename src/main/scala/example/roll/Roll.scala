@@ -27,7 +27,7 @@ object Roll{
   }
 }
 
-case class Roll() extends Game {
+case class Roll(viewPort: () => cp.Vect) extends Game {
 
   implicit val space = new cp.Space()
   space.damping = 0.95
@@ -64,17 +64,7 @@ case class Roll() extends Game {
     )
   )
 
-  val cloudImg =
-    dom.extensions
-       .Image
-       .createBase64Svg(scala.js.bundle.apply("CloudIcon.svg").base64)
-
-  val clouds = Seq.fill(50){
-    new cp.Vect(
-      util.Random.nextInt(widest.x.toInt) - cloudImg.width/2,
-      util.Random.nextInt(widest.y.toInt) - cloudImg.height/2
-    )
-  }
+  val clouds = new Clouds(widest, viewPort)
 
   val staticJoints: Seq[JointForm] =
     svg.getElementById("Joints")
@@ -110,12 +100,8 @@ case class Roll() extends Game {
   }
 
   def draw(ctx: dom.CanvasRenderingContext2D) = {
-
+    clouds.draw(ctx)
     ctx.drawImage(backgroundImg, 0, 0)
-
-    for(cloud <- clouds){
-      ctx.drawImage(cloudImg, cloud.x, cloud.y)
-    }
 
     for(form <- static ++ dynamic if form != null){
       Roll.draw(ctx, form)
@@ -139,6 +125,7 @@ case class Roll() extends Game {
   }
 
   def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)], touching: Boolean) = {
+    clouds.update()
     lasers.update()
 
     player.update(keys)
