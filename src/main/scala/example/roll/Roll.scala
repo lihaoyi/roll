@@ -80,11 +80,10 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
           .children
           .flatMap(Form.processJoint)
 
-  val player = new Player(space, svgDoc.getElementById("Player"))
+  val player = new Player(Form.processElement(svgDoc.getElementById("Player"), static = false)(space)(0))
 
-
-
-  val goal = new Goal(space, svgDoc.getElementById("Goal"))
+  val goal = new Goal(Form.processElement(svgDoc.getElementById("Goal"), static = true)(space)(0))
+  space.addCollisionHandler(1, 1, null, (arb: cp.Arbiter, space: cp.Space) => goal.hit(), null)
 
   val strokes = new Strokes(space)
 
@@ -93,8 +92,8 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
     player = player.form,
     ignored = static.flatMap(_.shapes).toSet ++ goal.goal.shapes,
     laserElement = svgDoc.getElementById("Lasers"),
-    dead = () => player.dead != 0.0,
-    kill = () => player.dead = 1.0
+    dead = player.dead != 0.0,
+    kill = player.dead = 1.0
   )
 
   def cameraPos =

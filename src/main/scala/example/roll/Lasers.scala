@@ -7,7 +7,12 @@ import org.scalajs.dom
 import example.cp
 import example.cp.Implicits._
 
-class Lasers(space: cp.Space, player: Form, ignored: Set[cp.Shape], laserElement: dom.HTMLElement, dead: () => Boolean, kill: () => Unit){
+class Lasers(space: cp.Space,
+             player: Form,
+             ignored: Set[cp.Shape],
+             laserElement: dom.HTMLElement,
+             dead: => Boolean,
+             kill: => Unit){
   var strokeWidth = 1
   case class Laser(start: cp.Vect,
                    end: cp.Vect,
@@ -16,9 +21,7 @@ class Lasers(space: cp.Space, player: Form, ignored: Set[cp.Shape], laserElement
     laserElement
       .children
       .map{ case (e: dom.SVGLineElement) =>
-        val start = new cp.Vect(e.x1.baseVal.value, e.y1.baseVal.value)
-        val end = new cp.Vect(e.x2.baseVal.value, e.y2.baseVal.value)
-        new Laser(start, end, None)
+        new Laser((e.x1, e.y1), (e.x2, e.y2), None)
       }
 
   def update() = {
@@ -27,7 +30,7 @@ class Lasers(space: cp.Space, player: Form, ignored: Set[cp.Shape], laserElement
       space.segmentQuery(laser.start, laser.end, ~1, 0, (shape: cp.Shape, t: js.Number, n: cp.Vect) => {
         if (!ignored.contains(shape) && laser.hit == None){
           if(shape.getBody() == player.body) {
-            if (!dead()) kill()
+            if (!dead) kill
           }else {
             laser.hit = Some(laser.start + (laser.end - laser.start) * t)
           }

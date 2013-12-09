@@ -6,9 +6,8 @@ import scala.scalajs.js
 import example.cp
 import org.scalajs.dom
 
-class Goal(space: cp.Space, goalElement: dom.Element){
-  var goal =
-    Form.processElement(goalElement, static = true)(space)(0)
+class Goal(var goal: Form){
+
 
   var won = false
   var text = "Goal"
@@ -23,7 +22,8 @@ class Goal(space: cp.Space, goalElement: dom.Element){
     points.reduce(_ + _) / points.length
 
   }
-  space.addCollisionHandler(1, 1, null, (arb: cp.Arbiter, space: cp.Space) => {
+
+  def hit() = {
     goal = new Form(
       goal.body,
       goal.shapes,
@@ -31,9 +31,8 @@ class Goal(space: cp.Space, goalElement: dom.Element){
       Color.Yellow
     )
     text = "Success!\n\nTouch to\nContinue"
-
     won = true
-  }, null)
+  }
 
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     ctx.textAlign = "center"
