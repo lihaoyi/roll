@@ -31,6 +31,7 @@ class Goal(space: cp.Space, goalElement: dom.Element){
       Color.Yellow
     )
     text = "Success!"
+    won = true
   }, null)
 
   def draw(ctx: dom.CanvasRenderingContext2D) = {

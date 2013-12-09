@@ -42,7 +42,7 @@ case class Roll() extends Game {
   )
 
   val svg = new dom.DOMParser().parseFromString(
-    scala.js.bundle.apply("Climb.svg").string,
+    scala.js.bundle.apply("BarrelWalk.svg").string,
     "text/xml"
   )
 
@@ -83,7 +83,10 @@ case class Roll() extends Game {
   val goal = new Goal(space, svg.getElementById("Goal"))
   val strokes = new Strokes(space)
 
-  def cameraPos = player.form.body.getPos() + player.form.body.getVel()
+  def cameraPos =
+    if (goal.won) goal.p
+    else player.form.body.getPos() + player.form.body.getVel()
+
   def startCameraPos = goal.p
   def widest = (
     svg.childNodes(2).asInstanceOf[dom.SVGSVGElement].width.baseVal.value,

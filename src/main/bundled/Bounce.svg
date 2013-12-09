@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="3200px" height="1600px" viewBox="0 800 3200 1600" enable-background="new 0 800 3200 1600" xml:space="preserve">
+<g id="Foreground">
+</g>
+<g id="Static">
+	<polyline fill="#8B7765" points="10.808,2390 10.808,810 3190.809,810 3190.809,2390 10.808,2390 0.808,2400 3200.809,2400 
+		3200.809,800 0,800 0.808,2400 10.808,2390 	"/>
+	<rect x="2765.425" y="2352.5" fill="#8888E8" width="427" height="37.5"/>
+	<rect x="283.632" y="2352.5" fill="#8888E8" width="427" height="37.5"/>
+    <rect x="10.809" y="1041.37" fill="#8B7765" width="225.135" height="25.969"/>
+    <rect x="1429.654" y="2352.5" fill="#8888E8" width="427" height="37.5"/>
+</g>
+<g id="Special">
+	<circle id="Player" fill="#FF8877" cx="105.074" cy="1006.336" r="38.998"/>
+	<rect id="Goal" x="2981.438" y="867.338" fill="#00FFFF" width="200" height="200"/>
+</g>
+<g id="Background">
+</g>
+<g id="Joints">
+</g>
+<g id="Dynamic">
+</g>
+<g id="Lasers">
+<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="10.808" y1="2371.25" x2="3192.425" y2="2371.25"/>
+</g>
+
+
+</svg>
