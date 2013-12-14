@@ -18,7 +18,7 @@ class Strokes(space: cp.Space){
 
   var frame = 0L
 
-  def drawStatic(ctx: dom.CanvasRenderingContext2D, w: Int, h: Int) = {
+  def drawStatic(ctx: dom.CanvasRenderingContext2D, w: js.Number, h: js.Number) = {
     ctx.fillStyle = Color.Cyan.toString
     ctx.fillRect(0, h - 10, w * 1.0 * remaining / max, 10)
   }

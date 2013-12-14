@@ -33,13 +33,13 @@ class Form(val body: cp.Body,
            val shapes: Seq[cp.Shape],
            val drawable: Drawable,
            val color: Color){
-  lazy val strokeStyle = (color + Color(-64, -64, -64)).toString
-  lazy val fillStyle = (color + Color(64, 64, 64)).toString
+  lazy val strokeStyle = (color + Color(-64, -64, -64))
+  lazy val fillStyle = (color + Color(64, 64, 64))
 }
 class JointForm(val joint: cp.PivotJoint,
             val color: Color){
-  lazy val strokeStyle = (color + Color(-64, -64, -64)).toString
-  lazy val fillStyle = (color + Color(64, 64, 64)).toString
+  lazy val strokeStyle = (color + Color(-64, -64, -64))
+  lazy val fillStyle = (color + Color(64, 64, 64))
 }
 
 object Layers{
@@ -294,7 +294,7 @@ object Form{
             .flatten
 
       case _ =>
-        println("Unknown!")
+        println(" Unknown!")
         dom.console.log(elem)
         js.Dynamic.global.elem = elem
         ???

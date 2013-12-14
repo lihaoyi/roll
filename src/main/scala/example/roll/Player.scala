@@ -11,6 +11,7 @@ class Player(val form: Form) {
   var dead = 0.0
 
   form.shapes(0).setCollisionType(1)
+  //form.body.setMoment(form.body.i / 2)
   val startPos = (form.body.getPos.x, form.body.getPos.y)
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     if (dead > 0) ctx.globalAlpha = dead

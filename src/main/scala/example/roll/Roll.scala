@@ -27,7 +27,7 @@ object Roll{
   }
 }
 
-case class Roll(viewPort: () => cp.Vect) extends Game {
+case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
 
   implicit val space = new cp.Space()
   space.damping = 0.95
@@ -42,7 +42,7 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
   )
 
   val svgDoc = new dom.DOMParser().parseFromString(
-    scala.js.bundle.apply("Demo.svg").string,
+    scala.js.bundle.apply(src).string,
     "text/xml"
   )
 
@@ -94,50 +94,70 @@ case class Roll(viewPort: () => cp.Vect) extends Game {
     kill = if (player.dead == 0.0) player.dead = 1.0
   )
 
-  def cameraPos =
-    if (goal.won) goal.p
-    else player.form.body.getPos() + player.form.body.getVel()
 
-  def startCameraPos = goal.p
-
+  var camera: Camera = new Camera.Pan(
+    viewPort,
+    widest,
+    checkpoints = List(
+      (goal.p, 1),
+      (widest / 2, math.min(viewPort().x / widest.x, viewPort().y / widest.y))
+    ),
+    finalCamera = new Camera.Follow(
+      if (goal.won) goal.p
+      else player.form.body.getPos() + player.form.body.getVel(),
+      widest,
+      viewPort,
+      1
+    )
+  )
 
   def drawStatic(ctx: dom.CanvasRenderingContext2D, w: Int, h: Int) = {
-    strokes.drawStatic(ctx, w, h)
+
   }
 
   def draw(ctx: dom.CanvasRenderingContext2D) = {
-    ctx.lineCap = "round"
-    ctx.lineJoin = "round"
-    clouds.draw(ctx)
-    ctx.drawImage(backgroundImg, 0, 0)
+    ctx.fillStyle = "#82CAFF"
+    ctx.fillRect(0, 0, viewPort().x, viewPort().y)
+    strokes.drawStatic(ctx, viewPort().x, viewPort().y)
+    camera.transform(ctx){ ctx =>
+      ctx.lineCap = "round"
+      ctx.lineJoin = "round"
+      clouds.draw(ctx)
+      ctx.drawImage(backgroundImg, 0, 0)
 
-    for(form <- static ++ dynamic if form != null){
-      Roll.draw(ctx, form)
+      for(form <- static ++ dynamic if form != null){
+        Roll.draw(ctx, form)
+      }
+
+      lasers.draw(ctx)
+      player.draw(ctx)
+      goal.draw(ctx)
+
+      staticJoints.foreach{ jform  =>
+        ctx.save()
+        ctx.fillStyle = jform.fillStyle
+        ctx.strokeStyle = jform.strokeStyle
+        ctx.translate(jform.joint.a.getPos().x, jform.joint.a.getPos().y)
+        ctx.rotate(jform.joint.a.a)
+        ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)
+        ctx.restore()
+      }
+
+      strokes.draw(ctx)
     }
-
-    lasers.draw(ctx)
-    player.draw(ctx)
-    goal.draw(ctx)
-
-    staticJoints.foreach{ jform  =>
-      ctx.save()
-      ctx.fillStyle = jform.fillStyle
-      ctx.strokeStyle = jform.strokeStyle
-      ctx.translate(jform.joint.a.getPos().x, jform.joint.a.getPos().y)
-      ctx.rotate(jform.joint.a.a)
-      ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)
-      ctx.restore()
-    }
-
-    strokes.draw(ctx)
   }
 
-  def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)], touching: Boolean) = {
+  def update(keys: Set[Int],
+             lines: Seq[(cp.Vect, cp.Vect)],
+             touching: Boolean) = {
+
+    camera.update(0.015, keys.toSet)
     clouds.update()
     lasers.update()
 
     player.update(keys)
-    strokes.update(lines, touching)
+    def screenToWorld(p: cp.Vect) = ((p - viewPort()/2) / camera.scale) + camera.pos
+    strokes.update(lines.map(x => (screenToWorld(x._1), screenToWorld(x._2))), touching)
 
     space.step(1.0/60)
   }
