@@ -283,8 +283,6 @@ object Form{
           Color(elem.getAttribute("fill"))
         ))
 
-      case elem: dom.SVGPolygonElement => null
-
       case elem: dom.SVGCircleElement =>
         val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
           elem.getAttribute(c).toString.toDouble

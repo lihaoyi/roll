@@ -95,6 +95,7 @@ case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit) extends 
     player = player.form,
     laserElement = svgDoc.getElementById("Lasers"),
     query = space.segmentQueryFirst(_, _, _, 0),
+    pointQuery = space.pointQueryFirst(_, _, 0),
     kill = if (player.dead == 0.0) player.dead = 1.0
   )
 

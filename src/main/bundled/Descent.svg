@@ -6,7 +6,7 @@
 <g id="Foreground">
 </g>
 <g id="Special">
-	<circle id="Player" fill="#FF8877" cx="86.149" cy="158.423" r="38.998"/>
+	<circle id="Player" fill="#FF8877" cx="92.373" cy="159.423" r="38.998"/>
 	<rect id="Goal" x="2772.616" y="2681.177" fill="#00FFFF" width="200" height="200"/>
 </g>
 <g id="Background">
@@ -28,16 +28,10 @@
 		<rect x="2088.397" y="2494.442" fill="#880000" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="51.175" height="17.315"/>
 	
 		<rect x="2238.092" y="2494.47" fill="#880000" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="51.175" height="17.315"/>
-	<circle id="Player_4_" fill="#337765" cx="230.913" cy="3097.707" r="93.447"/>
-	<circle id="Player_3_" fill="#337765" cx="1447.21" cy="104.974" r="93.447"/>
-	<circle id="Player_2_" fill="#337765" cx="1898.466" cy="1239.372" r="93.447"/>
-	<circle id="Player_1_" fill="#337765" cx="1817.668" cy="613.784" r="93.447"/>
-	
-		<rect x="2470.099" y="2831.244" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
-	
-		<rect x="2470.099" y="3046.5" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
-	
-		<rect x="2470.099" y="2621.652" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
+	<circle id="Player_4_" fill="#00AAAA" cx="230.913" cy="3097.707" r="93.447"/>
+	<circle id="Player_3_" fill="#00AAAA" cx="1447.21" cy="104.974" r="93.447"/>
+	<circle id="Player_2_" fill="#00AAAA" cx="1898.466" cy="1239.372" r="93.447"/>
+	<circle id="Player_1_" fill="#00AAAA" cx="1817.668" cy="613.784" r="93.447"/>
 	
 		<rect x="19.575" y="1269.648" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 	
@@ -66,30 +60,27 @@
 		<rect x="2180.328" y="2477.049" fill="#880000" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="17.315" height="51.175"/>
 </g>
 <g id="Joints">
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1888.985" cy="2503.099" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1963.985" cy="2504.814" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="2038.985" cy="2504.814" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="2113.985" cy="2503.528" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="2188.985" cy="2502.671" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="2263.985" cy="2503.528" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1288.985" cy="2505.671" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1363.985" cy="2505.243" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1438.985" cy="2505.671" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1513.985" cy="2504.814" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1588.985" cy="2504.385" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1663.985" cy="2503.957" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1738.985" cy="2504.814" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1813.985" cy="2503.528" r="10.704"/>
-	<circle fill="#000080" stroke="#FFFFFF" stroke-miterlimit="10" cx="1214.388" cy="2503.842" r="10.704"/>
-	<circle fill="#F00000" stroke="#FFFFFF" stroke-miterlimit="10" cx="408.2" cy="1277.877" r="10.704"/>
-	<circle fill="#0000F0" stroke="#FFFFFF" stroke-miterlimit="10" cx="2592.599" cy="2839.473" r="10.704"/>
-	<circle fill="#0000F0" stroke="#FFFFFF" stroke-miterlimit="10" cx="2592.6" cy="3054.729" r="10.704"/>
-	<circle fill="#0000F0" stroke="#FFFFFF" stroke-miterlimit="10" cx="2592.599" cy="2629.881" r="10.704"/>
-	<circle fill="#F00000" stroke="#FFFFFF" stroke-miterlimit="10" cx="142.075" cy="1277.877" r="10.704"/>
-	<circle fill="#F00000" stroke="#FFFFFF" stroke-miterlimit="10" cx="142.075" cy="1079.495" r="10.704"/>
-	<circle fill="#F00000" stroke="#FFFFFF" stroke-miterlimit="10" cx="408.2" cy="1079.495" r="10.704"/>
-	<circle fill="#F00000" stroke="#FFFFFF" stroke-miterlimit="10" cx="142.075" cy="874.018" r="10.704"/>
-	<circle fill="#F00000" stroke="#FFFFFF" stroke-miterlimit="10" cx="408.2" cy="874.018" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1888.985" cy="2503.099" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1963.985" cy="2504.814" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="2038.985" cy="2504.814" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="2113.985" cy="2503.528" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="2188.985" cy="2502.671" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="2263.985" cy="2503.528" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1288.985" cy="2505.671" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1363.985" cy="2505.243" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1438.985" cy="2505.671" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1513.985" cy="2504.814" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1588.985" cy="2504.385" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1663.985" cy="2503.957" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1738.985" cy="2504.814" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1813.985" cy="2503.528" r="10.704"/>
+	<circle fill="#000040" stroke="#FFFFFF" stroke-miterlimit="10" cx="1214.388" cy="2503.842" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="408.2" cy="1277.877" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="142.075" cy="1277.877" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="142.075" cy="1079.495" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="408.2" cy="1079.495" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="142.075" cy="874.018" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="408.2" cy="874.018" r="10.704"/>
 </g>
 <g id="Static">
 	<rect x="10" y="198.421" fill="#8B7765" width="706.135" height="23.079"/>
@@ -143,7 +134,7 @@
 	
 		<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="3022.127" y1="1067.173" x2="2622.127" y2="1467.173"/>
 	<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="2544.487" y1="964.5" x2="2044.487" y2="1464.5"/>
-	<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="716.135" y1="209.96" x2="1398.646" y2="209.96"/>
+	<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="716.135" y1="209.96" x2="813.262" y2="209.96"/>
 	
 		<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="2656.146" y1="1067.173" x2="2256.146" y2="1467.173"/>
 	<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="2930.428" y1="964.5" x2="2430.428" y2="1464.5"/>
@@ -174,5 +165,10 @@
 	
 		<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="2845.771" y1="1495.731" x2="1017.261" y2="2101.796"/>
 	<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="543.643" y1="715.231" x2="10" y2="715.231"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="910.39" y1="209.961" x2="1007.517" y2="209.961"/>
+	<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="1108.39" y1="209.96" x2="1205.517" y2="209.96"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="3" stroke-miterlimit="10" x1="1301.518" y1="209.96" x2="1398.646" y2="209.96"/>
 </g>
 </svg>

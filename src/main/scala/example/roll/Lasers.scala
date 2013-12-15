@@ -11,6 +11,7 @@ import example.cp.SegmentQueryInfo
 class Lasers(player: Form,
              laserElement: dom.HTMLElement,
              query: (cp.Vect, cp.Vect, js.Number) => SegmentQueryInfo,
+             pointQuery: (cp.Vect, js.Number) => cp.Shape,
              kill: => Unit){
   var strokeWidth = 1
   case class Laser(start: cp.Vect,
@@ -25,12 +26,16 @@ class Lasers(player: Form,
 
   def update() = {
     for (laser <- lasers){
-      laser.hit = for{
+
+      laser.hit = Option(pointQuery(laser.start, Layers.Strokes | Layers.DynamicRange)).map(
+        p => laser.start
+      )
+      laser.hit = laser.hit.orElse(for{
         res <- Option(query(laser.start, laser.end, Layers.Strokes | Layers.DynamicRange))
       } yield {
         if (res.shape.getBody == player.body) kill
         laser.start + (laser.end - laser.start) * res.t
-      }
+      })
     }
   }
 

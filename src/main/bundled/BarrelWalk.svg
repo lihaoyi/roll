@@ -2,44 +2,54 @@
 <!-- Generator: Adobe Illustrator 17.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="1600px" height="900px" viewBox="0 0 1600 900" enable-background="new 0 0 1600 900" xml:space="preserve">
+	 width="1600px" height="1600px" viewBox="0 0 1600 1600" enable-background="new 0 0 1600 1600" xml:space="preserve">
 <g id="Foreground">
 </g>
 <g id="Background">
 </g>
 <g id="Joints">
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="437.108" cy="917.544" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="185.723" cy="1104.593" r="10.704"/>
+	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="381.404" cy="1310.586" r="10.704"/>
 </g>
 <g id="Static">
-	<polyline fill="#8B7765" points="1333.564,901 1200,870 30,870 30,355 30,30 1570,31.192 1570,870 1200,870 1333.564,901 1600,901 
-		1600,1 0,0.5 0,901 0,901 	"/>
-	<rect x="746.188" y="655.998" fill="#8B7765" width="85.875" height="85.875"/>
-	<rect x="384.929" y="392.938" fill="#8B7765" width="85.875" height="85.875"/>
-	<rect x="30.125" y="769.538" fill="#8B7765" width="85.875" height="85.875"/>
-	<rect x="1211.906" y="291.444" fill="#8B7765" width="85.875" height="85.875"/>
-	<rect x="746.188" y="197.954" fill="#8B7765" width="85.875" height="85.875"/>
+	<polyline fill="#8B7765" points="51.792,1534.357 56.273,450.108 1263.067,297.917 30,299.857 30,29.643 1570,30.835 1570,586.357 
+		415.7,733.658 1354.6,1333.544 1554.6,1333.544 1554.6,1534.357 1600,1599.857 1600,0.643 0,0.143 0,1599.857 1600,1599.857 
+		1554.6,1534.357 	"/>
+	<rect x="51.792" y="194.042" fill="#8B7765" width="85.875" height="85.875"/>
 </g>
 <g id="Special">
-	<circle id="Player" fill="#FF8877" cx="84.931" cy="730.541" r="38.998"/>
-	<rect id="Goal" x="1370" y="669.538" fill="#00FFFF" width="200" height="200"/>
+	<circle id="Player" fill="#FF8877" cx="95.271" cy="155.044" r="38.998"/>
+	<rect id="Goal" x="1354.6" y="1333.544" fill="#00FFFF" width="200" height="200"/>
 </g>
 <g id="Dynamic">
-	<circle fill="#8B7765" cx="423.927" cy="832.495" r="38.998"/>
-	<g id="Dynamic_4_">
-		<circle fill="#8B7765" cx="789.125" cy="161.318" r="38.998"/>
-	</g>
+	<circle fill="#8B7765" cx="258.927" cy="222.917" r="75"/>
+	
+		<rect x="318.197" y="909.315" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
+	
+		<rect x="63.223" y="1096.364" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
+	
+		<rect x="258.904" y="1302.357" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 </g>
 <g id="Lasers">
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="116" y1="844.5" x2="1570" y2="844.5"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="844.5" x2="116" y2="844.5"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="746.188" y1="668.538" x2="30.125" y2="668.538"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="384.929" y1="392.938" x2="30" y2="30"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="137.667" y1="258.138" x2="1570" y2="258.138"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="258.138" x2="137.667" y2="258.138"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="530.25" x2="56.273" y2="721.594"/>
 	
-		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1211.906" y1="334.381" x2="470.804" y2="435.875"/>
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="56.273" y1="721.594" x2="1566.469" y2="534.312"/>
 	
-		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1211.906" y1="377.319" x2="832.063" y2="655.998"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="832.063" y1="741.873" x2="1370" y2="669.538"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="669.538" x2="1297.781" y2="377.319"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="31.192" x2="1297.781" y2="291.444"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="832.063" y1="31.192" x2="833.063" y2="197.954"/>
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="459.107" y1="1533.544" x2="459.107" y2="759.502"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="250.618" y1="1533.544" x2="250.618" y2="425.599"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="925.744" y1="1533.544" x2="927.385" y2="1060.586"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="670" y1="1533.544" x2="670" y2="896.136"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1160.667" y1="1533.544" x2="1160.667" y2="1209.635"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1502.872" y1="601.431" x2="1502.872" y2="30.783"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1425.72" y1="618.755" x2="1425.72" y2="30.771"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="139.623" y1="1533.544" x2="139.623" y2="439.596"/>
 </g>
 </svg>
