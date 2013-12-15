@@ -9,6 +9,7 @@ import org.scalajs.dom
 class Goal(var goal: Form, exit: () => Unit){
 
   var countDown = 1.0
+  def started = countDown == 0
   var won = false
   var text = "Goal"
   goal.shapes.foreach{s =>
@@ -35,18 +36,21 @@ class Goal(var goal: Form, exit: () => Unit){
   }
   def update() = {
     if (won){
-      countDown -= 0.015
+      countDown += 0.04
+      if (countDown >= 1){
+        exit()
+      }
+    }else{
+      countDown -= 0.04
+      if (countDown <= 0) {
+        countDown = 0
+      }
     }
-    if (countDown <= 0){
-      countDown = 0
-      exit()
-    }
+
   }
   def drawFade(ctx: dom.CanvasRenderingContext2D) = {
-    if (true){
-      ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
-      ctx.fillRect(0, 0, 2000, 1000)
-    }
+    ctx.fillStyle = s"rgba(0, 0, 0, $countDown)"
+    ctx.fillRect(0, 0, 2000, 1000)
   }
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     ctx.textAlign = "center"

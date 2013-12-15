@@ -6,7 +6,7 @@ import scala.scalajs.js.Any._
 import cp.Implicits._
 import org.scalajs.dom.extensions._
 import org.scalajs.dom
-import example.roll.{Roll, Camera}
+import example.roll.Roll
 
 sealed trait Touch
 object Touch{
@@ -21,16 +21,17 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
   private[this] val keys = mutable.Set.empty[Int]
 
   var levels = List(
+    "BarrelWalk.svg",
     "Demo.svg",
     "Bounce.svg",
-    "BarrelWalk.svg",
+
     "Climb.svg"
   )
   updateCanvas()
-  var game: Calc[Game] = Calc{
+  val game: Calc[Game] = Calc{
     val level :: rest = levels
     levels = rest
-    Roll(level, () => bounds)
+    Roll(level, () => bounds, () => game.recalc())
   }
 
 
@@ -39,14 +40,9 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
   def event(e: dom.Event): Unit = (e, e.`type`.toString) match{
     case (e: dom.KeyboardEvent, "keydown") =>  keys.add(e.keyCode.toInt)
     case (e: dom.KeyboardEvent, "keyup") =>  keys.remove(e.keyCode.toInt)
-    case (e: PointerEvent, "pointerdown") => touches.append(Touch.Down(new cp.Vect(e.clientX, e.clientY)))
-      
-    case (e: PointerEvent, "pointermove") =>
-      touches.append(Touch.Move(new cp.Vect(e.clientX, e.clientY)))
-      
-    case (e: PointerEvent, "pointerup" | "pointerout" | "pointerleave") =>
-      touches.append(Touch.Up(new cp.Vect(e.clientX, e.clientY)))
-
+    case (e: PointerEvent, "pointerdown") => touches += Touch.Down((e.clientX, e.clientY))
+    case (e: PointerEvent, "pointermove") => touches += Touch.Move((e.clientX, e.clientY))
+    case (e: PointerEvent, "pointerup" | "pointerout" | "pointerleave") => touches += Touch.Up((e.clientX, e.clientY))
     case _ => println("Unknown event " + e.`type`)
   }
 

@@ -10,7 +10,7 @@ import example.cp.SegmentQueryInfo
 
 class Lasers(player: Form,
              laserElement: dom.HTMLElement,
-             query: (cp.Vect, cp.Vect) => SegmentQueryInfo,
+             query: (cp.Vect, cp.Vect, js.Number) => SegmentQueryInfo,
              kill: => Unit){
   var strokeWidth = 1
   case class Laser(start: cp.Vect,
@@ -25,11 +25,11 @@ class Lasers(player: Form,
 
   def update() = {
     for (laser <- lasers){
-      laser.hit = None
-      val res = query(laser.start, laser.end)
-      if(res != null){
-        laser.hit = Some(laser.start + (laser.end - laser.start) * res.t)
+      laser.hit = for{
+        res <- Option(query(laser.start, laser.end, Layers.Strokes | Layers.DynamicRange))
+      } yield {
         if (res.shape.getBody == player.body) kill
+        laser.start + (laser.end - laser.start) * res.t
       }
     }
   }

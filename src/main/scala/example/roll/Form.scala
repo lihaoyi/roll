@@ -43,11 +43,12 @@ class JointForm(val joint: cp.PivotJoint,
 }
 
 object Layers{
-  val Static = 1
-  val Strokes = 2
+  val Common = 1
+  val Static = 2
+  val Strokes = 4
 
   val All = ~0
-  val DynamicRange = All & ~Static & ~Strokes
+  val DynamicRange = All & ~Static & ~Strokes & ~Common
 }
 
 object Form{
@@ -78,7 +79,7 @@ object Form{
 
     shape.setFriction(friction)
     shape.setElasticity(elasticity)
-    shape.layers = Layers.All
+    shape.layers = Layers.Common | (if (static) Layers.Static else Layers.DynamicRange)
     (body, Seq(shape))
   }
 
@@ -103,7 +104,7 @@ object Form{
 
         shape.setFriction(friction)
         shape.setElasticity(elasticity)
-        shape.layers = Layers.Static
+        shape.layers = Layers.Static | Layers.Common
         shape
 
       }
@@ -126,7 +127,7 @@ object Form{
 
       shape.setFriction(friction)
       shape.setElasticity(elasticity)
-      shape.layers = Layers.All
+      shape.layers = Layers.DynamicRange | Layers.Common
       (body, Seq(shape), flatPoints.grouped(2).map(s => (s(0), s(1))).toSeq)
     }
   }
@@ -143,12 +144,12 @@ object Form{
     val shapes = collection.mutable.Buffer.empty[cp.Shape]
     space.pointQuery((x, y), ~0, 0, {(s: cp.Shape) => shapes += s; ()})
 
-    var existing = Layers.Static | Layers.Strokes
+    var existing = Layers.Common | Layers.Static | Layers.Strokes
     var current = 4
 
     shapes.foreach{s =>
       val n = s.layers.toInt
-      if (n != Layers.All) existing |= n
+      if (n != (Layers.Common | Layers.DynamicRange)) existing |= n
     }
 
     val baseBody = if (static) space.staticBody else shapes(0).getBody()
@@ -180,7 +181,7 @@ object Form{
         space.addConstraint(motorJoint)
       }
       println("Joint Shape " + s.layers + " " + static + " " + existing)
-      if (s.layers.toInt == Layers.All && !static){
+      if (s.layers.toInt == (Layers.Common | Layers.DynamicRange) && !static){
 
 
         while((current & existing) != 0) {

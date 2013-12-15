@@ -28,7 +28,7 @@ object Roll{
   }
 }
 
-case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
+case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit) extends Game {
 
   implicit val space = new cp.Space()
   space.damping = 0.95
@@ -83,7 +83,7 @@ case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
 
   val player = new Player(Form.processElement(svgDoc.getElementById("Player"), static = false)(space)(0))
 
-  val goal = new Goal(Form.processElement(svgDoc.getElementById("Goal"), static = true)(space)(0), () => ())
+  val goal = new Goal(Form.processElement(svgDoc.getElementById("Goal"), static = true)(space)(0), exit)
   space.addCollisionHandler(1, 1, null, (arb: cp.Arbiter, space: cp.Space) => goal.hit(), null)
 
   val strokes = new Strokes(space)
@@ -91,7 +91,7 @@ case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
   val lasers = new Lasers(
     player = player.form,
     laserElement = svgDoc.getElementById("Lasers"),
-    query = space.segmentQueryFirst(_, _, ~Layers.Static, 0),
+    query = space.segmentQueryFirst(_, _, _, 0),
     kill = if (player.dead == 0.0) player.dead = 1.0
   )
 
@@ -161,7 +161,7 @@ case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
       case Touch.Move(x) =>  Touch.Move(screenToWorld(x))
       case Touch.Up(x) =>  Touch.Up(screenToWorld(x))
     })
-
+    goal.update()
     space.step(1.0/60)
   }
 }
