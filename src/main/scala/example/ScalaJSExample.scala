@@ -8,7 +8,12 @@ import org.scalajs.dom.extensions._
 import org.scalajs.dom
 import example.roll.{Roll, Camera}
 
-
+sealed trait Touch
+object Touch{
+  case class Down(p: cp.Vect) extends Touch
+  case class Move(p: cp.Vect) extends Touch
+  case class Up(p: cp.Vect) extends Touch
+}
 class GameHolder(canvas: dom.HTMLCanvasElement){
 
   def bounds = new cp.Vect(canvas.width, canvas.height)
@@ -29,25 +34,19 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
   }
 
 
-  var prev: cp.Vect = null
-  var lines: List[(cp.Vect, cp.Vect)] = Nil
+  var touches = mutable.Buffer.empty[Touch]
 
   def event(e: dom.Event): Unit = (e, e.`type`.toString) match{
     case (e: dom.KeyboardEvent, "keydown") =>  keys.add(e.keyCode.toInt)
     case (e: dom.KeyboardEvent, "keyup") =>  keys.remove(e.keyCode.toInt)
-    case (e: PointerEvent, "pointerdown") =>
-
-      prev = new cp.Vect(e.clientX, e.clientY)
+    case (e: PointerEvent, "pointerdown") => touches.append(Touch.Down(new cp.Vect(e.clientX, e.clientY)))
       
     case (e: PointerEvent, "pointermove") =>
-      val next = new cp.Vect(e.clientX, e.clientY)
-      if (prev != null && (next - prev).length > 3){
-        lines = (prev, next) :: lines
-        prev = next
-      }
-    case (_, "pointerup") => prev = null
-    case (_, "pointerout") => prev = null
-    case (_, "pointerleave") => prev = null
+      touches.append(Touch.Move(new cp.Vect(e.clientX, e.clientY)))
+      
+    case (e: PointerEvent, "pointerup" | "pointerout" | "pointerleave") =>
+      touches.append(Touch.Up(new cp.Vect(e.clientX, e.clientY)))
+
     case _ => println("Unknown event " + e.`type`)
   }
 
@@ -61,15 +60,15 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
   }
   def update() = {
     updateCanvas()
-    game().update(keys.toSet, lines, prev != null)
-    lines = Nil
+    game().update(keys.toSet, touches)
+    touches.clear()
     game().draw(ctx)
   }
 }
 
 abstract class Game{
   var result: Option[String] = None
-  def update(keys: Set[Int], lines: Seq[(cp.Vect, cp.Vect)], touching: scala.Boolean): Unit
+  def update(keys: Set[Int], touches: Seq[Touch]): Unit
   def draw(ctx: dom.CanvasRenderingContext2D): Unit
 }
 

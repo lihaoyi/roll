@@ -1,4 +1,5 @@
-package example.roll
+package example
+package roll
 
 import scala.scalajs.js
 
@@ -82,7 +83,7 @@ case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
 
   val player = new Player(Form.processElement(svgDoc.getElementById("Player"), static = false)(space)(0))
 
-  val goal = new Goal(Form.processElement(svgDoc.getElementById("Goal"), static = true)(space)(0))
+  val goal = new Goal(Form.processElement(svgDoc.getElementById("Goal"), static = true)(space)(0), () => ())
   space.addCollisionHandler(1, 1, null, (arb: cp.Arbiter, space: cp.Space) => goal.hit(), null)
 
   val strokes = new Strokes(space)
@@ -111,9 +112,6 @@ case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
     )
   )
 
-  def drawStatic(ctx: dom.CanvasRenderingContext2D, w: Int, h: Int) = {
-
-  }
 
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     ctx.fillStyle = "#82CAFF"
@@ -145,11 +143,12 @@ case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
 
       strokes.draw(ctx)
     }
+    strokes.drawStatic(ctx, viewPort().x, viewPort().y)
+    goal.drawFade(ctx)
   }
 
   def update(keys: Set[Int],
-             lines: Seq[(cp.Vect, cp.Vect)],
-             touching: Boolean) = {
+             touches: Seq[Touch]) = {
 
     camera.update(0.015, keys.toSet)
     clouds.update()
@@ -157,7 +156,11 @@ case class Roll(src: String, viewPort: () => cp.Vect) extends Game {
 
     player.update(keys)
     def screenToWorld(p: cp.Vect) = ((p - viewPort()/2) / camera.scale) + camera.pos
-    strokes.update(lines.map(x => (screenToWorld(x._1), screenToWorld(x._2))), touching)
+    strokes.update(touches.map{
+      case Touch.Down(x) =>  Touch.Down(screenToWorld(x))
+      case Touch.Move(x) =>  Touch.Move(screenToWorld(x))
+      case Touch.Up(x) =>  Touch.Up(screenToWorld(x))
+    })
 
     space.step(1.0/60)
   }

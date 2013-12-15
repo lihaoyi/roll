@@ -1,4 +1,5 @@
-package example.roll
+package example
+package roll
 
 import scala.scalajs.js
 
@@ -8,16 +9,16 @@ import org.scalajs.dom
 import example.cp
 
 class Strokes(space: cp.Space){
-  var duration = 150
-  var max = 600.0
+  val duration = 150
+  val max = 600.0
   var remaining = max
-  var regenRate = 2.0
-  var delayMax = 60
+  val regenRate = 2.0
+  val delayMax = 60
   var delay = delayMax
   var strokes = Seq.empty[(cp.SegmentShape, Long)]
 
   var frame = 0L
-
+  var prev: Option[cp.Vect] = None
   def drawStatic(ctx: dom.CanvasRenderingContext2D, w: js.Number, h: js.Number) = {
     ctx.fillStyle = Color.Cyan.toString
     ctx.fillRect(0, h - 10, w * 1.0 * remaining / max, 10)
@@ -33,49 +34,80 @@ class Strokes(space: cp.Space){
       ctx.strokePathOpen(first.a, first.b)
     }
   }
-  def update(lines: Seq[(cp.Vect, cp.Vect)], touching: Boolean) = {
+  def update(touches: Seq[Touch]) = {
     frame = frame + 1
     val (liveStrokes, deadStrokes) = strokes.partition{
       case (s, t) => t + duration > frame
     }
     def hitDynamicShape(p1: cp.Vect, p2: cp.Vect) = {
-      val shapes = collection.mutable.Buffer.empty[cp.Shape]
-      space.segmentQuery(p1, p2, ~0, 0, {(s: cp.Shape, t: js.Number , n: cp.Vect) => shapes += s; ()})
-      space.pointQuery(p1, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
-      space.pointQuery(p2, ~0, 0, {(s: cp.Shape) => shapes += s; ()})
-      shapes.exists(!_.getBody().isStatic())
-    }
-    val newStrokes = for {
-      (p1, p2) <- lines
-      if remaining > 0
-      d = p2 - p1
-      lengthLeft = math.min(remaining, d.length)
-      p3 = d * lengthLeft / d.length + p1
-      if !hitDynamicShape(p1, p3)
-    } yield {
-      delay = delayMax
-
-      remaining -= lengthLeft
-      val shape = new cp.SegmentShape(
-        space.staticBody,
-        (p1.x, p1.y),
-        (p3.x, p3.y),
-        0
-      )
-
-      shape.setFriction(0.6)
-      shape.setElasticity(0.1)
-      shape -> frame
+      var p1Hit = false
+      var p2Hit = false
+      var p1p2Hit= -1.0
+      var p2p1Hit= -1.0
+      space.segmentQuery(p1, p2, ~Layers.Static, 0, {(s: cp.Shape, t: js.Number , n: cp.Vect) => p1p2Hit = t})
+      space.segmentQuery(p2, p1, ~Layers.Static, 0, {(s: cp.Shape, t: js.Number , n: cp.Vect) => p2p1Hit = t})
+      space.pointQuery(p1, ~Layers.Static, 0, {(s: cp.Shape) => p1Hit = true})
+      space.pointQuery(p2, ~Layers.Static, 0, {(s: cp.Shape) => p2Hit = true})
+      (p1Hit, p2Hit, p1p2Hit, p2p1Hit)
     }
 
-    newStrokes.map(_._1).foreach(space.addShape)
+    def makeSegment(p1: cp.Vect, p2: cp.Vect) = {
+      val d = p2 - p1
+      if (remaining > 0 && d.length > 0){
 
-    if (!touching && remaining < max) {
+        val lengthLeft = math.min(remaining, d.length)
+
+        val p3 = d * lengthLeft / d.length + p1
+
+        remaining -= lengthLeft
+        val shape = new cp.SegmentShape(
+          space.staticBody,
+          (p1.x, p1.y),
+          (p3.x, p3.y),
+          0
+        )
+
+        shape.setFriction(0.6)
+        shape.setElasticity(0.1)
+        prev = Some(p3)
+        List(shape)
+      }else{
+        Nil
+      }
+    }
+    val newStrokes = touches.flatMap{
+      case Touch.Down(p) =>
+        prev = Some(p)
+        Nil
+      case Touch.Move(p) if remaining > 0 && prev.isDefined =>
+        val p1 = prev.get
+        delay = delayMax
+        hitDynamicShape(p1, p) match{
+          case (false, false, -1.0, -1.0) =>
+            makeSegment(p1, p)
+          case (true, false, _, t) =>
+            makeSegment(p + (p1 - p) * t, p) // start collides
+          case (false, true, t, _) =>
+            makeSegment(p1, p1 + (p - p1) * t) // end collides
+          case (true, true, _, _) => Nil // both ends collide
+          case (false, false, t1, t2) =>
+            makeSegment(p1, p1 + (p - p1) * t1) ++ makeSegment(p + (p1 - p) * t2, p) // middle collides
+        }
+      case Touch.Up(p) =>
+        prev = None
+        Nil
+      case _ =>
+        Nil
+    }
+
+    newStrokes.foreach(space.addShape)
+
+    if (prev.isEmpty && remaining < max) {
       if (delay > 0) delay -= 1
       else remaining += regenRate
     }
 
     deadStrokes.map(_._1).foreach(space.removeShape)
-    strokes = newStrokes ++ liveStrokes
+    strokes = newStrokes.map(_ -> frame) ++ liveStrokes
   }
 }
