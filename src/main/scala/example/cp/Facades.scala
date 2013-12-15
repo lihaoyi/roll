@@ -117,6 +117,7 @@ class Space() extends js.Object{
   def step(dt: Num): Unit = ???
 
   def pointQuery(point: Vect, layers: Num, group: Num, func: js.Function1[Shape, Unit]): Unit = ???
+  def pointQueryFirst(point: Vect, layers: Num, group: Num): Shape = ???
   def segmentQuery(start: Vect, end: Vect, layers: Num, group: Num, func: js.Function3[Shape, Num, Vect, Unit]): Unit = ???
   def segmentQueryFirst(start: Vect, end: Vect, layers: Num, group: Num): SegmentQueryInfo = ???
   var damping: Num = ???

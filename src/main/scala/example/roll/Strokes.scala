@@ -40,14 +40,11 @@ class Strokes(space: cp.Space){
       case (s, t) => t + duration > frame
     }
     def hitDynamicShape(p1: cp.Vect, p2: cp.Vect) = {
-      var p1Hit = false
-      var p2Hit = false
-      var p1p2Hit= -1.0
-      var p2p1Hit= -1.0
-      space.segmentQuery(p1, p2, ~Layers.Static, 0, {(s: cp.Shape, t: js.Number , n: cp.Vect) => p1p2Hit = t})
-      space.segmentQuery(p2, p1, ~Layers.Static, 0, {(s: cp.Shape, t: js.Number , n: cp.Vect) => p2p1Hit = t})
-      space.pointQuery(p1, ~Layers.Static, 0, {(s: cp.Shape) => p1Hit = true})
-      space.pointQuery(p2, ~Layers.Static, 0, {(s: cp.Shape) => p2Hit = true})
+
+      val p1p2Hit = Option(space.segmentQueryFirst(p1, p2, Layers.DynamicRange, 0))
+      val p2p1Hit = Option(space.segmentQueryFirst(p2, p1, Layers.DynamicRange, 0))
+      val p1Hit = space.pointQueryFirst(p1, Layers.DynamicRange, 0) != null
+      val p2Hit = space.pointQueryFirst(p2, Layers.DynamicRange, 0) != null
       (p1Hit, p2Hit, p1p2Hit, p2p1Hit)
     }
 
@@ -69,6 +66,7 @@ class Strokes(space: cp.Space){
 
         shape.setFriction(0.6)
         shape.setElasticity(0.1)
+        shape.setLayers(Layers.Strokes)
         prev = Some(p3)
         List(shape)
       }else{
@@ -83,15 +81,13 @@ class Strokes(space: cp.Space){
         val p1 = prev.get
         delay = delayMax
         hitDynamicShape(p1, p) match{
-          case (false, false, -1.0, -1.0) =>
-            makeSegment(p1, p)
-          case (true, false, _, t) =>
-            makeSegment(p + (p1 - p) * t, p) // start collides
-          case (false, true, t, _) =>
-            makeSegment(p1, p1 + (p - p1) * t) // end collides
+          case (false, false, None, None) => makeSegment(p1, p)
+          case (true, false, _, Some(t)) => makeSegment(p + (p1 - p) * t.t, p) // start collides
+          case (false, true, Some(t), _) => makeSegment(p1, p1 + (p - p1) * t.t) // end collides
           case (true, true, _, _) => Nil // both ends collide
-          case (false, false, t1, t2) =>
-            makeSegment(p1, p1 + (p - p1) * t1) ++ makeSegment(p + (p1 - p) * t2, p) // middle collides
+          case (false, false, Some(t1), Some(t2)) =>
+            makeSegment(p1, p1 + (p - p1) * t1.t) ++ makeSegment(p + (p1 - p) * t2.t, p) // middle collides
+          case _ => ??? //this should never happen
         }
       case Touch.Up(p) =>
         prev = None

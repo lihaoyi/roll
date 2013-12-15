@@ -60,8 +60,10 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
   }
   def update() = {
     updateCanvas()
-    game().update(keys.toSet, touches)
+    val x = touches.toList
     touches.clear()
+    game().update(keys.toSet, x)
+
     game().draw(ctx)
   }
 }
