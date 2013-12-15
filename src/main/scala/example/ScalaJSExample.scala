@@ -21,10 +21,10 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
   private[this] val keys = mutable.Set.empty[Int]
 
   var levels = List(
+    "Descent.svg",
     "BarrelWalk.svg",
     "Demo.svg",
     "Bounce.svg",
-
     "Climb.svg"
   )
   updateCanvas()

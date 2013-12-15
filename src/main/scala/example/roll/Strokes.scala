@@ -63,7 +63,7 @@ class Strokes(space: cp.Space){
           (p3.x, p3.y),
           0
         )
-        shape.r = 0.1
+        shape.r = 1
         shape.setFriction(0.6)
         shape.setElasticity(0.1)
         shape.setLayers(Layers.Common | Layers.Strokes)

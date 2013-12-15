@@ -29,8 +29,8 @@
 	</g>
 </g>
 <g id="Lasers">
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="109.996" y1="844.5" x2="1570" y2="844.5"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1650.871" y1="844.5" x2="109.996" y2="844.5"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="116" y1="844.5" x2="1570" y2="844.5"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="844.5" x2="116" y2="844.5"/>
 	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="746.188" y1="668.538" x2="30.125" y2="668.538"/>
 	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="384.929" y1="392.938" x2="30" y2="30"/>
 	

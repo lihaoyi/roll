@@ -40,11 +40,9 @@ class Lasers(player: Form,
       ctx.fillStyle = Color.Red.toString()
       strokeWidth += 1
       ctx.lineWidth = (math.sin(strokeWidth / 5) + 1) * 1 + 2
-      val realEnd = laser.hit match{
-        case None => laser.end
-        case Some(hit) =>
-          ctx.fillCircle(hit.x, hit.y, ctx.lineWidth)
-          hit
+      val realEnd = laser.hit.fold(laser.end){ hit =>
+        ctx.fillCircle(hit.x, hit.y, ctx.lineWidth)
+        hit
       }
 
       ctx.strokePathOpen(laser.start, realEnd)

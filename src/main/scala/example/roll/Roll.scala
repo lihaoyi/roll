@@ -47,11 +47,14 @@ case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit) extends 
     "text/xml"
   )
 
+  println("Static...")
+  dom.console.log(svgDoc.getElementById("Static"))
   val static =
     svgDoc.getElementById("Static")
           .children
           .flatMap(Form.processElement(_, static = true))
-
+  println("Dynamic...")
+  dom.console.log(svgDoc.getElementById("Dynamic"))
   val dynamic =
     svgDoc.getElementById("Dynamic")
           .children

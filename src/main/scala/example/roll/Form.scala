@@ -265,7 +265,7 @@ object Form{
           Color(elem.getAttribute("fill"))
         ))
 
-      case _: dom.SVGPolylineElement =>
+      case _: dom.SVGPolylineElement | _: dom.SVGPolygonElement =>
         val points =
           elem
             .getAttribute("points")
