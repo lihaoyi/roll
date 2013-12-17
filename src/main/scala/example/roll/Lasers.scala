@@ -26,16 +26,15 @@ class Lasers(player: Form,
 
   def update() = {
     for (laser <- lasers){
-
-      laser.hit = Option(pointQuery(laser.start, Layers.Strokes | Layers.DynamicRange)).map(
-        p => laser.start
-      )
-      laser.hit = laser.hit.orElse(for{
-        res <- Option(query(laser.start, laser.end, Layers.Strokes | Layers.DynamicRange))
-      } yield {
-        if (res.shape.getBody == player.body) kill
-        laser.start + (laser.end - laser.start) * res.t
-      })
+      laser.hit = None
+      if (pointQuery(laser.start, Layers.Strokes | Layers.DynamicRange) != null) laser.hit = Some(laser.start)
+      if (laser.hit == None){
+        val res = query(laser.start, laser.end, Layers.Strokes | Layers.DynamicRange)
+        if (res != null){
+          if (res.shape.getBody == player.body) kill
+          laser.hit = Some(laser.start + (laser.end - laser.start) * res.t)
+        }
+      }
     }
   }
 

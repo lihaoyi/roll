@@ -18,7 +18,7 @@ object Build extends sbt.Build {
         (packageJS in Compile).value ++ scala.js.bundle.bundleJS.value :+ scala.js.workbench.generateClient.value
       },
 
-    updateBrowsers <<= updateBrowsers.triggeredBy(packageJS in Compile)
+      updateBrowsers <<= updateBrowsers.triggeredBy(packageJS in Compile)
     ).dependsOn(dom, resource, workbench)
 
   lazy val dom = RootProject(file("../scala-js-dom"))

@@ -33,13 +33,13 @@ class Form(val body: cp.Body,
            val shapes: Seq[cp.Shape],
            val drawable: Drawable,
            val color: Color){
-  lazy val strokeStyle = (color + Color(-64, -64, -64))
-  lazy val fillStyle = (color + Color(64, 64, 64))
+  lazy val strokeStyle = color + Color(-64, -64, -64)
+  lazy val fillStyle = color + Color(64, 64, 64)
 }
 class JointForm(val joint: cp.PivotJoint,
             val color: Color){
-  lazy val strokeStyle = (color + Color(-64, -64, -64))
-  lazy val fillStyle = (color + Color(64, 64, 64))
+  lazy val strokeStyle = color + Color(-64, -64, -64)
+  lazy val fillStyle = color + Color(64, 64, 64)
 }
 
 object Layers{
@@ -272,7 +272,7 @@ object Form{
             .toString
             .split("\\s+")
             .toSeq
-            .map(s => s.split(","))
+            .map(_.split(","))
             .map(p => new cp.Vect(p(0).toDouble, p(1).toDouble))
         val (friction, density, elasticity) = splitFill(elem.getAttribute("fill"))
         val (body, shapes, flatPoints) = Form.makePoly(points, density, static, friction, elasticity)

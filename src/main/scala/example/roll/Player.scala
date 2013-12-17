@@ -29,7 +29,7 @@ class Player(val form: Form) {
       }
     }else{
       val baseT = 0.45
-      val maxW = 25
+      val maxW = 30
       val decay = (maxW - baseT) / maxW
       if (keys(KeyCode.left)) {
         form.body.w = (form.body.w - baseT) * decay

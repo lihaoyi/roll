@@ -6,6 +6,7 @@
 <g id="Foreground">
 </g>
 <g id="Background">
+	<text transform="matrix(1 0 0 1 51.792 68.5)" font-family="'MyriadPro-Regular'" font-size="24">BarrelWalk</text>
 </g>
 <g id="Joints">
 	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="437.108" cy="917.544" r="10.704"/>
@@ -13,9 +14,10 @@
 	<circle fill="#F8E800" stroke="#FFFFFF" stroke-miterlimit="10" cx="381.404" cy="1310.586" r="10.704"/>
 </g>
 <g id="Static">
-	<polyline fill="#8B7765" points="51.792,1534.357 56.273,450.108 1263.067,297.917 30,299.857 30,29.643 1570,30.835 1570,586.357 
-		415.7,733.658 1354.6,1333.544 1554.6,1333.544 1554.6,1534.357 1600,1599.857 1600,0.643 0,0.143 0,1599.857 1600,1599.857 
-		1554.6,1534.357 	"/>
+	<polyline fill="#8B7765" points="51.792,1534.357 53.42,1140.5 98.5,1122.811 52.5,1122.811 56.273,450.108 1263.067,297.917 
+		30,299.857 30,29.643 1570,30.835 1570,425.599 1055.5,691.5 979.3,698.5 878.5,662.5 880.5,1021.579 670,1021.579 670,760.5 
+		392.108,734.5 628.332,837.372 631.599,1074.077 993.178,1086.627 1354.6,1333.544 1554.6,1333.544 1554.6,1534.357 1600,1599.857 
+		1600,0.643 0,0.143 0,1599.857 1600,1599.857 1554.6,1534.357 	"/>
 	<rect x="51.792" y="194.042" fill="#8B7765" width="85.875" height="85.875"/>
 </g>
 <g id="Special">
@@ -34,22 +36,32 @@
 <g id="Lasers">
 	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="137.667" y1="258.138" x2="1570" y2="258.138"/>
 	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="258.138" x2="137.667" y2="258.138"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="530.25" x2="56.273" y2="721.594"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1570" y1="394.5" x2="878.5" y2="662.5"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="878.5" y1="662.5" x2="1570" y2="394.5"/>
 	
-		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="56.273" y1="721.594" x2="1566.469" y2="534.312"/>
-	
-		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="459.107" y1="1533.544" x2="459.107" y2="759.502"/>
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="459.107" y1="1533.544" x2="458.863" y2="763.571"/>
 	
 		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="250.618" y1="1533.544" x2="250.618" y2="425.599"/>
 	
-		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="925.744" y1="1533.544" x2="927.385" y2="1060.586"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="670" y1="1533.544" x2="670" y2="896.136"/>
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="925.744" y1="1533.544" x2="927.385" y2="1084.344"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="670" y1="1533.544" x2="670" y2="1075.41"/>
 	
-		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1160.667" y1="1533.544" x2="1160.667" y2="1209.635"/>
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1160.667" y1="1533.544" x2="1160.667" y2="1201.053"/>
 	
-		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1502.872" y1="601.431" x2="1502.872" y2="30.783"/>
-	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1425.72" y1="618.755" x2="1425.72" y2="30.771"/>
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1502.872" y1="460.292" x2="1502.872" y2="30.783"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1425.72" y1="500.165" x2="1425.72" y2="30.771"/>
 	
 		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="139.623" y1="1533.544" x2="139.623" y2="439.596"/>
+	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1354.6" y1="536.921" x2="1354.6" y2="30.771"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="51.916" y1="1504.328" x2="1354.6" y2="1504.328"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1354.6" y1="1504.328" x2="51.916" y2="1504.328"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="565.197" y1="1534.905" x2="565.197" y2="809.877"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="799.18" y1="1533.544" x2="799.18" y2="1079.894"/>
+	
+		<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="1044.5" y1="1533.544" x2="1046.141" y2="1122.811"/>
 </g>
 </svg>

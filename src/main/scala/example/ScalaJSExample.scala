@@ -21,19 +21,26 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
   private[this] val keys = mutable.Set.empty[Int]
 
   var levels = List(
-    "BarrelWalk.svg",
-    "Descent.svg",
     "Demo.svg",
+    "Descent.svg",
     "Bounce.svg",
-    "Climb.svg"
+    "Climb.svg",
+    "BarrelWalk.svg"
   )
   updateCanvas()
-  val game: Calc[Game] = Calc{
-    val level :: rest = levels
-    levels = rest
-    Roll(level, () => bounds, () => game.recalc())
-  }
+  def advanceGame() = levels = levels.tail
 
+  val game: Calc[Game] = Calc{
+    Roll(
+      levels.head,
+      () => bounds,
+      () => {
+        advanceGame()
+        game.recalc()
+      },
+      () => game.recalc()
+    )
+  }
 
   var touches = mutable.Buffer.empty[Touch]
 
@@ -59,7 +66,6 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
     val x = touches.toList
     touches.clear()
     game().update(keys.toSet, x)
-
     game().draw(ctx)
   }
 }

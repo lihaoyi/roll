@@ -33,6 +33,7 @@ class Strokes(space: cp.Space){
     strokes.foreach{ case (first, dur) =>
       ctx.strokePathOpen(first.a, first.b)
     }
+
   }
   def update(touches: Seq[Touch]) = {
     frame = frame + 1

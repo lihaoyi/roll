@@ -28,7 +28,7 @@ object Roll{
   }
 }
 
-case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit) extends Game {
+case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit, retry: () => Unit) extends Game {
 
   implicit val space = new cp.Space()
   space.damping = 0.95
@@ -153,10 +153,10 @@ case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit) extends 
 
   def update(keys: Set[Int],
              touches: Seq[Touch]) = {
-
+    if (keys(KeyCode.escape)) retry()
     camera.update(0.015, keys.toSet)
     clouds.update()
-    lasers.update()
+
 
     player.update(keys)
     def screenToWorld(p: cp.Vect) = ((p - viewPort()/2) / camera.scale) + camera.pos
@@ -165,7 +165,10 @@ case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit) extends 
       case Touch.Move(x) =>  Touch.Move(screenToWorld(x))
       case Touch.Up(x) =>  Touch.Up(screenToWorld(x))
     })
+
+
     goal.update()
     space.step(1.0/60)
+    lasers.update()
   }
 }

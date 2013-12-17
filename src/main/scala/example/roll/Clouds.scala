@@ -4,7 +4,6 @@ import org.scalajs.dom
 import example.cp
 import cp.Implicits._
 
-
 class Clouds(widest: cp.Vect, view: () => cp.Vect) {
   val cloudImg =
     dom.extensions

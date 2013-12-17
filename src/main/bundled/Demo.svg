@@ -9,11 +9,13 @@
 	<circle fill="#00FF00" cx="326.109" cy="524.823" r="10.704"/>
 	<circle fill="#FF8877" cx="502.697" cy="286.686" r="38.998"/>
 	<rect x="608.448" y="243.298" fill="#00FFFF" width="219.521" height="77.996"/>
-	<text transform="matrix(1 0 0 1 430.179 355.6866)" enable-background="new    "><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">You control a ball which </tspan><tspan x="0" y="19.2" font-family="'MyriadPro-Regular'" font-size="16">you can roll left or right </tspan><tspan x="0" y="38.4" font-family="'MyriadPro-Regular'" font-size="16">using the arrow keys</tspan></text>
+	<text transform="matrix(1 0 0 1 430.179 355.6866)" font-family="'MyriadPro-Regular'" font-size="16">You control a ball which </text>
+	<text transform="matrix(1 0 0 1 430.179 374.8866)" font-family="'MyriadPro-Regular'" font-size="16">you can roll left or right </text>
+	<text transform="matrix(1 0 0 1 430.179 394.0866)" font-family="'MyriadPro-Regular'" font-size="16">using the arrow keys</text>
 	
-		<rect x="769.078" y="384.065" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1444.1694 -152.6301)" fill="#FF8888" width="21.406" height="171.071"/>
+		<rect x="769.096" y="384.051" transform="matrix(0.2726 -0.9621 0.9621 0.2726 115.421 1091.8361)" fill="#FF8888" width="21.405" height="171.066"/>
 	
-		<rect x="769.076" y="496.992" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1552.817 -8.9169)" fill="#8888FF" width="21.406" height="171.071"/>
+		<rect x="769.097" y="496.978" transform="matrix(0.2726 -0.9621 0.9621 0.2726 6.7715 1173.9797)" fill="#8888FF" width="21.405" height="171.066"/>
 	<circle fill="#0000FF" cx="326.109" cy="553.622" r="10.704"/>
 	<circle fill="#FF0000" cx="326.457" cy="496.906" r="10.704"/>
 	<text transform="matrix(1 0 0 1 349.8542 499.905)" font-family="'MyriadPro-Regular'" font-size="16">Frictiony</text>
@@ -21,7 +23,7 @@
 	<text transform="matrix(1 0 0 1 350.8542 559.8062)" font-family="'MyriadPro-Regular'" font-size="16">Spinny</text>
 	<text transform="matrix(1 0 0 1 827.8907 582.5263)" font-family="'MyriadPro-Regular'" font-size="16">Bouncy</text>
 	
-		<rect x="767.776" y="443.418" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1499.6183 -75.8437)" fill="#88FF88" width="21.406" height="171.073"/>
+		<rect x="767.795" y="443.404" transform="matrix(0.2726 -0.9621 0.9621 0.2726 57.369 1133.7582)" fill="#88FF88" width="21.405" height="171.068"/>
 	<text transform="matrix(1 0 0 1 827.8904 528.9528)" font-family="'MyriadPro-Regular'" font-size="16">Dense</text>
 	<text transform="matrix(1 0 0 1 827.8906 468.1597)" font-family="'MyriadPro-Regular'" font-size="16">Rough</text>
 	<text transform="matrix(1 0 0 1 69.5 85.5)" font-family="'MyriadPro-Regular'" font-size="24">Tutorial</text>
@@ -30,14 +32,25 @@
 	<text transform="matrix(1 0 0 1 69.5 151.7)" font-family="'MyriadPro-Regular'" font-size="18">game.</text>
 	<text transform="matrix(1 0 0 1 69.5 194.9)" font-family="'MyriadPro-Regular'" font-size="18">Roll your ball left and right using the arrow keys, </text>
 	<text transform="matrix(1 0 0 1 69.5 216.5)" font-family="'MyriadPro-Regular'" font-size="18">and draw paths using the mouse or touchscreen </text>
-	<text transform="matrix(1 0 0 1 69.5 238.1)" font-family="'MyriadPro-Regular'" font-size="18">for your ball to roll on. </text>
-	<text transform="matrix(1 0 0 1 69.5 281.3)" font-family="'MyriadPro-Regular'" font-size="18">When ready, roll your ball to the bottom right </text>
-	<text transform="matrix(1 0 0 1 69.5 302.9)" font-family="'MyriadPro-Regular'" font-size="18">corner of the level and hit the light blue “Goal” </text>
-	<text transform="matrix(1 0 0 1 69.5 324.5)" font-family="'MyriadPro-Regular'" font-size="18">block to proceed to the next level.</text>
+	<text transform="matrix(1 0 0 1 69.5 238.1)" enable-background="new    "><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="18">for your ball to roll on.  Esc restarts the current </tspan><tspan x="0" y="21.6" font-family="'MyriadPro-Regular'" font-size="18">level, and pg up and pg down allow you to zoom </tspan><tspan x="0" y="43.2" font-family="'MyriadPro-Regular'" font-size="18">in or out.</tspan></text>
+	<text transform="matrix(1 0 0 1 69.5 320.0121)" font-family="'MyriadPro-Regular'" font-size="18">When ready, roll your ball to the bottom right </text>
+	<text transform="matrix(1 0 0 1 69.5 341.6121)" font-family="'MyriadPro-Regular'" font-size="18">corner of the level and hit the light blue “Goal” </text>
+	<text transform="matrix(1 0 0 1 69.5 363.2121)" font-family="'MyriadPro-Regular'" font-size="18">block to proceed to the next level.</text>
 	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="46.734" y1="704.662" x2="243.94" y2="704.662"/>
-	<text transform="matrix(1 0 0 1 46.734 695.6826)"><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">Lasers </tspan><tspan x="0" y="38.4" font-family="'MyriadPro-Regular'" font-size="16">These destroy your ball if you touch them,</tspan><tspan x="0" y="57.6" font-family="'MyriadPro-Regular'" font-size="16">forcing you to restart from your last check</tspan><tspan x="0" y="76.8" font-family="'MyriadPro-Regular'" font-size="16">point. They can be blocked by drawn paths</tspan><tspan x="0" y="96" font-family="'MyriadPro-Regular'" font-size="16">or other shapes</tspan></text>
-	<text transform="matrix(1 0 0 1 435.0787 477.5973)"><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">The properties of each joint (left) or </tspan><tspan x="0" y="19.2" font-family="'MyriadPro-Regular'" font-size="16">shape (right) is indicated by its color. </tspan><tspan x="0" y="38.4" font-family="'MyriadPro-Regular'" font-size="16">The brighter the color, the stronger </tspan><tspan x="0" y="57.6" font-family="'MyriadPro-Regular'" font-size="16">that property. </tspan><tspan x="0" y="96" font-family="'MyriadPro-Regular'" font-size="16">Mixed colors take on all the properties </tspan><tspan x="0" y="115.2" font-family="'MyriadPro-Regular'" font-size="16">of their constituents, e.g. purple shapes </tspan><tspan x="0" y="134.4" font-family="'MyriadPro-Regular'" font-size="16">being both bouncy and rough.</tspan></text>
-	<text transform="matrix(1 0 0 1 602.4788 355.6866)"><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="16">Touch the cyan-colored Goal block to turn </tspan><tspan x="0" y="19.2" font-family="'MyriadPro-Regular'" font-size="16">it yellow and progress to the next level</tspan></text>
+	<text transform="matrix(1 0 0 1 46.734 695.6826)" font-family="'MyriadPro-Regular'" font-size="16">Lasers </text>
+	<text transform="matrix(1 0 0 1 46.734 734.0826)" font-family="'MyriadPro-Regular'" font-size="16">These destroy your ball if you touch them,</text>
+	<text transform="matrix(1 0 0 1 46.734 753.2826)" font-family="'MyriadPro-Regular'" font-size="16">forcing you to restart from your last check</text>
+	<text transform="matrix(1 0 0 1 46.734 772.4826)" font-family="'MyriadPro-Regular'" font-size="16">point. They can be blocked by drawn paths</text>
+	<text transform="matrix(1 0 0 1 46.734 791.6826)" font-family="'MyriadPro-Regular'" font-size="16">or other shapes</text>
+	<text transform="matrix(1 0 0 1 435.0787 477.5973)" font-family="'MyriadPro-Regular'" font-size="16">The properties of each joint (left) or </text>
+	<text transform="matrix(1 0 0 1 435.0787 496.7973)" font-family="'MyriadPro-Regular'" font-size="16">shape (right) is indicated by its color. </text>
+	<text transform="matrix(1 0 0 1 435.0787 515.9973)" font-family="'MyriadPro-Regular'" font-size="16">The brighter the color, the stronger </text>
+	<text transform="matrix(1 0 0 1 435.0787 535.1973)" font-family="'MyriadPro-Regular'" font-size="16">that property. </text>
+	<text transform="matrix(1 0 0 1 435.0787 573.5973)" font-family="'MyriadPro-Regular'" font-size="16">Mixed colors take on all the properties </text>
+	<text transform="matrix(1 0 0 1 435.0787 592.7973)" font-family="'MyriadPro-Regular'" font-size="16">of their constituents, e.g. purple shapes </text>
+	<text transform="matrix(1 0 0 1 435.0787 611.9973)" font-family="'MyriadPro-Regular'" font-size="16">being both bouncy and rough.</text>
+	<text transform="matrix(1 0 0 1 602.4788 355.6866)" font-family="'MyriadPro-Regular'" font-size="16">Touch the cyan-colored Goal block to turn </text>
+	<text transform="matrix(1 0 0 1 602.4788 374.8866)" font-family="'MyriadPro-Regular'" font-size="16">it yellow and progress to the next level</text>
 	<text transform="matrix(1 0 0 1 701.5 285.296)" font-family="'MyriadPro-Regular'" font-size="16">Goal</text>
 	<text transform="matrix(1 0 0 1 484.5 287.3052)" font-family="'MyriadPro-Regular'" font-size="16">Player</text>
 	<text transform="matrix(1 0 0 1 493.4122 449.9498)" font-family="'MyriadPro-Regular'" font-size="16">Joints and Shapes</text>
@@ -57,11 +70,11 @@
 	<rect x="751.693" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	<rect x="1034.969" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	
-		<rect x="375.303" y="641.744" transform="matrix(-0.3656 0.9308 -0.9308 -0.3656 1204.0762 633.8996)" fill="#8B7765" width="21.41" height="171.1"/>
+		<rect x="375.281" y="641.745" transform="matrix(0.3656 -0.9308 0.9308 0.3656 -432.0772 820.671)" fill="#8B7765" width="21.411" height="171.104"/>
 	
-		<rect x="165.786" y="446.226" transform="matrix(0.8098 -0.5867 0.5867 0.8098 -278.4217 204.6882)" fill="#8B7765" width="21.409" height="171.084"/>
+		<rect x="165.784" y="446.225" transform="matrix(-0.8098 0.5867 -0.5867 -0.8098 631.3984 858.8472)" fill="#8B7765" width="21.409" height="171.083"/>
 	
-		<rect x="257.911" y="560.964" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 897.1906 954.7533)" fill="#8B7765" width="21.408" height="171.083"/>
+		<rect x="257.907" y="560.96" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -359.959 338.2538)" fill="#8B7765" width="21.408" height="171.084"/>
 	
 		<rect x="1163" y="491.157" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 	
