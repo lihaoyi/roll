@@ -98,9 +98,9 @@ class Space() extends js.Object{
   def getCurrentTimeStep(): Num = ???
   def setIterations(iter: Num): Unit = ???
   def isLocked(): js.Boolean = ???
-  def addCollisionHandler(a: js.Any, b: js.Any, preSolve: js.Function2[Arbiter, Space, Unit], postSolve: js.Function2[Arbiter, Space, Unit], separate: js.Function2[Arbiter, Space, Unit]): Num = ???
-  def removeCollisionHandler(a: js.Any, b: js.Any): Num = ???
-  def setDefaultCollisionHandler(preSolve: js.Any, postSolve: js.Any, separate: js.Any): Num = ???
+  def addCollisionHandler(a: js.Any, b: js.Any, preSolve: js.Function2[Arbiter, Space, Unit], postSolve: js.Function2[Arbiter, Space, Unit], separate: js.Function2[Arbiter, Space, Unit]): Unit = ???
+  def removeCollisionHandler(a: js.Any, b: js.Any): Unit = ???
+  def setDefaultCollisionHandler(preSolve: js.Any, postSolve: js.Any, separate: js.Any): Unit = ???
   def lookupHandler(a: js.Any, b: js.Any): Num = ???
   def addShape(shape: Shape): Shape = ???
   def addStaticShape(shape: Shape): Shape = ???
