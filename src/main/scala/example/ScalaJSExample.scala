@@ -7,6 +7,7 @@ import cp.Implicits._
 import org.scalajs.dom.extensions._
 import org.scalajs.dom
 import example.roll.Roll
+import scala.scalajs.js.annotation.JSExport
 
 sealed trait Touch
 object Touch{
@@ -76,7 +77,9 @@ abstract class Game{
   def draw(ctx: dom.CanvasRenderingContext2D): Unit
 }
 
+@JSExport
 object ScalaJSExample {
+  @JSExport
   def main(): Unit = {
     val canvas =
       dom.document
