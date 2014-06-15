@@ -55,7 +55,7 @@ object Build extends sbt.Build {
       name := "games",
       bootSnippet := "ScalaJS.modules.example_ScalaJSExample().main();",
       (managedSources in packageExportedProductsJS in Compile) := (managedSources in packageExportedProductsJS in Compile).value.filter(_.name.startsWith("00")),
-      libraryDependencies += "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.5-SNAPSHOT",
+      libraryDependencies += "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
       updateBrowsers <<= updateBrowsers.triggeredBy(packageJS in Compile)
     )
 

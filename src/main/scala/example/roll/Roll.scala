@@ -15,8 +15,8 @@ object Roll{
     val body = form.body
     ctx.save()
     ctx.lineWidth = 3
-    ctx.strokeStyle = form.strokeStyle
-    ctx.fillStyle = form.fillStyle
+    ctx.strokeStyle = form.strokeStyle.toString
+    ctx.fillStyle = form.fillStyle.toString
     ctx.translate(
       body.getPos().x,
       body.getPos().y
@@ -137,8 +137,8 @@ case class Roll(src: String, viewPort: () => cp.Vect, exit: () => Unit, retry: (
 
       staticJoints.foreach{ jform  =>
         ctx.save()
-        ctx.fillStyle = jform.fillStyle
-        ctx.strokeStyle = jform.strokeStyle
+        ctx.fillStyle = jform.fillStyle.toString
+        ctx.strokeStyle = jform.strokeStyle.toString
         ctx.translate(jform.joint.a.getPos().x, jform.joint.a.getPos().y)
         ctx.rotate(jform.joint.a.a)
         ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)

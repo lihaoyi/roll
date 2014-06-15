@@ -57,8 +57,8 @@ class Goal(var goal: Form, exit: () => Unit){
     ctx.textBaseline = "middle"
     ctx.font = "20pt arial"
     ctx.lineWidth = 3
-    ctx.fillStyle = goal.fillStyle
-    ctx.strokeStyle = goal.strokeStyle
+    ctx.fillStyle = goal.fillStyle.toString
+    ctx.strokeStyle = goal.strokeStyle.toString
     goal.drawable.draw(ctx)
     ctx.fillStyle = Color.Black.toString
     val chunks = text.split("\n")
