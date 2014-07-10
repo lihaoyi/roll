@@ -1,7 +1,7 @@
-package example.cp
+package roll.cp
 
 import scala.scalajs.js
-import example.cp
+import roll.cp
 import scala.scalajs.js.annotation.JSName
 
 object Implicits {

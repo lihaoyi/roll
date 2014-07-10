@@ -1,12 +1,12 @@
-package example
 package roll
+package gameplay
 
 import scala.scalajs.js
 
-import example.cp.Implicits._
+import roll.cp.Implicits._
 import org.scalajs.dom.extensions._
 import org.scalajs.dom
-import example.cp
+import roll.cp
 
 class Strokes(space: cp.Space){
   val duration = 150

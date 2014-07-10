@@ -1,11 +1,11 @@
-package example.roll
+package roll.gameplay
 
 import scala.scalajs.js
-import example.cp.Cp
+import roll.cp.Cp
 import org.scalajs.dom
 import org.scalajs.dom.extensions._
-import example.cp.Implicits._
-import example.cp
+import roll.cp.Implicits._
+import roll.cp
 import org.scalajs.dom
 
 
@@ -180,7 +180,7 @@ object Form{
         motorJoint.maxForce = math.abs(speed) * effectiveI * 10
         space.addConstraint(motorJoint)
       }
-      println("Joint Shape " + s.layers + " " + static + " " + existing)
+//      println("Joint Shape " + s.layers + " " + static + " " + existing)
       if (s.layers.toInt == (Layers.Common | Layers.DynamicRange) && !static){
 
 
@@ -189,7 +189,7 @@ object Form{
           current <<= 1
         }
         s.setLayers(current)
-        println("Set Layer " + current)
+//        println("Set Layer " + current)
         existing |= current
       }
       space.addConstraint(joint)

@@ -1,10 +1,10 @@
-package example.roll
+package roll.gameplay
 
 import org.scalajs.dom
-import example.cp
+import roll.cp
 import cp.Implicits._
 
-class Clouds(widest: cp.Vect, view: () => cp.Vect) {
+class Clouds(widest: cp.Vect) {
   val cloudImg =
     dom.extensions
       .Image

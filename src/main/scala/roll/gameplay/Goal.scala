@@ -1,9 +1,9 @@
-package example.roll
+package roll.gameplay
 
-import example.cp.Implicits._
+import roll.cp.Implicits._
 import org.scalajs.dom.extensions._
 import scala.scalajs.js
-import example.cp
+import roll.cp
 import org.scalajs.dom
 
 class Goal(var goal: Form, exit: () => Unit){

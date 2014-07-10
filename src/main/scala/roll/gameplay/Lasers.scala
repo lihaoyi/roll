@@ -1,12 +1,12 @@
-package example
 package roll
+package gameplay
 import collection.mutable
 import scala.scalajs.js
 import org.scalajs.dom.extensions._
 import org.scalajs.dom
-import example.cp
-import example.cp.Implicits._
-import example.cp.SegmentQueryInfo
+import roll.cp
+import roll.cp.Implicits._
+import roll.cp.SegmentQueryInfo
 
 class Lasers(player: Form,
              laserElement: dom.HTMLElement,

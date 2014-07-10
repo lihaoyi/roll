@@ -47,16 +47,22 @@ object Build extends sbt.Build {
       }
     )
   }
+
   lazy val root = project.in(file("."))
     .settings(scalaJSSettings: _*)
     .settings(Bundle.buildSettingsX: _*)
     .settings(workbenchSettings: _*)
     .settings(
       name := "games",
-      bootSnippet := "ScalaJS.modules.example_ScalaJSExample().main();",
-      (managedSources in packageExportedProductsJS in Compile) := (managedSources in packageExportedProductsJS in Compile).value.filter(_.name.startsWith("00")),
-      libraryDependencies += "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
-      updateBrowsers <<= updateBrowsers.triggeredBy(packageJS in Compile)
+      scalaVersion := "2.11.1",
+      bootSnippet := "roll.Roll().main();",
+      libraryDependencies ++= Seq(
+        "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
+        "org.scala-lang.modules" %% "scala-async" % "0.9.1"
+      ),
+//      scalacOptions := Seq("-Xexperimental"),
+      (resources in Compile) := (resources in Compile).value ++ Bundle.bundleJS.value,
+      updateBrowsers <<= updateBrowsers.triggeredBy(fastOptJS in Compile)
     )
 
 }

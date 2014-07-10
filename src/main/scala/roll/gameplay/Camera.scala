@@ -1,17 +1,17 @@
-package example.roll
+package roll.gameplay
 
 import org.scalajs.dom
 import org.scalajs.dom.extensions._
-import example.cp.Implicits._
-import example.cp
+import roll.cp.Implicits._
+import roll.{Input, cp}
 
 trait Camera{
-  def update(dt: Double, keys: Set[Int])
-  def canvasDims: () => cp.Vect
+  def initialDims: cp.Vect
+  def update(input: Input)
   def widest: cp.Vect
   def pos = {
     def bound(get: cp.Vect => Double, log: Boolean = false) = {
-      val w = get(canvasDims()) / 2 / scale
+      val w = get(initialDims) / 2 / scale
       val low = get(innerPos) < w
       val high = get(innerPos) > get(widest) - w
 
@@ -29,9 +29,9 @@ trait Camera{
   def innerPos: cp.Vect
   def toTuple = (pos, scale)
 
-  def transform[T](ctx: dom.CanvasRenderingContext2D)(thunk: dom.CanvasRenderingContext2D => T) = {
+  def transform[T](ctx: dom.CanvasRenderingContext2D, canvasDims: cp.Vect)(thunk: dom.CanvasRenderingContext2D => T) = {
     ctx.save()
-    ctx.translate(canvasDims().x/2, canvasDims().y/2)
+    ctx.translate(canvasDims.x / 2, canvasDims.y / 2)
     ctx.scale(scale, scale)
     ctx.translate(-pos.x, -pos.y)
     thunk(ctx)
@@ -41,13 +41,13 @@ trait Camera{
 
 object Camera{
 
-  class Follow(targetPos: => cp.Vect, val widest: cp.Vect, val canvasDims: () => cp.Vect, var scale: Double) extends Camera{
+  class Follow(val initialDims: cp.Vect, targetPos: => cp.Vect, val widest: cp.Vect, var scale: Double) extends Camera{
     var innerPos = new cp.Vect(targetPos.x, targetPos.y)
-    def update(dt: Double, keys: Set[Int]) = {
-      if (keys(KeyCode.pageUp)) scale = scale * 1.03
-      if (keys(KeyCode.pageDown)) scale = scale / 1.03
+    def update(input: Input) = {
+      if (input.keys(KeyCode.pageUp)) scale = scale * 1.03
+      if (input.keys(KeyCode.pageDown)) scale = scale / 1.03
 
-      scale = scale max ((canvasDims().x / widest.x).toDouble min (canvasDims().y / widest.y))
+      scale = scale max ((input.screenSize.x / widest.x) min (input.screenSize.y / widest.y))
 
       if (innerPos != targetPos){
         innerPos = targetPos * 0.03 + innerPos * 0.97
@@ -55,14 +55,14 @@ object Camera{
     }
   }
 
-  class Pan(val canvasDims: () => cp.Vect, val widest: cp.Vect, checkpoints: List[(cp.Vect, Double)], finalCamera: Camera) extends Camera{
+  class Pan(val initialDims: cp.Vect, val widest: cp.Vect, checkpoints: List[(cp.Vect, Double)], finalCamera: Camera) extends Camera{
     var (aPos, aScale) :: rest = checkpoints
     var fraction = 0.0
     def scaledFraction = (-2 * fraction + 3) * fraction * fraction
     val step = 0.01
 
-    def update(dt: Double, keys: Set[Int]) = {
-      finalCamera.update(dt, keys)
+    def update(input: Input) = {
+      finalCamera.update(input)
       fraction += step
       while(fraction >= 1){
         rest match {

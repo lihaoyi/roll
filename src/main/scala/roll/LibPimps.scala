@@ -1,4 +1,4 @@
-package example
+package roll
 
 import org.scalajs.dom
 import scala.scalajs.js

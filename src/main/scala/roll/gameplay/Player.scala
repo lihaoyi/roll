@@ -1,10 +1,10 @@
-package example.roll
+package roll.gameplay
 
 import org.scalajs.dom.extensions._
 import scala.scalajs.js
-import example.roll.Form
-import example.cp
-import example.cp.Implicits._
+import roll.gameplay.Form
+import roll.cp
+import roll.cp.Implicits._
 import org.scalajs.dom
 
 class Player(val form: Form) {
@@ -15,7 +15,7 @@ class Player(val form: Form) {
   val startPos = (form.body.getPos.x, form.body.getPos.y)
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     if (dead > 0) ctx.globalAlpha = dead
-    Roll.draw(ctx, form)
+    Level.draw(ctx, form)
     ctx.globalAlpha = 1.0
   }
   def update(keys: Set[Int]) = {

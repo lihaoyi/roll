@@ -1,4 +1,4 @@
-package example.cp
+package roll.cp
 
 import scala.scalajs.js.annotation.JSName
 import scala.scalajs.js
