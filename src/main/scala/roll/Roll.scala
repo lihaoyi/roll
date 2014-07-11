@@ -26,19 +26,19 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
     ).map(new LevelData(_, false))
 
 
-
     var selectedIndex = 0
+    def level = levels(selectedIndex)
     def draw(ctx: dom.CanvasRenderingContext2D, viewPort: cp.Vect) = {
       ctx.fillStyle = "#82CAFF"
       ctx.fillRect(0, 0, viewPort.x, viewPort.y)
       val rowHeight = viewPort.y * 0.8 / levels.length
       for((level, i) <- levels.zipWithIndex){
         ctx.fillStyle =
-          if (i == selectedIndex) "white"
-          else if(level.completed) "green"
-          else "brown"
+          if (i == selectedIndex) "yellow"
+          else if(level.completed) "SpringGreen"
+          else "white"
 
-        ctx.font = rowHeight.toInt + "px Arial"
+        ctx.font = rowHeight.toInt + "px Lucida Grande"
         ctx.textBaseline = "top"
         ctx.fillText(
           level.file + (if(level.completed) "✓" else ""),
@@ -54,17 +54,15 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
       draw(in.painter, in.screenSize)
 
       if (in.keys(KeyCode.enter)){
-        def play(): Future[Unit] = {
-          gameplay.Level.run(levels(selectedIndex).file, inputs).flatMap{
-            case Level.Result.Next =>
-              levels(selectedIndex).completed = true
-              selectedIndex += 1
-              play()
-            case Level.Result.Reset => play()
-            case Level.Result.Exit => Future(())
-          }
+        var done = false
+        while(!done) await(gameplay.Level.run(level.file, inputs)) match {
+          case Level.Result.Next =>
+            level.completed = true
+            selectedIndex += 1
+
+          case Level.Result.Reset =>
+          case Level.Result.Exit => done = true
         }
-        await(play())
       }
       if (in.keys(KeyCode.down)) selectedIndex = (selectedIndex + 1) % levels.length
       if (in.keys(KeyCode.up)) selectedIndex = (selectedIndex - 1 + levels.length) % levels.length
