@@ -10,13 +10,31 @@ import scalajs.concurrent.JSExecutionContext.Implicits.queue
 import roll.cp
 import org.scalajs.dom
 import scala.concurrent.{Promise, Future}
+import roll.gameplay.modules._
+
 
 object Level {
+
+  case class Input(keys: Set[Int],
+                   touches: Seq[Touch],
+                   screenSize: cp.Vect,
+                   painter: dom.CanvasRenderingContext2D)
+
+
+
+  trait Result
+  object Result{
+    case object Next extends Result
+    case object Reset extends Result
+    case object Exit extends Result
+  }
 
   def run(src: String, inputs: Channel[Input]): Future[Result] = {
     val resultPromise = Promise[Result]()
     async{
       val initialDims = await(inputs()).screenSize
+
+
       implicit val space = new cp.Space()
       space.damping = 0.95
       space.gravity = (0, 400)
@@ -26,24 +44,19 @@ object Level {
         "text/xml"
       )
 
-      dom.console.log(svgDoc.getElementById("Static"))
       val staticShapes =
         svgDoc.getElementById("Static")
-          .children
-          .flatMap(Form.processElement(_, static = true))
+              .children
+              .flatMap(Form.processElement(_, static = true))
 
-      dom.console.log(svgDoc.getElementById("Dynamic"))
       val dynamicShapes =
         svgDoc.getElementById("Dynamic")
-          .children
-          .flatMap(Form.processElement(_, static = false))
+              .children
+              .flatMap(Form.processElement(_, static = false))
 
       val svg = svgDoc.getElementsByTagName("svg")(0).cast[dom.SVGSVGElement]
 
-      def widest = new cp.Vect(
-        svg.width,
-        svg.height
-      )
+      val widest = new cp.Vect(svg.width, svg.height)
 
       val backgroundImg = {
         dom.extensions.Image.createBase64Svg(
@@ -108,7 +121,7 @@ object Level {
           ctx.drawImage(backgroundImg, 0, 0)
 
           for(form <- staticShapes ++ dynamicShapes if form != null){
-            Drawer.draw(ctx, form)
+            Util.draw(ctx, form)
           }
 
           lasers.draw(ctx)
@@ -132,12 +145,12 @@ object Level {
       }
 
       while(!resultPromise.isCompleted){
+
         val input = await(inputs())
-
+        dom.console.log("loopz", input.touches.size)
         if (input.keys(KeyCode.escape)) resultPromise.success(Result.Reset)
-        camera.update(input)
+        camera.update(input.keys, input.screenSize)
         clouds.update()
-
 
         player.update(input.keys)
         def screenToWorld(p: cp.Vect) = ((p - input.screenSize/2) / camera.scale) + camera.pos

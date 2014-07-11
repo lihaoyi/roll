@@ -1,10 +1,10 @@
-package roll.gameplay
-import acyclic.file
+package roll.gameplay.modules
+
 import roll.cp.Implicits._
 import org.scalajs.dom.extensions._
-import scala.scalajs.js
 import roll.cp
 import org.scalajs.dom
+import roll.gameplay.{Drawable, Form}
 
 class Goal(var goal: Form, exit: () => Unit){
 

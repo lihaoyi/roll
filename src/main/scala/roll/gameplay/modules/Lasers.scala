@@ -1,13 +1,12 @@
-package roll
-package gameplay
-import acyclic.file
-import collection.mutable
+package roll.gameplay.modules
+
 import scala.scalajs.js
 import org.scalajs.dom.extensions._
 import org.scalajs.dom
 import roll.cp
 import roll.cp.Implicits._
 import roll.cp.SegmentQueryInfo
+import roll.gameplay.{Layers, Form}
 
 class Lasers(player: Form,
              laserElement: dom.HTMLElement,

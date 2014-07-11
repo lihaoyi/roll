@@ -15,7 +15,8 @@ import scalajs.concurrent.JSExecutionContext.Implicits.queue
 
 class GameHolder(canvas: dom.HTMLCanvasElement){
 
-  def run(inputs: Channel[Input]) = async{
+  def run(inputs: Channel[Level.Input],
+          frames: Channel[dom.CanvasRenderingContext2D]) = async{
     var levels = List(
       "Demo.svg",
       "Descent.svg",
@@ -27,14 +28,13 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
     println("GameHolde.run")
     while(true){
       println("GameHolde.run loop")
-
       if (canvas.width != dom.innerWidth) canvas.width = dom.innerWidth
       if (canvas.height != dom.innerHeight) canvas.height = dom.innerHeight
 
       val result = gameplay.Level.run(levels.head, inputs)
       await(result) match {
-        case Result.Next => levels = levels.tail
-        case Result.Reset => // do nothing
+        case Level.Result.Next => levels = levels.tail
+        case Level.Result.Reset => // do nothing
       }
     }
   }
@@ -61,7 +61,7 @@ object Roll extends scalajs.js.JSApp{
       "keyup", "keydown", "pointerdown", "pointermove", "pointerup", "pointerleave"
     )
 
-    val inputs = new Channel.PubSub[Input]
+    val inputs = new Channel.PubSub[Level.Input]
     
     interestedEvents.foreach{s =>
       dom.document.body.addEventListener(s, { (e: dom.Event) =>
@@ -69,21 +69,23 @@ object Roll extends scalajs.js.JSApp{
         (e, e.`type`.toString) match {
           case (e: dom.KeyboardEvent, "keydown") => keys.add(e.keyCode)
           case (e: dom.KeyboardEvent, "keyup") => keys.remove(e.keyCode)
-          case (e: PointerEvent, "pointerdown") => touches += Touch.Down((e.clientX, e.clientY))
+          case (e: PointerEvent, "pointerdown") =>
+            println("pointerdown Event")
+            touches += Touch.Down((e.clientX, e.clientY))
           case (e: PointerEvent, "pointermove") => touches += Touch.Move((e.clientX, e.clientY))
           case (e: PointerEvent, "pointerup" | "pointerout" | "pointerleave") => touches += Touch.Up((e.clientX, e.clientY))
           case _ => println("Unknown event " + e.`type`)
         }
       })
     }
-
+    val painter = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     dom.setInterval(
       () => {
-        inputs.update(Input(
-          keys.toSet,
-          touches.toSeq,
+        inputs.update(Level.Input(
+          keys.toList.toSet,
+          touches.toList,
           (canvas.width, canvas.height),
-          canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+          painter
         ))
         keys.clear()
         touches.clear()

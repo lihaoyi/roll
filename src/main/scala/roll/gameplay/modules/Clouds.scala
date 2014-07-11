@@ -1,5 +1,5 @@
-package roll.gameplay
-import acyclic.file
+package roll.gameplay.modules
+
 import org.scalajs.dom
 import roll.cp
 import cp.Implicits._

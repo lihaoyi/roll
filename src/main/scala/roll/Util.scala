@@ -6,7 +6,7 @@ import roll.gameplay.Form
 /**
  * Created by haoyi on 7/10/14.
  */
-object Drawer {
+object Util {
   def draw(ctx: dom.CanvasRenderingContext2D, form: Form) = {
     val body = form.body
     ctx.save()
@@ -24,21 +24,9 @@ object Drawer {
   }
 }
 
-
-case class Input(keys: Set[Int],
-                 touches: Seq[Touch],
-                 screenSize: cp.Vect,
-                 painter: dom.CanvasRenderingContext2D)
-
 sealed trait Touch
 object Touch{
   case class Down(p: cp.Vect) extends Touch
   case class Move(p: cp.Vect) extends Touch
   case class Up(p: cp.Vect) extends Touch
-}
-
-trait Result
-object Result{
-  case object Next extends Result
-  case object Reset extends Result
 }

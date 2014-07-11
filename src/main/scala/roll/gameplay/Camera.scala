@@ -3,11 +3,12 @@ import acyclic.file
 import org.scalajs.dom
 import org.scalajs.dom.extensions._
 import roll.cp.Implicits._
-import roll.{Input, cp}
+
+import roll.cp
 
 trait Camera{
   def initialDims: cp.Vect
-  def update(input: Input)
+  def update(keys: Set[Int], screenSize: cp.Vect)
   def widest: cp.Vect
   def pos = {
     def bound(get: cp.Vect => Double, log: Boolean = false) = {
@@ -43,11 +44,11 @@ object Camera{
 
   class Follow(val initialDims: cp.Vect, targetPos: => cp.Vect, val widest: cp.Vect, var scale: Double) extends Camera{
     var innerPos = new cp.Vect(targetPos.x, targetPos.y)
-    def update(input: Input) = {
-      if (input.keys(KeyCode.pageUp)) scale = scale * 1.03
-      if (input.keys(KeyCode.pageDown)) scale = scale / 1.03
+    def update(keys: Set[Int], screenSize: cp.Vect) = {
+      if (keys(KeyCode.pageUp)) scale = scale * 1.03
+      if (keys(KeyCode.pageDown)) scale = scale / 1.03
 
-      scale = scale max ((input.screenSize.x / widest.x) min (input.screenSize.y / widest.y))
+      scale = scale max ((screenSize.x / widest.x) min (screenSize.y / widest.y))
 
       if (innerPos != targetPos){
         innerPos = targetPos * 0.03 + innerPos * 0.97
@@ -61,8 +62,8 @@ object Camera{
     def scaledFraction = (-2 * fraction + 3) * fraction * fraction
     val step = 0.01
 
-    def update(input: Input) = {
-      finalCamera.update(input)
+    def update(keys: Set[Int], screenSize: cp.Vect) = {
+      finalCamera.update(keys, screenSize)
       fraction += step
       while(fraction >= 1){
         rest match {
