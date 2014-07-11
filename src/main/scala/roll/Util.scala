@@ -2,6 +2,7 @@ package roll
 
 import org.scalajs.dom
 import roll.gameplay.Form
+import scala.concurrent.Future
 
 /**
  * Created by haoyi on 7/10/14.
@@ -29,4 +30,15 @@ object Touch{
   case class Down(p: cp.Vect) extends Touch
   case class Move(p: cp.Vect) extends Touch
   case class Up(p: cp.Vect) extends Touch
+}
+/**
+ * Used to mark a Future as a task which returns Unit, making
+ * sure to print the error and stack trace if it fails.
+ */
+object task{
+  def *[T](f: Future[T])(implicit ec: scala.concurrent.ExecutionContext) = {
+    f.map(_ => ()).recover{ case e =>
+      e.printStackTrace()
+    }
+  }
 }

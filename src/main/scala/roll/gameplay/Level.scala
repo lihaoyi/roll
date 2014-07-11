@@ -31,7 +31,7 @@ object Level {
 
   def run(src: String, inputs: Channel[Input]): Future[Result] = {
     val resultPromise = Promise[Result]()
-    async{
+    task*async{
       val initialDims = await(inputs()).screenSize
 
 
@@ -43,12 +43,13 @@ object Level {
         scala.js.bundle.apply(src).string,
         "text/xml"
       )
-
+      println("Static!")
       val staticShapes =
         svgDoc.getElementById("Static")
               .children
               .flatMap(Form.processElement(_, static = true))
 
+      println("Dynamic!")
       val dynamicShapes =
         svgDoc.getElementById("Dynamic")
               .children

@@ -15,10 +15,12 @@ import scalajs.concurrent.JSExecutionContext.Implicits.queue
 
 class GameHolder(canvas: dom.HTMLCanvasElement){
 
-  def run(inputs: Channel[Level.Input]) = async{
+  def run(inputs: Channel[Level.Input]) = task*async{
     class LevelData(val file: String, var completed: Boolean)
     val levels = List(
       "Demo.svg",
+      "Steps.svg",
+      "Ell.svg",
       "Descent.svg",
       "Bounce.svg",
       "Climb.svg",

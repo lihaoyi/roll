@@ -230,12 +230,12 @@ object Form{
   def processElement(elem: dom.Element,
                      static: Boolean)
                     (implicit space: cp.Space): Seq[Form] = {
-
+    dom.console.log("processElement", elem)
     elem match{
       case elem: dom.SVGRectElement =>
         val svg = dom.document.createElementNS("http://www.w3.org/2000/svg", "svg").cast[dom.SVGSVGElement]
         val Seq(x, y, w, h) = Seq("x", "y", "width", "height").map{c =>
-          elem.getAttribute(c).toString.toDouble
+          Option(elem.getAttribute(c)).fold(0.0)(_.toDouble)
         }
 
         var svgPt = svg.createSVGPoint()
