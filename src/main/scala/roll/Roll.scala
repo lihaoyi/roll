@@ -1,5 +1,5 @@
 package roll
-
+import acyclic.file
 import scala.collection.mutable
 import scala.scalajs.js._
 import scala.scalajs.js.Any._
@@ -12,37 +12,25 @@ import scala.async.Async._
 import scala.concurrent.{Promise, Future}
 import scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-sealed trait Touch 
-object Touch{
-  case class Down(p: cp.Vect) extends Touch
-  case class Move(p: cp.Vect) extends Touch
-  case class Up(p: cp.Vect) extends Touch
-}
-
-trait Result
-object Result{
-  case object Next extends Result
-  case object Reset extends Result
-}
 
 class GameHolder(canvas: dom.HTMLCanvasElement){
 
-  def bounds = new cp.Vect(canvas.width, canvas.height)
-
-  var levels = List(
-    "Demo.svg",
-    "Descent.svg",
-    "Bounce.svg",
-    "Climb.svg",
-    "BarrelWalk.svg"
-  )
-
-  updateCanvas()
-
   def run(inputs: Channel[Input]) = async{
+    var levels = List(
+      "Demo.svg",
+      "Descent.svg",
+      "Bounce.svg",
+      "Climb.svg",
+      "BarrelWalk.svg"
+    )
+
     println("GameHolde.run")
     while(true){
       println("GameHolde.run loop")
+
+      if (canvas.width != dom.innerWidth) canvas.width = dom.innerWidth
+      if (canvas.height != dom.innerHeight) canvas.height = dom.innerHeight
+
       val result = gameplay.Level.run(levels.head, inputs)
       await(result) match {
         case Result.Next => levels = levels.tail
@@ -50,27 +38,14 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
       }
     }
   }
-
-
-
-  var active = false
-
-  val ctx = canvas.getContext("2d").cast[dom.CanvasRenderingContext2D]
-
-  def updateCanvas() = {
-    if (canvas.width != dom.innerWidth) canvas.width = dom.innerWidth
-    if (canvas.height != dom.innerHeight) canvas.height = dom.innerHeight
-  }
-  def update() = {
-    updateCanvas()
-
-//    game().update(keys.toSet, x)
-//    game().draw(ctx)
-  }
 }
 
 object Roll extends scalajs.js.JSApp{
-
+  /**
+   * Main method. This is also responsible for taking all the scary Javascript
+   * idioms (events, callbacks, blargh) and packaging it up into nice Channel
+   * for the rest of the code to consume.
+   */
   def main(): Unit = {
     println("main")
     val canvas =
@@ -90,6 +65,7 @@ object Roll extends scalajs.js.JSApp{
     
     interestedEvents.foreach{s =>
       dom.document.body.addEventListener(s, { (e: dom.Event) =>
+
         (e, e.`type`.toString) match {
           case (e: dom.KeyboardEvent, "keydown") => keys.add(e.keyCode)
           case (e: dom.KeyboardEvent, "keyup") => keys.remove(e.keyCode)
@@ -118,7 +94,3 @@ object Roll extends scalajs.js.JSApp{
     ribbonGame.run(inputs)
   }
 }
-case class Input(keys: Set[Int],
-                 touches: Seq[Touch],
-                 screenSize: cp.Vect,
-                 painter: dom.CanvasRenderingContext2D)

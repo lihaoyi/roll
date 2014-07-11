@@ -58,8 +58,11 @@ object Build extends sbt.Build {
       bootSnippet := "roll.Roll().main();",
       libraryDependencies ++= Seq(
         "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
-        "org.scala-lang.modules" %% "scala-async" % "0.9.1"
+        "org.scala-lang.modules" %% "scala-async" % "0.9.1",
+        "com.lihaoyi" %% "acyclic" % "0.1.2" % "provided"
       ),
+      autoCompilerPlugins := true,
+      addCompilerPlugin("com.lihaoyi" %% "acyclic" % "0.1.2"),
 //      scalacOptions := Seq("-Xexperimental"),
       (resources in Compile) := (resources in Compile).value ++ Bundle.bundleJS.value,
       updateBrowsers <<= updateBrowsers.triggeredBy(fastOptJS in Compile)

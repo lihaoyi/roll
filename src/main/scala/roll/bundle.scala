@@ -1,6 +1,6 @@
 package scala.js
 import scalajs._
-
+import acyclic.file
 package object bundle {
 
 

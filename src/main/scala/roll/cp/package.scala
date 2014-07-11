@@ -2,16 +2,17 @@ package roll
 import scala.scalajs.js
 
 import scala.scalajs.js.annotation.JSName
-
+import acyclic.file
 package object cp{
-  type Num = js.Number
+  import acyclic.pkg
+
   @JSName("cp")
   object Cp extends js.Object{
 
-    def momentForBox(m: Num, width: Num, height: Num): Num = ???
-    def areaForPoly(verts: js.Array[Num]): Num = ???
-    def momentForPoly(m: Num, verts: js.Array[Num], offset: Vect): Num = ???
-    def centroidForPoly(verts: js.Array[Num]): Vect = ???
-    def recenterPoly(verts: js.Array[Num]): Unit = ???
+    def momentForBox(m: Double, width: Double, height: Double): Double = ???
+    def areaForPoly(verts: js.Array[Double]): Double = ???
+    def momentForPoly(m: Double, verts: js.Array[Double], offset: Vect): Double = ???
+    def centroidForPoly(verts: js.Array[Double]): Vect = ???
+    def recenterPoly(verts: js.Array[Double]): Unit = ???
   }
 }

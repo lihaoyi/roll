@@ -1,5 +1,6 @@
 package roll
 package gameplay
+import acyclic.file
 import async.Async._
 import scala.scalajs.js
 
@@ -11,21 +12,7 @@ import org.scalajs.dom
 import scala.concurrent.{Promise, Future}
 
 object Level {
-  def draw(ctx: dom.CanvasRenderingContext2D, form: Form) = {
-    val body = form.body
-    ctx.save()
-    ctx.lineWidth = 3
-    ctx.strokeStyle = form.strokeStyle.toString
-    ctx.fillStyle = form.fillStyle.toString
-    ctx.translate(
-      body.getPos().x,
-      body.getPos().y
-    )
 
-    ctx.rotate(body.a)
-    form.drawable.draw(ctx)
-    ctx.restore()
-  }
   def run(src: String, inputs: Channel[Input]): Future[Result] = {
     val resultPromise = Promise[Result]()
     async{
@@ -121,7 +108,7 @@ object Level {
           ctx.drawImage(backgroundImg, 0, 0)
 
           for(form <- staticShapes ++ dynamicShapes if form != null){
-            Level.draw(ctx, form)
+            Drawer.draw(ctx, form)
           }
 
           lasers.draw(ctx)
@@ -144,28 +131,29 @@ object Level {
         goal.drawFade(ctx)
       }
 
-        while(!resultPromise.isCompleted){
-          val input = await(inputs())
+      while(!resultPromise.isCompleted){
+        val input = await(inputs())
 
-          if (input.keys(KeyCode.escape)) resultPromise.success(Result.Reset)
-          camera.update(input)
-          clouds.update()
+        if (input.keys(KeyCode.escape)) resultPromise.success(Result.Reset)
+        camera.update(input)
+        clouds.update()
 
 
-          player.update(input.keys)
-          def screenToWorld(p: cp.Vect) = ((p - input.screenSize/2) / camera.scale) + camera.pos
-          strokes.update(input.touches.map{
-            case Touch.Down(x) =>  Touch.Down(screenToWorld(x))
-            case Touch.Move(x) =>  Touch.Move(screenToWorld(x))
-            case Touch.Up(x) =>  Touch.Up(screenToWorld(x))
-          })
+        player.update(input.keys)
+        def screenToWorld(p: cp.Vect) = ((p - input.screenSize/2) / camera.scale) + camera.pos
 
-          goal.update()
-          space.step(1.0/60)
-          lasers.update()
-          draw(input.screenSize, input.painter)
-        }
+        strokes.update(input.touches.map{
+          case Touch.Down(x) =>  Touch.Down(screenToWorld(x))
+          case Touch.Move(x) =>  Touch.Move(screenToWorld(x))
+          case Touch.Up(x) =>  Touch.Up(screenToWorld(x))
+        })
+
+        goal.update()
+        space.step(1.0/60)
+        lasers.update()
+        draw(input.screenSize, input.painter)
       }
+    }
 
     resultPromise.future
   }

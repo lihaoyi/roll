@@ -1,5 +1,5 @@
 package roll
-
+import acyclic.file
 import scala.concurrent.{Promise, Future}
 import java.util.concurrent.atomic.AtomicReference
 import scala.annotation.tailrec

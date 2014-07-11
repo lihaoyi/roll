@@ -1,5 +1,6 @@
-package roll.gameplay
-
+package roll
+package gameplay
+import acyclic.file
 import org.scalajs.dom.extensions._
 import scala.scalajs.js
 import roll.gameplay.Form
@@ -15,7 +16,7 @@ class Player(val form: Form) {
   val startPos = (form.body.getPos.x, form.body.getPos.y)
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     if (dead > 0) ctx.globalAlpha = dead
-    Level.draw(ctx, form)
+    Drawer.draw(ctx, form)
     ctx.globalAlpha = 1.0
   }
   def update(keys: Set[Int]) = {

@@ -1,5 +1,6 @@
 package roll
 package gameplay
+import acyclic.file
 import collection.mutable
 import scala.scalajs.js
 import org.scalajs.dom.extensions._
