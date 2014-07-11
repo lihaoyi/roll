@@ -45,7 +45,10 @@ object Camera{
   class Follow(val initialDims: cp.Vect, targetPos: => cp.Vect, val widest: cp.Vect, var scale: Double) extends Camera{
     var innerPos = new cp.Vect(targetPos.x, targetPos.y)
     def update(keys: Set[Int], screenSize: cp.Vect) = {
-      if (keys(KeyCode.pageUp)) scale = scale * 1.03
+      if (keys(KeyCode.pageUp)) {
+        println("up!")
+        scale = scale * 1.03
+      }
       if (keys(KeyCode.pageDown)) scale = scale / 1.03
 
       scale = scale max ((screenSize.x / widest.x) min (screenSize.y / widest.y))

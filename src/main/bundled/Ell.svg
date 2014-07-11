@@ -6,8 +6,8 @@
 <g id="Foreground">
 </g>
 <g id="Special">
-	<circle id="Player" fill="#FF8877" cx="584.461" cy="251.973" r="38.998"/>
-	<rect id="Goal" x="545.463" y="877.345" fill="#00FFFF" width="200" height="200"/>
+	<circle id="Player" fill="#FF8877" cx="452.04" cy="247.919" r="38.998"/>
+	<rect id="Goal" x="699.678" y="652.98" fill="#00FFFF" width="200" height="200"/>
 </g>
 <g id="Dynamic">
 </g>
@@ -18,9 +18,9 @@
 <g id="Joints">
 </g>
 <g id="Static">
-	<rect x="436.823" y="774.631" fill="#8B7765" width="108.431" height="302.714"/>
-	<rect x="135.554" y="288.961" fill="#8B7765" width="108.431" height="993.463"/>
-	<rect x="545.254" y="774.631" fill="#8B7765" width="1433.744" height="101.357"/>
-	<rect x="243.984" y="286.917" fill="#8B7765" width="1756.016" height="101.357"/>
+	<rect x="591.247" y="551.623" fill="#8B7765" width="108.431" height="302.714"/>
+	<rect x="328.392" y="286.917" fill="#8B7765" width="108.431" height="567.42"/>
+	<rect x="699.678" y="551.623" fill="#8B7765" width="1300.322" height="101.357"/>
+	<rect x="436.823" y="286.917" fill="#8B7765" width="1563.177" height="101.357"/>
 </g>
 </svg>

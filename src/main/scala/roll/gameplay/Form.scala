@@ -230,7 +230,7 @@ object Form{
   def processElement(elem: dom.Element,
                      static: Boolean)
                     (implicit space: cp.Space): Seq[Form] = {
-    dom.console.log("processElement", elem)
+//    dom.console.log("processElement", elem)
     elem match{
       case elem: dom.SVGRectElement =>
         val svg = dom.document.createElementNS("http://www.w3.org/2000/svg", "svg").cast[dom.SVGSVGElement]

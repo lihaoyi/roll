@@ -6,16 +6,16 @@ import scala.scalajs.js
 
 import roll.cp.Implicits._
 import org.scalajs.dom.extensions._
-import scalajs.concurrent.JSExecutionContext.Implicits.queue
 import roll.cp
 import org.scalajs.dom
-import scala.concurrent.{Promise, Future}
+import scala.concurrent.{ExecutionContext, Promise, Future}
 import roll.gameplay.modules._
 
 
 object Level {
 
   case class Input(keys: Set[Int],
+                   keyPresses: Set[Int],
                    touches: Seq[Touch],
                    screenSize: cp.Vect,
                    painter: dom.CanvasRenderingContext2D)
@@ -29,7 +29,7 @@ object Level {
     case object Exit extends Result
   }
 
-  def run(src: String, inputs: Channel[Input]): Future[Result] = {
+  def run(src: String, inputs: Channel[Input])(implicit ec: ExecutionContext): Future[Result] = {
     val resultPromise = Promise[Result]()
     task*async{
       val initialDims = await(inputs()).screenSize
@@ -148,7 +148,7 @@ object Level {
       while(!resultPromise.isCompleted){
 
         val input = await(inputs())
-        dom.console.log("loopz", input.touches.size)
+
         if (input.keys(KeyCode.escape)) resultPromise.success(Result.Exit)
         camera.update(input.keys, input.screenSize)
         clouds.update()
