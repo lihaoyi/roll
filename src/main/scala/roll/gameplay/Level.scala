@@ -148,7 +148,7 @@ object Level {
 
         val input = await(inputs())
         dom.console.log("loopz", input.touches.size)
-        if (input.keys(KeyCode.escape)) resultPromise.success(Result.Reset)
+        if (input.keys(KeyCode.escape)) resultPromise.success(Result.Exit)
         camera.update(input.keys, input.screenSize)
         clouds.update()
 

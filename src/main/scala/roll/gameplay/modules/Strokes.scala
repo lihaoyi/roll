@@ -78,11 +78,9 @@ class Strokes(space: cp.Space){
     }
     val newStrokes = touches.flatMap{
       case Touch.Down(p) =>
-        dom.console.log("DOWN", p)
         prev = Some(p)
         Nil
       case Touch.Move(p) if remaining > 0 && prev.isDefined =>
-        dom.console.log("MOVE", p)
         val p1 = prev.get
         delay = delayMax
         hitDynamicShape(p1, p) match{
@@ -95,12 +93,9 @@ class Strokes(space: cp.Space){
           case _ => ??? //this should never happen
         }
       case Touch.Up(p) =>
-        dom.console.log("UP", p)
         prev = None
         Nil
-      case p =>
-        dom.console.log("???", p.toString)
-        Nil
+      case p => Nil
     }
 
     newStrokes.foreach(space.addShape)

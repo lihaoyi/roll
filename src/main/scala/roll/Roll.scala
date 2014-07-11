@@ -15,27 +15,60 @@ import scalajs.concurrent.JSExecutionContext.Implicits.queue
 
 class GameHolder(canvas: dom.HTMLCanvasElement){
 
-  def run(inputs: Channel[Level.Input],
-          frames: Channel[dom.CanvasRenderingContext2D]) = async{
-    var levels = List(
+  def run(inputs: Channel[Level.Input]) = async{
+    class LevelData(val file: String, var completed: Boolean)
+    val levels = List(
       "Demo.svg",
       "Descent.svg",
       "Bounce.svg",
       "Climb.svg",
       "BarrelWalk.svg"
-    )
+    ).map(new LevelData(_, false))
+
+
+
+    var selectedIndex = 0
+    def draw(ctx: dom.CanvasRenderingContext2D, viewPort: cp.Vect) = {
+      ctx.fillStyle = "#82CAFF"
+      ctx.fillRect(0, 0, viewPort.x, viewPort.y)
+      val rowHeight = viewPort.y * 0.8 / levels.length
+      for((level, i) <- levels.zipWithIndex){
+        ctx.fillStyle =
+          if (i == selectedIndex) "white"
+          else if(level.completed) "green"
+          else "brown"
+
+        ctx.font = rowHeight.toInt + "px Arial"
+        ctx.textBaseline = "top"
+        ctx.fillText(
+          level.file + (if(level.completed) "✓" else ""),
+          viewPort.x / 10,
+          viewPort.y * 0.1 + i * rowHeight
+        )
+      }
+    }
 
     println("GameHolde.run")
     while(true){
-      println("GameHolde.run loop")
-      if (canvas.width != dom.innerWidth) canvas.width = dom.innerWidth
-      if (canvas.height != dom.innerHeight) canvas.height = dom.innerHeight
+      val in = await(inputs())
+      draw(in.painter, in.screenSize)
 
-      val result = gameplay.Level.run(levels.head, inputs)
-      await(result) match {
-        case Level.Result.Next => levels = levels.tail
-        case Level.Result.Reset => // do nothing
+      if (in.keys(KeyCode.enter)){
+        def play(): Future[Unit] = {
+          gameplay.Level.run(levels(selectedIndex).file, inputs).flatMap{
+            case Level.Result.Next =>
+              levels(selectedIndex).completed = true
+              selectedIndex += 1
+              play()
+            case Level.Result.Reset => play()
+            case Level.Result.Exit => Future(())
+          }
+        }
+        await(play())
       }
+      if (in.keys(KeyCode.down)) selectedIndex = (selectedIndex + 1) % levels.length
+      if (in.keys(KeyCode.up)) selectedIndex = (selectedIndex - 1 + levels.length) % levels.length
+
     }
   }
 }
@@ -53,7 +86,7 @@ object Roll extends scalajs.js.JSApp{
          .getElementById("canvas")
          .cast[dom.HTMLCanvasElement]
 
-    val ribbonGame = new GameHolder(canvas)
+    val gameHolder = new GameHolder(canvas)
     val touches = mutable.Buffer.empty[Touch]
     val keys = mutable.Set.empty[Int]
 
@@ -69,9 +102,7 @@ object Roll extends scalajs.js.JSApp{
         (e, e.`type`.toString) match {
           case (e: dom.KeyboardEvent, "keydown") => keys.add(e.keyCode)
           case (e: dom.KeyboardEvent, "keyup") => keys.remove(e.keyCode)
-          case (e: PointerEvent, "pointerdown") =>
-            println("pointerdown Event")
-            touches += Touch.Down((e.clientX, e.clientY))
+          case (e: PointerEvent, "pointerdown") => touches += Touch.Down((e.clientX, e.clientY))
           case (e: PointerEvent, "pointermove") => touches += Touch.Move((e.clientX, e.clientY))
           case (e: PointerEvent, "pointerup" | "pointerout" | "pointerleave") => touches += Touch.Up((e.clientX, e.clientY))
           case _ => println("Unknown event " + e.`type`)
@@ -81,6 +112,8 @@ object Roll extends scalajs.js.JSApp{
     val painter = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     dom.setInterval(
       () => {
+        if (canvas.width != dom.innerWidth) canvas.width = dom.innerWidth
+        if (canvas.height != dom.innerHeight) canvas.height = dom.innerHeight
         inputs.update(Level.Input(
           keys.toList.toSet,
           touches.toList,
@@ -93,6 +126,6 @@ object Roll extends scalajs.js.JSApp{
       15
     )
 
-    ribbonGame.run(inputs)
+    gameHolder.run(inputs)
   }
 }
