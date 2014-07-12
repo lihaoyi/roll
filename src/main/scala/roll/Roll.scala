@@ -11,94 +11,91 @@ import scala.scalajs.js.annotation.JSExport
 import scala.async.Async._
 import scala.concurrent.{Promise, Future}
 import scalajs.concurrent.JSExecutionContext.Implicits.queue
-
+import roll.gameplay.Level.Input
 
 
 class GameHolder(canvas: dom.HTMLCanvasElement){
+  class LevelData(val file: String,
+                  var completed: Boolean,
+                  var inputs: Seq[Level.Input])
+  val levels = List(
+    "Demo.svg",
+    "Steps.svg",
+    "Ell.svg",
+    "Assault.svg",
+    "Descent.svg",
+    "Bounce.svg",
+    "Climb.svg",
+    "BarrelWalk.svg"
+  ).map(new LevelData(_, false, Seq()))
 
-  def run(inputs: Channel[Level.Input]) = task*async{
-    class LevelData(val file: String, var completed: Boolean)
-    val levels = List(
-      "Demo.svg",
-      "Steps.svg",
-      "Ell.svg",
-      "Assault.svg",
-      "Descent.svg",
-      "Bounce.svg",
-      "Climb.svg",
-      "BarrelWalk.svg"
-    ).map(new LevelData(_, false))
-
-    var selectedIndex = 0
-    var running = false
-
-    val game: Calc[Channel[Level.Input]] = Calc {
-      val filteredChannel = new Channel.PubSub[Level.Input]
-      gameplay.Level.run(level.file, filteredChannel).foreach{
-        case Level.Result.Exit =>
-          running = false
-          game.recalc()
-        case Level.Result.Next =>
-          selectedIndex += 1
-          game.recalc()
-        case Level.Result.Reset => game.recalc()
-      }
-      filteredChannel
-    }
-    def level = levels(selectedIndex)
-
-    val buffer = dom.document.createElement("canvas").asInstanceOf[dom.HTMLCanvasElement]
-    val bufferCtx = buffer.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
+  var selectedIndex = 0
+  def next() = {
+    selectedIndex = (selectedIndex + 1) % levels.length
+    game.recalc()
+  }
+  def prev() = {
+    selectedIndex = (selectedIndex - 1 + levels.length) % levels.length
+    game.recalc()
+  }
+  def level = levels(selectedIndex)
+  var running = false
+  var storedInputs: List[Level.Input] = Nil
+  val game = Calc {
+    new gameplay.Level(level.file, new cp.Vect(canvas.width, canvas.height))
+  }
 
 
-    def draw(ctx: dom.CanvasRenderingContext2D, viewPort: cp.Vect) = {
-      ctx.drawImage(buffer, 0, 0)
-      ctx.fillStyle = "rgba(0, 0, 0, 0.25)"
-      ctx.fillRect(0, 0, viewPort.x, viewPort.y)
-      val rowHeight = viewPort.y * 0.8 / levels.length
-      for((level, i) <- levels.zipWithIndex){
-        ctx.fillStyle =
-          if (i == selectedIndex) "yellow"
-          else if(level.completed) "SpringGreen"
-          else "white"
+  def draw(ctx: dom.CanvasRenderingContext2D, viewPort: cp.Vect) = {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.25)"
+    ctx.fillRect(0, 0, viewPort.x, viewPort.y)
+    val rowHeight = viewPort.y * 0.8 / levels.length
+    for((level, i) <- levels.zipWithIndex){
+      ctx.fillStyle =
+        if (i == selectedIndex) "yellow"
+        else if(level.completed) "SpringGreen"
+        else "white"
 
-        ctx.font = rowHeight.toInt + "px Lucida Grande"
-        ctx.textBaseline = "top"
-        ctx.fillText(
-          level.file + (if(level.completed) "✓" else ""),
-          viewPort.x / 10,
-          viewPort.y * 0.1 + i * rowHeight
-        )
-      }
-    }
-
-    println("GameHolde.run")
-    while(true){
-      val in = await(inputs())
-      if (buffer.width != in.screenSize.x.toInt) buffer.width = in.screenSize.x.toInt
-      if (buffer.height != in.screenSize.y.toInt) buffer.height = in.screenSize.y.toInt
-
-      if (running) {
-        println("running")
-        game().update(in)
-      } else {
-        println("not running")
-        game().update(Level.Input(Set(), Set(), Seq(), in.screenSize, bufferCtx))
-        draw(in.painter, in.screenSize)
-        if (in.keyPresses(KeyCode.enter)){
-          running = true
-        }
-        if (in.keyPresses(KeyCode.down)) {
-          selectedIndex = (selectedIndex + 1) % levels.length
-          game.recalc()
-        }
-        if (in.keyPresses(KeyCode.up)) {
-          selectedIndex = (selectedIndex - 1 + levels.length) % levels.length
-          game.recalc()
-        }
-      }
+      ctx.font = rowHeight.toInt + "px Lucida Grande"
+      ctx.textBaseline = "top"
+      ctx.fillText(
+        level.file + (if(level.completed) "✓" else ""),
+        viewPort.x / 10,
+        viewPort.y * 0.1 + i * rowHeight
+      )
     }
   }
+
+
+  def update(in: Input) = {
+
+    if (running) {
+      game().update(in) match {
+        case Level.Result.Exit =>
+          game.recalc()
+          running = false
+        case Level.Result.Next => next()
+        case Level.Result.Reset => game.recalc()
+        case _ =>
+      }
+      storedInputs = in :: storedInputs
+    } else {
+      if (level.inputs == Nil) {
+        game().update(Level.Input(Set(), Set(), Seq(), in.screenSize, in.painter))
+      } else {
+        dom.console.log(level.inputs.length)
+        game().update(level.inputs.head.copy(painter = in.painter))
+        level.inputs = level.inputs.tail
+      }
+      draw(in.painter, in.screenSize)
+      if (in.keyPresses(KeyCode.enter)){
+        running = true
+      }
+      if (in.keyPresses(KeyCode.down)) next()
+      if (in.keyPresses(KeyCode.up)) prev()
+    }
+  }
+
 }
 
 object Roll extends scalajs.js.JSApp{
@@ -109,6 +106,7 @@ object Roll extends scalajs.js.JSApp{
    */
   def main(): Unit = {
     println("main")
+
     val canvas =
       dom.document
         .getElementById("canvas")
@@ -123,7 +121,6 @@ object Roll extends scalajs.js.JSApp{
     )
     val keys = mutable.Set.empty[Int]
     val keyPresses = mutable.Set.empty[Int]
-    val inputs = new Channel.PubSub[Level.Input]
 
     interestedEvents.foreach{s =>
       dom.document.body.addEventListener(s, { (e: dom.Event) =>
@@ -145,7 +142,7 @@ object Roll extends scalajs.js.JSApp{
       () => {
         if (canvas.width != dom.innerWidth) canvas.width = dom.innerWidth
         if (canvas.height != dom.innerHeight) canvas.height = dom.innerHeight
-        inputs.update(Level.Input(
+        gameHolder.update(Level.Input(
           keys.toList.toSet,
           keyPresses.toList.toSet,
           touches.toList,
@@ -157,7 +154,5 @@ object Roll extends scalajs.js.JSApp{
       },
       15
     )
-
-    gameHolder.run(inputs)
   }
 }

@@ -6,7 +6,7 @@ import roll.cp
 import org.scalajs.dom
 import roll.gameplay.{Drawable, Form}
 
-class Goal(var goal: Form, exit: () => Unit){
+class Goal(var goal: Form){
 
   var countDown = 1.0
   def started = countDown == 0
@@ -37,16 +37,13 @@ class Goal(var goal: Form, exit: () => Unit){
   def update() = {
     if (won){
       countDown += 0.04
-      if (countDown >= 1){
-        exit()
-      }
+      if (countDown >= 1) true
+      else false
     }else{
       countDown -= 0.04
-      if (countDown <= 0) {
-        countDown = 0
-      }
+      if (countDown <= 0) countDown = 0
+      false
     }
-
   }
   def drawFade(ctx: dom.CanvasRenderingContext2D) = {
     ctx.fillStyle = s"rgba(0, 0, 0, $countDown)"

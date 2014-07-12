@@ -2,7 +2,8 @@ package roll
 
 import org.scalajs.dom
 import roll.gameplay.Form
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+import scala.scalajs.js
 
 /**
  * Created by haoyi on 7/10/14.
@@ -37,8 +38,23 @@ object Touch{
  */
 object task{
   def *[T](f: Future[T])(implicit ec: scala.concurrent.ExecutionContext) = {
-    f.map(_ => ()).recover{ case e =>
+    f.map(_ => ()).onFailure{ case e =>
       e.printStackTrace()
+      throw e
     }
   }
+}
+
+object QueueExecutionContext extends ExecutionContext {
+  implicit val self = this
+  def execute(runnable: Runnable) = {
+    val lambda: js.Function = () =>
+      try { runnable.run() } catch { case t: Throwable => reportFailure(t) }
+    js.Dynamic.global.setTimeout(lambda, 0)
+  }
+
+  def reportFailure(t: Throwable) ={
+    throw t
+  }
+
 }
