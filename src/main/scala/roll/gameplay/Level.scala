@@ -71,7 +71,13 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       .children
       .flatMap(Form.processJoint)
 
-  val player = new Player(Form.processElement(svgDoc.getElementById("Player"), static = false)(space)(0))
+  val player = new Player(
+    Form.processElement(
+      svgDoc.getElementById("Player"),
+      static = false
+    )(space)(0),
+    widest = widest
+  )
 
   val goal = new Goal(
     Form.processElement(svgDoc.getElementById("Goal"), static = true)(space)(0)
@@ -82,10 +88,21 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
 
   val lasers = new Lasers(
     player = player.form,
-    laserElement = svgDoc.getElementById("Lasers"),
+    laserElements = svgDoc.getElementById("Lasers")
+                          .children
+                          .filter(_.getAttribute("stroke") == "#FF0000"),
     query = space.segmentQueryFirst(_, _, _, 0),
     pointQuery = space.pointQueryFirst(_, _, 0),
     kill = if (player.dead == 0.0) player.dead = 1.0
+  )
+  val antigravity = new Antigravity(
+     beamElements =
+      svgDoc
+        .getElementById("Lasers")
+        .children
+        .filter(_.getAttribute("stroke") == "#0000FF"),
+    query = space.segmentQuery(_, _, _, 0, _),
+    pointQuery = space.pointQueryFirst(_, _, 0)
   )
 
   var camera: Camera = new Camera.Pan(
@@ -120,6 +137,7 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       }
 
       lasers.draw(ctx)
+      antigravity.draw(ctx)
       player.draw(ctx)
       goal.draw(ctx)
 
@@ -157,8 +175,10 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
 
       if (goal.update()) Level.Result.Next
       else {
+        antigravity.update()
         space.step(1.0 / 60)
         lasers.update()
+
         draw(input.screenSize, input.painter)
         this
       }

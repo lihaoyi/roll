@@ -134,7 +134,7 @@ object Form{
 
   def processJoint(elem: dom.Element)(implicit space: cp.Space): Seq[JointForm] = {
     val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
-      elem.getAttribute(c).toString.toDouble
+      Option(elem.getAttribute(c)).fold(0.0)(_.toString.toDouble)
     }
     val static = elem.hasAttribute("stroke")
 

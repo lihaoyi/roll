@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 17.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 17.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="1600px" height="900px" viewBox="0 0 1600 900" enable-background="new 0 0 1600 900" xml:space="preserve">
@@ -13,9 +13,9 @@
 	<text transform="matrix(1 0 0 1 430.179 374.8866)" font-family="'MyriadPro-Regular'" font-size="16">you can roll left or right </text>
 	<text transform="matrix(1 0 0 1 430.179 394.0866)" font-family="'MyriadPro-Regular'" font-size="16">using the arrow keys</text>
 	
-		<rect x="769.096" y="384.051" transform="matrix(0.2726 -0.9621 0.9621 0.2726 115.421 1091.8361)" fill="#FF8888" width="21.405" height="171.066"/>
+		<rect x="769.079" y="384.07" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1444.1693 -152.63)" fill="#FF8888" width="21.404" height="171.061"/>
 	
-		<rect x="769.097" y="496.978" transform="matrix(0.2726 -0.9621 0.9621 0.2726 6.7715 1173.9797)" fill="#8888FF" width="21.405" height="171.066"/>
+		<rect x="769.076" y="496.996" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1552.8162 -8.9167)" fill="#8888FF" width="21.404" height="171.061"/>
 	<circle fill="#0000FF" cx="326.109" cy="553.622" r="10.704"/>
 	<circle fill="#FF0000" cx="326.457" cy="496.906" r="10.704"/>
 	<text transform="matrix(1 0 0 1 349.8542 499.905)" font-family="'MyriadPro-Regular'" font-size="16">Frictiony</text>
@@ -23,7 +23,7 @@
 	<text transform="matrix(1 0 0 1 350.8542 559.8062)" font-family="'MyriadPro-Regular'" font-size="16">Spinny</text>
 	<text transform="matrix(1 0 0 1 827.8907 582.5263)" font-family="'MyriadPro-Regular'" font-size="16">Bouncy</text>
 	
-		<rect x="767.795" y="443.404" transform="matrix(0.2726 -0.9621 0.9621 0.2726 57.369 1133.7582)" fill="#88FF88" width="21.405" height="171.068"/>
+		<rect x="767.776" y="443.422" transform="matrix(-0.2726 0.9621 -0.9621 -0.2726 1499.6179 -75.8431)" fill="#88FF88" width="21.404" height="171.063"/>
 	<text transform="matrix(1 0 0 1 827.8904 528.9528)" font-family="'MyriadPro-Regular'" font-size="16">Dense</text>
 	<text transform="matrix(1 0 0 1 827.8906 468.1597)" font-family="'MyriadPro-Regular'" font-size="16">Rough</text>
 	<text transform="matrix(1 0 0 1 69.5 85.5)" font-family="'MyriadPro-Regular'" font-size="24">Tutorial</text>
@@ -32,7 +32,9 @@
 	<text transform="matrix(1 0 0 1 69.5 151.7)" font-family="'MyriadPro-Regular'" font-size="18">game.</text>
 	<text transform="matrix(1 0 0 1 69.5 194.9)" font-family="'MyriadPro-Regular'" font-size="18">Roll your ball left and right using the arrow keys, </text>
 	<text transform="matrix(1 0 0 1 69.5 216.5)" font-family="'MyriadPro-Regular'" font-size="18">and draw paths using the mouse or touchscreen </text>
-	<text transform="matrix(1 0 0 1 69.5 238.1)" enable-background="new    "><tspan x="0" y="0" font-family="'MyriadPro-Regular'" font-size="18">for your ball to roll on.  Esc restarts the current </tspan><tspan x="0" y="21.6" font-family="'MyriadPro-Regular'" font-size="18">level, and pg up and pg down allow you to zoom </tspan><tspan x="0" y="43.2" font-family="'MyriadPro-Regular'" font-size="18">in or out.</tspan></text>
+	<text transform="matrix(1 0 0 1 69.5 238.1)" font-family="'MyriadPro-Regular'" font-size="18">for your ball to roll on.  Esc restarts the current </text>
+	<text transform="matrix(1 0 0 1 69.5 259.7)" font-family="'MyriadPro-Regular'" font-size="18">level, and pg up and pg down allow you to zoom </text>
+	<text transform="matrix(1 0 0 1 69.5 281.3)" font-family="'MyriadPro-Regular'" font-size="18">in or out.</text>
 	<text transform="matrix(1 0 0 1 69.5 320.0121)" font-family="'MyriadPro-Regular'" font-size="18">When ready, roll your ball to the bottom right </text>
 	<text transform="matrix(1 0 0 1 69.5 341.6121)" font-family="'MyriadPro-Regular'" font-size="18">corner of the level and hit the light blue “Goal” </text>
 	<text transform="matrix(1 0 0 1 69.5 363.2121)" font-family="'MyriadPro-Regular'" font-size="18">block to proceed to the next level.</text>
@@ -70,11 +72,11 @@
 	<rect x="751.693" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	<rect x="1034.969" y="685.081" fill="#008888" width="21.409" height="171.087"/>
 	
-		<rect x="375.281" y="641.745" transform="matrix(0.3656 -0.9308 0.9308 0.3656 -432.0772 820.671)" fill="#8B7765" width="21.411" height="171.104"/>
+		<rect x="375.302" y="641.74" transform="matrix(-0.3656 0.9308 -0.9308 -0.3656 1204.0763 633.9001)" fill="#8B7765" width="21.412" height="171.108"/>
 	
-		<rect x="165.784" y="446.225" transform="matrix(-0.8098 0.5867 -0.5867 -0.8098 631.3984 858.8472)" fill="#8B7765" width="21.409" height="171.083"/>
+		<rect x="165.786" y="446.227" transform="matrix(0.8098 -0.5867 0.5867 0.8098 -278.4217 204.6882)" fill="#8B7765" width="21.409" height="171.082"/>
 	
-		<rect x="257.907" y="560.96" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -359.959 338.2538)" fill="#8B7765" width="21.408" height="171.084"/>
+		<rect x="257.911" y="560.962" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 897.1898 954.7518)" fill="#8B7765" width="21.408" height="171.085"/>
 	
 		<rect x="1163" y="491.157" fill="#888800" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" width="245" height="16.458"/>
 	
@@ -102,5 +104,6 @@
 </g>
 <g id="Lasers">
 	<line fill="none" stroke="#FF0000" stroke-width="4" stroke-miterlimit="10" x1="29.125" y1="844.5" x2="1261.5" y2="844.5"/>
+	<line fill="none" stroke="#0000FF" stroke-width="4" stroke-miterlimit="10" x1="570.5" y1="870.168" x2="570.5" y2="31.332"/>
 </g>
 </svg>

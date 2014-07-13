@@ -23,6 +23,8 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
     "Steps.svg",
     "Ell.svg",
     "Assault.svg",
+    "Collector.svg",
+    "Vortex.svg",
     "Descent.svg",
     "Bounce.svg",
     "Climb.svg",

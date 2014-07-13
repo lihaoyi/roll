@@ -2,11 +2,11 @@ package roll.gameplay.modules
 
 import org.scalajs.dom.extensions._
 import roll.gameplay.Form
-import roll.Util
+import roll.{cp, Util}
 import roll.cp.Implicits._
 import org.scalajs.dom
 
-class Player(val form: Form) {
+class Player(val form: Form, widest: cp.Vect) {
   var dead = 0.0
 
   form.shapes(0).setCollisionType(1)
@@ -27,6 +27,10 @@ class Player(val form: Form) {
         form.body.setAngVel(0)
       }
     }else{
+      val pos = form.body.getPos()
+      if (pos.x < 0 || pos.y < 0 || pos.x > widest.x || pos.y > widest.y){
+        dead = 1.0
+      }
       val baseT = 0.45
       val maxW = 30
       val decay = (maxW - baseT) / maxW
