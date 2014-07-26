@@ -1,4 +1,5 @@
-package roll.gameplay
+package roll
+package gameplay
 import acyclic.file
 import scala.scalajs.js
 import roll.cp.Cp
@@ -29,10 +30,10 @@ object Drawable{
   }
 }
 
-class Form(val body: cp.Body,
-           val shapes: Seq[cp.Shape],
-           val drawable: Drawable,
-           val color: Color){
+case class Form(body: cp.Body,
+                shapes: Seq[cp.Shape],
+                drawable: Drawable,
+                color: Color){
   lazy val strokeStyle = color + Color(-64, -64, -64)
   lazy val fillStyle = color + Color(64, 64, 64)
 }
@@ -46,9 +47,9 @@ object Layers{
   val Common = 1
   val Static = 2
   val Strokes = 4
-
+  val Fields = 8
   val All = ~0
-  val DynamicRange = All & ~Static & ~Strokes & ~Common
+  val DynamicRange = All & ~Static & ~Strokes & ~Common & ~Fields
 }
 
 object Form{
@@ -58,13 +59,15 @@ object Form{
                  density: Double,
                  static: Boolean,
                  friction: Double,
-                 elasticity: Double)
+                 elasticity: Double,
+                 layers: Int = 0)
                 (implicit space: cp.Space) = {
 
     val body =
       if (static) space.staticBody
       else {
-        val mass = density * math.Pi * radius * radius + 0.000000001
+        val mass = math.abs(density * math.Pi * radius * radius)
+        assert(mass > 0, (density, radius))
         val moment = 0.5 * mass * radius * radius
         val newBody = space.addBody(
           new cp.Body(mass, moment)
@@ -79,85 +82,99 @@ object Form{
 
     shape.setFriction(friction)
     shape.setElasticity(elasticity)
-    shape.layers = Layers.Common | (if (static) Layers.Static else Layers.DynamicRange)
+
+    shape.layers =
+      if (layers != 0) layers
+      else Layers.Common | (if (static) Layers.Static else Layers.DynamicRange)
+
     (body, Seq(shape))
   }
-
-  def makePoly(points: Seq[cp.Vect],
+  def makePolySegments(points: Seq[cp.Vect],
                density: Double,
-               static: Boolean,
                friction: Double,
-               elasticity: Double)
+               elasticity: Double,
+               layers: Int = 0)
               (implicit space: cp.Space) = {
 
-    if (static) {
-      val shapes = for(i <- 0 until points.length) yield {
-        val p1 = points(i)
-        val p2 = points((i + 1) % points.length)
-        val shape = new cp.SegmentShape(
-          space.staticBody,
-          (p1.x, p1.y),
-          (p2.x, p2.y),
-          0
-        )
-        space.addShape(shape)
-
-        shape.setFriction(friction)
-        shape.setElasticity(elasticity)
-        shape.layers = Layers.Static | Layers.Common
-        shape
-
-      }
-
-      (space.staticBody, shapes, points.map(p => (p.x, p.y)))
-    }else{
-      val flatPoints: js.Array[js.Number] = points.flatMap(p => Seq[js.Number](p.x, p.y)).toArray[js.Number]
-      val center = Cp.centroidForPoly(flatPoints)
-
-      Cp.recenterPoly(flatPoints)
-      val area = Cp.areaForPoly(flatPoints)
-      val mass = density * area
-      val body = space.addBody(
-        new cp.Body(mass, Cp.momentForPoly(mass, flatPoints, (0, 0)))
+    val shapes = for(i <- 0 until points.length) yield {
+      val p1 = points(i)
+      val p2 = points((i + 1) % points.length)
+      val shape = new cp.SegmentShape(
+        space.staticBody,
+        (p1.x, p1.y),
+        (p2.x, p2.y),
+        0
       )
-      body.setPos(center)
-      val shape = space.addShape(
-        new cp.PolyShape(body, flatPoints, (0, 0))
-      )
+      space.addShape(shape)
 
       shape.setFriction(friction)
       shape.setElasticity(elasticity)
-      shape.layers = Layers.DynamicRange | Layers.Common
-      (body, Seq(shape), flatPoints.grouped(2).map(s => (s(0), s(1))).toSeq)
+      shape.layers =
+        if (layers != 0) layers
+        else Layers.Static | Layers.Common
+      shape
+
     }
+
+    (space.staticBody, shapes, points.map(p => (p.x, p.y)))
+  }
+  def makePoly(points: Seq[cp.Vect],
+               density: Double,
+               friction: Double,
+               elasticity: Double,
+               layers: Int = 0)
+              (implicit space: cp.Space) = {
+
+    val flatPoints = points.flatMap(p => Seq(p.x, p.y)).toArray
+
+    val center = Cp.centroidForPoly(flatPoints)
+
+    Cp.recenterPoly(flatPoints)
+    val area = Cp.areaForPoly(flatPoints)
+    val mass = math.abs(density * area)
+    println(flatPoints.toSeq, area, mass)
+    assert(mass > 0, (density, area))
+    val body = space.addBody(
+      new cp.Body(mass, Cp.momentForPoly(mass, flatPoints, (0, 0)))
+    )
+    body.setPos(center)
+    val shape = space.addShape(
+      new cp.PolyShape(body, flatPoints, (0, 0))
+    )
+
+    shape.setFriction(friction)
+    shape.setElasticity(elasticity)
+    shape.layers =
+      if (layers != 0) layers
+      else Layers.DynamicRange | Layers.Common
+    (body, Seq(shape), flatPoints.grouped(2).map(s => (s(0), s(1))).toSeq)
+
   }
 
-  def processJoint(elem: dom.Element)(implicit space: cp.Space): Seq[JointForm] = {
-    val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
-      Option(elem.getAttribute(c)).fold(0.0)(_.toString.toDouble)
-    }
-    val static = elem.hasAttribute("stroke")
+  def processJoint(elem: Xml.Circle)(implicit space: cp.Space): Seq[JointForm] = {
 
-    val color = Option[String](elem.getAttribute("fill")).getOrElse("#000000")
+    val static = elem.misc.stroke != ""
+
+    val color = if (elem.misc.fill != "") elem.misc.fill else "#000000"
     val (friction, springConstant, speed) = splitJointConfig(color)
 
     val shapes = collection.mutable.Buffer.empty[cp.Shape]
-    space.pointQuery((x, y), ~0, 0, {(s: cp.Shape) => shapes += s; ()})
+    space.pointQuery((elem.x, elem.y), ~0, 0, {(s: cp.Shape) => shapes += s; ()})
 
     var existing = Layers.Common | Layers.Static | Layers.Strokes
     var current = 4
-
+    println("Lawls " + (elem.x, elem.y) + " " + shapes.length)
     shapes.foreach{s =>
       val n = s.layers.toInt
       if (n != (Layers.Common | Layers.DynamicRange)) existing |= n
     }
 
-    val baseBody = if (static) space.staticBody else shapes(0).getBody()
+    val baseBody = if (static || shapes.length == 0) space.staticBody else shapes(0).getBody()
     shapes.map{ s =>
       val joint = new cp.PivotJoint(
         s.getBody(),
         baseBody,
-        (x, y),
+        (elem.x, elem.y),
         js.Dynamic.global.undefined.cast[cp.Vect]
       )
 
@@ -180,7 +197,6 @@ object Form{
         motorJoint.maxForce = math.abs(speed) * effectiveI * 10
         space.addConstraint(motorJoint)
       }
-//      println("Joint Shape " + s.layers + " " + static + " " + existing)
       if (s.layers.toInt == (Layers.Common | Layers.DynamicRange) && !static){
 
 
@@ -189,7 +205,6 @@ object Form{
           current <<= 1
         }
         s.setLayers(current)
-//        println("Set Layer " + current)
         existing |= current
       }
       space.addConstraint(joint)
@@ -227,84 +242,44 @@ object Form{
     )
     res
   }
-  def processElement(elem: dom.Element,
-                     static: Boolean)
+
+  def processElement(elem: Xml,
+                     static: Boolean,
+                     layers: Int = 0)
                     (implicit space: cp.Space): Seq[Form] = {
 //    dom.console.log("processElement", elem)
     elem match{
-      case elem: dom.SVGRectElement =>
-        val svg = dom.document.createElementNS("http://www.w3.org/2000/svg", "svg").cast[dom.SVGSVGElement]
-        val Seq(x, y, w, h) = Seq("x", "y", "width", "height").map{c =>
-          Option(elem.getAttribute(c)).fold(0.0)(_.toDouble)
-        }
-
-        var svgPt = svg.createSVGPoint()
-
-        val transforms = elem.transform.baseVal
-        val pos = new cp.Vect(x, y)
-        val dims = new cp.Vect(w, h)
-
-        val points = Seq(pos, pos + new cp.Vect(0, dims.y), pos + dims, pos + new cp.Vect(dims.x, 0))
-
-        val transformedPoints =
-          points.map{p =>
-            svgPt.x = p.x
-            svgPt.y = p.y
-            for (transform <- transforms){
-              svgPt = svgPt.matrixTransform(transform.matrix)
-            }
-            new cp.Vect(svgPt.x, svgPt.y)
-          }
-
-        val (friction, density, elasticity) = splitFill(elem.getAttribute("fill"))
-        val (body, shapes, flatPoints) = makePoly(transformedPoints, density, static, friction, elasticity)
+      case Xml.Polygon(pts, misc) =>
+        println("Porygon")
+        val (friction, density, elasticity) = splitFill(misc.fill)
+        val (body, shapes, flatPoints) =
+          if (static) makePolySegments(pts.map(x => x: cp.Vect), density, friction, elasticity, layers)
+          else makePoly(pts.map(x => x: cp.Vect), density, friction, elasticity, layers)
         Seq(new Form(
           body,
           shapes,
           Drawable.Polygon(flatPoints),
-          Color(elem.getAttribute("fill"))
+          Color(misc.fill)
         ))
 
-      case _: dom.SVGPolylineElement | _: dom.SVGPolygonElement =>
-        val points =
-          elem
-            .getAttribute("points")
-            .toString
-            .split("\\s+")
-            .toSeq
-            .map(_.split(","))
-            .map(p => new cp.Vect(p(0).toDouble, p(1).toDouble))
-        val (friction, density, elasticity) = splitFill(elem.getAttribute("fill"))
-        val (body, shapes, flatPoints) = Form.makePoly(points, density, static, friction, elasticity)
-        Seq(new Form(
-          body,
-          shapes,
-          Drawable.Polygon(flatPoints),
-          Color(elem.getAttribute("fill"))
-        ))
+      case Xml.Circle(x, y, r, misc) =>
 
-      case elem: dom.SVGCircleElement =>
-        val Seq(x, y, r) = Seq("cx", "cy", "r").map{c =>
-          elem.getAttribute(c).toString.toDouble
-        }
-        val (friction, density, elasticity)  = splitFill(elem.getAttribute("fill"))
-        val (body, shape) = Form.makeCircle((x, y), r, density, static, friction, elasticity)
+        val (friction, density, elasticity)  = splitFill(misc.fill)
+        val (body, shape) = Form.makeCircle(
+          (x, y), r, density, static, friction, elasticity, layers
+        )
         Seq(new Form(
           body,
           shape,
           Drawable.Circle(r),
-          Color(elem.getAttribute("fill"))
+          Color(misc.fill)
         ))
 
-      case elem: dom.SVGGElement =>
-        elem.childNodes
-            .collect{case e: dom.SVGElement => processElement(e, static)}
-            .flatten
+      case Xml.Group(children, misc) =>
+        children.flatMap(processElement(_, static, layers))
 
       case _ =>
         println(" Unknown!")
-        dom.console.log(elem)
-        js.Dynamic.global.elem = elem
         ???
     }
   }

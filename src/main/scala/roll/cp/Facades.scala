@@ -21,6 +21,7 @@ class Shape(body: Body) extends js.Object{
   def setBody(b: Body) = ???
   def cacheBB(): js.Any = ???
   def update(pos: Vect, rot: Double): js.Any = ???
+  def pointQuery(p: Vect): js.UndefOr[NearestPointQueryInfo] = ???
   var layers: Double = ???
   var group: Double = ???
 }

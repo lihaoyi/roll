@@ -38,21 +38,24 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     scala.js.bundle.apply(src).string,
     "text/xml"
   )
+
+  val svgElement = svgDoc.getElementsByTagName("svg")(0).cast[dom.SVGSVGElement]
+  val xmlTree = Xml.parse(svgElement)(0)
+
   println("Static!")
   val staticShapes =
-    svgDoc.getElementById("Static")
-          .children
-          .flatMap(Form.processElement(_, static = true))
+    xmlTree("Static")
+      .children
+      .flatMap(Form.processElement(_, static = true))
+
 
   println("Dynamic!")
   val dynamicShapes =
-    svgDoc.getElementById("Dynamic")
-          .children
-          .flatMap(Form.processElement(_, static = false))
+    xmlTree("Dynamic")
+      .children
+      .flatMap(Form.processElement(_, static = false))
 
-  val svg = svgDoc.getElementsByTagName("svg")(0).cast[dom.SVGSVGElement]
-
-  val widest = new cp.Vect(svg.width, svg.height)
+  val widest = new cp.Vect(svgElement.width, svgElement.height)
 
   val backgroundImg = {
     dom.extensions.Image.createBase64Svg(
@@ -63,24 +66,30 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       )
     )
   }
-
+  println("Clouds")
   val clouds = new Clouds(widest)
 
+  println("staticJoints")
   val staticJoints =
-    svgDoc.getElementById("Joints")
+    xmlTree("Joints")
       .children
+      .collect{case x: Xml.Circle => x}
       .flatMap(Form.processJoint)
 
+
+  val pElem = xmlTree("Special")("Player")
+//  println("player " + pElem)
   val player = new Player(
     Form.processElement(
-      svgDoc.getElementById("Player"),
+      pElem,
       static = false
-    )(space)(0),
+    ).head,
     widest = widest
   )
 
+//  println("Goal")
   val goal = new Goal(
-    Form.processElement(svgDoc.getElementById("Goal"), static = true)(space)(0)
+    Form.processElement(xmlTree("Special")("Goal"), static = true).head
   )
   space.addCollisionHandler(1, 1, null, (arb: cp.Arbiter, space: cp.Space) => goal.hit(), null)
 
@@ -95,21 +104,46 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     pointQuery = space.pointQueryFirst(_, _, 0),
     kill = if (player.dead == 0.0) player.dead = 1.0
   )
-  val antigravity = new Antigravity(
-     beamElements =
-      svgDoc
-        .getElementById("Lasers")
-        .children
-        .filter(_.getAttribute("stroke") == "#0000FF"),
-    query = space.segmentQuery(_, _, _, 0, _),
-    pointQuery = space.pointQueryFirst(_, _, 0)
-  )
+
+//  val fields: Seq[Field] = {
+//    val beamElements = xmlTree("Fields").children
+//    val (directions, fields) = beamElements.partition(_.isInstanceOf[Xml.Line])
+//    for {
+//      elem <- fields
+//      form <- Form.processElement(elem, true, Layers.Fields).map(_.copy(color = Color.Red))
+//    } yield {
+//      val vects: Stream[cp.Vect] = for{
+//        direction <- directions.toStream
+//        start = new cp.Vect(
+//          direction.getAttribute("x1").toDouble,
+//          direction.getAttribute("y1").toDouble
+//        )
+//        end = new cp.Vect(
+//          direction.getAttribute("x2").toDouble,
+//          direction.getAttribute("y2").toDouble
+//        )
+//        _ = dom.console.log(start.x, start.y, end.x, end.y)
+//        shape <- form.shapes
+//        _ = dom.console.log(shape)
+//        if shape.pointQuery(start).isDefined
+//      } yield {
+//        val d = end - start
+//        d / d.length
+//      }
+//      Field(form, vects.head)
+//    }
+//  }
+//  val antigravity = new Antigravity(
+//    Nil,
+//    query = space.segmentQuery(_, _, _, 0, _),
+//    pointQuery = space.pointQueryFirst(_, _, 0)
+//  )
 
   var camera: Camera = new Camera.Pan(
     initialDims,
     widest,
     checkpoints = List(
-      (goal.p, 1),
+      (goal.p, 1.0),
       (widest / 2, math.min(initialDims.x / widest.x, initialDims.y / widest.y))
     ),
     finalCamera = new Camera.Follow(
@@ -137,19 +171,19 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       }
 
       lasers.draw(ctx)
-      antigravity.draw(ctx)
+//      antigravity.draw(ctx)
       player.draw(ctx)
       goal.draw(ctx)
 
-      staticJoints.foreach{ jform  =>
-        ctx.save()
-        ctx.fillStyle = jform.fillStyle.toString
-        ctx.strokeStyle = jform.strokeStyle.toString
-        ctx.translate(jform.joint.a.getPos().x, jform.joint.a.getPos().y)
-        ctx.rotate(jform.joint.a.a)
-        ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)
-        ctx.restore()
-      }
+//      staticJoints.foreach{ jform  =>
+//        ctx.save()
+//        ctx.fillStyle = jform.fillStyle.toString
+//        ctx.strokeStyle = jform.strokeStyle.toString
+//        ctx.translate(jform.joint.a.getPos().x, jform.joint.a.getPos().y)
+//        ctx.rotate(jform.joint.a.a)
+//        ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)
+//        ctx.restore()
+//      }
 
       strokes.draw(ctx)
     }
@@ -175,7 +209,7 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
 
       if (goal.update()) Level.Result.Next
       else {
-        antigravity.update()
+//        antigravity.update()
         space.step(1.0 / 60)
         lasers.update()
 

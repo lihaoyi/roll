@@ -54,10 +54,13 @@ class Lasers(player: Form,
     }
   }
 }
+case class Field(form: Form, direction: cp.Vect)
+
 class Antigravity(beamElements: Seq[dom.Element],
                  query: (cp.Vect, cp.Vect, js.Number, js.Function3[cp.Shape, Double, cp.Vect, Unit]) => Unit,
                  pointQuery: (cp.Vect, js.Number) => cp.Shape) extends Beams(beamElements, Color.Blue){
   println("Antigravity " + beamElements.length)
+
   def update() = {
     val hitMap = mutable.Map.empty[cp.Body, List[cp.Vect]]
                             .withDefaultValue(Nil)
