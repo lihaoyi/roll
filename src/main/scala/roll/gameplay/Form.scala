@@ -118,6 +118,8 @@ object Form{
 
     (space.staticBody, shapes, points.map(p => (p.x, p.y)))
   }
+  def flatten(pts: Seq[cp.Vect]) =
+    pts.flatMap(p => Seq(p.x, p.y)).toArray
   def makePoly(points: Seq[cp.Vect],
                density: Double,
                friction: Double,
@@ -125,11 +127,11 @@ object Form{
                layers: Int = 0)
               (implicit space: cp.Space) = {
 
-    val flatPoints = points.flatMap(p => Seq(p.x, p.y)).toArray
+    val flatPointsAbs = flatten(points)
 
-    val center = Cp.centroidForPoly(flatPoints)
+    val center: cp.Vect = Cp.centroidForPoly(flatPointsAbs)
+    val flatPoints = flatten(points.map(_ - center))
 
-    Cp.recenterPoly(flatPoints)
     val area = Cp.areaForPoly(flatPoints)
     val mass = math.abs(density * area)
     println(flatPoints.toSeq, area, mass)
