@@ -11,11 +11,10 @@ import scala.collection.mutable
 case class Field(center: cp.Vect,
                  drawable: Drawable,
                  shape: cp.Shape,
-                 dir: cp.Vect,
-                 var sparkles: Vector[(cp.Vect)] = Vector()){
+                 dir: cp.Vect){
   val bb = shape.getBB()
   val idealCount = math.abs((bb.l - bb.r) * (bb.t - bb.b)  / 10000).toInt
-
+  val sparkles = new Array[cp.Vect](idealCount)
 }
 
 class Antigravity(fields: Seq[Field],
@@ -25,9 +24,9 @@ class Antigravity(fields: Seq[Field],
   def rand = util.Random.nextDouble()
   for(field <- fields){
     import field._
-    field.sparkles = (0 until (idealCount - sparkles.length)).map{_ =>
-      new cp.Vect(rand * (bb.l - bb.r) + bb.r, rand * (bb.t - bb.b) + bb.b)
-    }.toVector
+    (0 until idealCount).foreach{i =>
+      sparkles(i) = new cp.Vect(rand * (bb.l - bb.r) + bb.r, rand * (bb.t - bb.b) + bb.b)
+    }
   }
   var strokeWidth = 0.0
   def draw(ctx: dom.CanvasRenderingContext2D) = {
@@ -37,46 +36,39 @@ class Antigravity(fields: Seq[Field],
     val g = (base + rest * Math.sin(strokeWidth)).toInt
     val b = (base - rest * Math.sin(strokeWidth)).toInt
     for(field <- fields){
-
-
       ctx.strokeStyle = s"rgba(128, $g, $b, 0.2)"
       ctx.fillStyle = s"rgba(128, $g, $b, 0.2)"
 
       import field._
-      val newSparkles = for{
-        x <- 0 until (idealCount - field.sparkles.length)
-        if scala.util.Random.nextFloat() > 0.95
-      } yield {
-
-
-        // Random points along the four edges of the bounding box
-        def randT = new cp.Vect(rand * (bb.r - bb.l) + bb.l, bb.t)
-        def randL = new cp.Vect(bb.l, rand * (bb.t - bb.b) + bb.b)
-        def randB = new cp.Vect(rand * (bb.r - bb.l) + bb.l, bb.b)
-        def randR = new cp.Vect(bb.r, rand * (bb.t - bb.b) + bb.b)
-
-        // Some clever math to distribute the new sparkles around the
-        // two up-stream edges of the bounding box in a way that makes
-        // the distribution of sparkles uniform while avoiding singularities
-        val (absY, absX) = (math.abs(field.dir.y), math.abs(field.dir.x))
-
-        if (rand < absX / (absX + absY)) {
-          if (field.dir.x < 0) randR
-          else randL
-        }else {
-          if (field.dir.y < 0) randT
-          else randB
-        }
-      }
 
       field.drawable.draw(ctx)
-      field.sparkles =
-        field.sparkles
-             .iterator
-             .map(_ + field.dir * 4)
-             .filter(p => p.within((bb.l, bb.t), (bb.r, bb.b)))
-             .++(newSparkles)
-             .toVector
+      var i = sparkles.length - 1
+      while(i >= 0){
+        sparkles(i).x += field.dir.x * 4
+        sparkles(i).y += field.dir.y * 4
+
+        if (!sparkles(i).within((bb.l, bb.t), (bb.r, bb.b))){
+          // Random points along the four edges of the bounding box
+          def randT = new cp.Vect(rand * (bb.r - bb.l) + bb.l, bb.t)
+          def randL = new cp.Vect(bb.l, rand * (bb.t - bb.b) + bb.b)
+          def randB = new cp.Vect(rand * (bb.r - bb.l) + bb.l, bb.b)
+          def randR = new cp.Vect(bb.r, rand * (bb.t - bb.b) + bb.b)
+
+          // Some clever math to distribute the new sparkles around the
+          // two up-stream edges of the bounding box in a way that makes
+          // the distribution of sparkles uniform while avoiding singularities
+          val (absY, absX) = (math.abs(field.dir.y), math.abs(field.dir.x))
+
+          sparkles(i) = if (rand < absX / (absX + absY)) {
+            if (field.dir.x < 0) randR
+            else randL
+          }else {
+            if (field.dir.y < 0) randT
+            else randB
+          }
+        }
+        i -= 1
+      }
 
       ctx.fillStyle = s"rgba(255, 255, 255, 0.8)"
       for{

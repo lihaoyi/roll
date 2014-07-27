@@ -46,7 +46,6 @@ object Camera{
     var innerPos = new cp.Vect(targetPos.x, targetPos.y)
     def update(keys: Set[Int], screenSize: cp.Vect) = {
       if (keys(KeyCode.pageUp)) {
-        println("up!")
         scale = scale * 1.03
       }
       if (keys(KeyCode.pageDown)) scale = scale / 1.03
