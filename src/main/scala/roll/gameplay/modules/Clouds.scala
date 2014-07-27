@@ -8,7 +8,7 @@ class Clouds(widest: cp.Vect) {
   val cloudImg =
     dom.extensions
       .Image
-      .createBase64Svg(scala.js.bundle.apply("CloudIcon.svg").base64)
+      .createBase64Svg(scala.js.bundle.apply("sprites/Cloud.svg").base64)
 
   class Cloud(var pos: cp.Vect, val vel: Double)
   val clouds = Seq.fill((widest.x * widest.y / 100000).toInt){

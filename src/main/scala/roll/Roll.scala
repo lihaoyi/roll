@@ -19,18 +19,18 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
                   var completed: Boolean,
                   var inputs: Seq[Level.Input])
   val levels = List(
-    "Demo.svg",
-    "Steps.svg",
-    "Ell.svg",
-    "Assault.svg",
-    "OverUnder.svg",
-    "Vortex.svg",
-    "Collector.svg",
-    "Void.svg",
-    "Descent.svg",
-    "Bounce.svg",
-    "Climb.svg",
-    "BarrelWalk.svg"
+    "levels/Demo.svg",
+    "levels/Steps.svg",
+    "levels/Ell.svg",
+    "levels/Assault.svg",
+    "levels/OverUnder.svg",
+    "levels/Vortex.svg",
+    "levels/Collector.svg",
+    "levels/KineticDream.svg",
+    "levels/Descent.svg",
+    "levels/Bounce.svg",
+    "levels/Climb.svg",
+    "levels/BarrelWalk.svg"
   ).map(new LevelData(_, false, Seq()))
 
   var selectedIndex = 0
@@ -63,7 +63,7 @@ class GameHolder(canvas: dom.HTMLCanvasElement){
       ctx.font = rowHeight.toInt + "px Lucida Grande"
       ctx.textBaseline = "top"
       ctx.fillText(
-        level.file + (if(level.completed) "✓" else ""),
+        level.file.drop("levels/".length).dropRight(".svg".length) + (if(level.completed) "✓" else ""),
         viewPort.x / 10,
         viewPort.y * 0.1 + i * rowHeight
       )

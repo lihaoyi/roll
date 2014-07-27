@@ -11,6 +11,8 @@ import scala.collection.mutable
 case class Field(center: cp.Vect,
                  drawable: Drawable,
                  shape: cp.Shape,
+                 acceleration: Double,
+                 drag: Double,
                  dir: cp.Vect){
   val bb = shape.getBB()
   val idealCount = math.abs((bb.l - bb.r) * (bb.t - bb.b)  / 10000).toInt
@@ -82,18 +84,21 @@ class Antigravity(fields: Seq[Field],
   }
 
   def update() = {
-    val hitMap = mutable.Map.empty[cp.Body, List[cp.Vect]]
+    val hitMap = mutable.Map.empty[cp.Body, List[Field]]
                             .withDefaultValue(Nil)
 
     for(field <- fields){
       field.shape.layers = Layers.DynamicRange
-      query(field.shape, (s, _) => hitMap(s.getBody()) ::= field.dir)
+      query(field.shape, (s, _) => hitMap(s.getBody()) ::= field)
       field.shape.layers = Layers.Fields
     }
-    for((body, hits) <- hitMap){
+    for((body, fields) <- hitMap){
       val cancelGravity = new cp.Vect(0, -400)
-      val forwardMotion = hits.reduce(_ + _) / hits.length * 400
-      val drag = body.getVel() * -1
+      val forwardMotion = fields.map(x => x.dir * x.acceleration).reduce(_ + _) / fields.length * 400
+      def dragEquation(v: cp.Vect, linearDrag: Double, quadraticDrag: Double = 0.0001) = {
+        v * -linearDrag - v * v.length * quadraticDrag
+      }
+      val drag = fields.map(f => dragEquation(body.getVel(), f.drag)).reduce(_ + _) / fields.length
       body.applyImpulse(
         (cancelGravity + forwardMotion + drag) * body.m / 60,
         (0, 0)

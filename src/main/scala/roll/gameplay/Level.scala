@@ -139,15 +139,20 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       val d = end - start
       d / d.length
     }
-    println("VECTS LENGTH " + vects.length)
+    val Seq(acceleration, drag, _) =
+      Form.splitColor(elem.misc.fill)
+          .map(_ / 255.0)
+
     Field(
       center,
       drawable,
       shape,
+      acceleration * 2,
+      (drag - 0.5) * 2,
       vects.reduceOption(_ + _).fold(new cp.Vect(0, 0))(_ / vects.length)
     )
   }
-  println("antigravity " + fields.map(_.dir).map(p => (p.x, p.y)))
+  println("antigravity")
   val antigravity = new Antigravity(
     fields,
     query = space.shapeQuery(_, _),

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="3200px" height="3200px" viewBox="0 0 3200 3200" enable-background="new 0 0 3200 3200" xml:space="preserve">
+<g id="Fields">
+	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 3152.553,3152.553 3152.553,47.447 	"/>
+	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="3152.553" y2="1600"/>
+	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 3152.553,47.447 47.447,47.447 	"/>
+	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="1600" y2="47.447"/>
+	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 47.447,47.447 47.447,3152.553 	"/>
+	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="47.447" y2="1600"/>
+	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 47.447,3152.553 3152.553,3152.553 	"/>
+	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="1600" y2="3152.553"/>
+</g>
+<g id="Foreground">
+</g>
+<g id="Special">
+	<circle id="Player" fill="#FF8877" cx="570.681" cy="3113.555" r="38.998"/>
+	<rect id="Goal" x="1500" y="47.447" fill="#00FFFF" width="200" height="243.053"/>
+</g>
+<g id="Static">
+	<polygon fill="#CC7788" points="3200,3152.553 2604.5,3152.553 2488.5,3064.5 2416.5,2640.5 2216.5,2740.5 1992.25,2862.25 
+		1736.5,3152.553 1584.355,3113.555 1344.5,3152.553 1200.5,2952.5 1056.5,2524.5 832.5,2708.5 652.5,3152.553 0,3152.553 0,3200 
+		3200,3200 	"/>
+	<rect y="0" fill="#CC7788" width="3200" height="47.447"/>
+	<polygon fill="#CC7788" points="3152.553,47.447 3152.553,700.5 2676.5,980.5 2648.5,1096.5 2756.5,1292.5 3152.553,1280.5 
+		3152.553,1448.25 3152.553,1600 2724.5,1787.71 2812.5,2062.5 2824.5,2152.5 3152.553,2268.5 3152.553,3152.553 3200,3152.553 
+		3200,47.447 	"/>
+	<polygon fill="#CC7788" points="0,47.447 0,3152.553 47.447,3152.553 47.447,2328.5 416.5,2192.5 388.5,1912.5 1284.925,1448.25 
+		1324.104,1146.952 492.5,1096.5 47.447,844.5 47.447,47.447 	"/>
+	<polygon fill="#CC7788" points="1000.5,47.447 1324.103,47.447 1500,47.447 1500,168.176 1500,340.5 1150.5,260.5 	"/>
+	<polygon fill="#CC7788" points="1700,47.447 2284.5,47.447 2156.5,272.907 1700,340.5 	"/>
+	<polygon fill="#00FFCC" points="3149.71,3152.553 2789.942,3152.553 3149.71,2927.093 	"/>
+	<polygon fill="#00FFCC" points="3152.71,47.447 3152.553,406.5 2927.25,47.447 	"/>
+	<polygon fill="#00FFCC" points="47.164,45.447 272.624,45.447 47.164,356.496 	"/>
+	<polygon fill="#00FFCC" points="45.447,3152.553 45.447,2927.093 352.471,3152.553 	"/>
+</g>
+<g id="Dynamic">
+	<circle fill="#888888" cx="2054.25" cy="2020.553" r="62"/>
+	<rect x="2411.28" y="2050.678" fill="#887788" width="202.217" height="63.75"/>
+	<circle fill="#777777" cx="1475.437" cy="1966.294" r="75.856"/>
+	<polygon fill="#8B7765" points="1550.595,422.99 1590.234,356.496 1667.639,357.578 1705.405,425.154 1665.766,491.648 
+		1588.362,490.567 	"/>
+	<circle fill="#554484" cx="352.471" cy="2862.25" r="62"/>
+	<rect x="519.508" y="787.731" fill="#446688" width="102.347" height="71.986"/>
+	<rect x="2789.942" y="245.912" fill="#665570" width="181.305" height="53.989"/>
+	<polygon fill="#665575" points="819.313,658.165 762.127,559.115 819.313,460.065 933.687,460.065 990.873,559.115 
+		933.687,658.165 	"/>
+</g>
+<g id="Background">
+</g>
+<path fill="#998899" d="M2453.933,3039.823"/>
+<path fill="#CC7788" d="M47.447,2418.5"/>
+</svg>

@@ -215,26 +215,34 @@ object Form{
   }
 
   /**
-   * 0 =>   1/8
+   * 0.0 => 0.0
+   * 0.5 => 127
+   * 1.0 => 255
+   */
+  def splitColor(s: String): Seq[Int] = {
+    s.drop(1)
+      .grouped(2)
+      .toSeq
+      .map(Integer.parseInt(_, 16))
+  }
+  /**
+   * 0.0 => 1/8
    * 0.5 => 1/2
-   * 1 =>   4
+   * 1.0 => 4
    **/
   def splitFill(s: String): (Double, Double, Double) = {
-    val parts = s.drop(1).grouped(2).toSeq
+
 
     val Seq(friction, density, elasticity) =
-      parts.map(p => Integer.parseInt(p, 16) / 255.0)
-           .map(p => math.pow(2, 6 * p) / 16)
-           .toSeq
+      splitColor(s).map(_ / 255.0)
+                  .map(p => math.pow(2, 6 * p) / 16 )
+                   .toSeq
 
     (friction, density, elasticity)
   }
   def splitJointConfig(s: String): (Double, Double, Double) = {
-    val parts = s.drop(1).grouped(2).toSeq
 
-    val Seq(friction, springConstant, speed) =
-      parts.map(p => Integer.parseInt(p, 16)).toSeq
-
+    val Seq(friction, springConstant, speed) = splitColor(s)
 
     val lowBit = 1
     val res = (

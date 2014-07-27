@@ -21,7 +21,10 @@ object Build extends sbt.Build {
       bundleName := "bundled.js",
       bundleJS := {
 
-        val cacheFiles = Path.allSubpaths(bundledDirectory.value).map{ case (file, path) =>
+        val cacheFiles = for {
+          (file, path) <- Path.allSubpaths(bundledDirectory.value)
+          if !file.isDirectory
+        } yield {
           FileFunction.cached(
             cacheDirectory.value / "bundled" / path,
             FilesInfo.lastModified,
@@ -32,7 +35,7 @@ object Build extends sbt.Build {
             IO.write(outFile, s""""$path": "$data" """)
             Set(outFile)
           }(Set(file))
-        }.toSet.flatten
+        }
 
         FileFunction.cached(
           cacheDirectory.value / "totalBundle",
@@ -43,7 +46,7 @@ object Build extends sbt.Build {
           val fileLines = inFiles.map(IO.read(_))
           IO.write(bundle, "\nScalaJSBundle = {\n" + fileLines.mkString(",\n") + "\n}" )
           Set(bundle)
-        }(cacheFiles)
+        }(cacheFiles.toSet.flatten)
       }
     )
   }
