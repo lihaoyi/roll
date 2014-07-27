@@ -186,8 +186,9 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       }
 
       lasers.draw(ctx)
-      antigravity.draw(ctx)
+
       player.draw(ctx)
+      antigravity.draw(ctx)
       goal.draw(ctx)
 
       staticJoints.foreach{ jform  =>

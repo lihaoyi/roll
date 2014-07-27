@@ -14,7 +14,7 @@ case class Field(center: cp.Vect,
                  dir: cp.Vect){
   val bb = shape.getBB()
   val idealCount = math.abs((bb.l - bb.r) * (bb.t - bb.b)  / 10000).toInt
-  val sparkles = new Array[cp.Vect](idealCount)
+  val sparkles: Array[cp.Vect] = new Array(idealCount)
 }
 
 class Antigravity(fields: Seq[Field],
@@ -30,6 +30,7 @@ class Antigravity(fields: Seq[Field],
   }
   var strokeWidth = 0.0
   def draw(ctx: dom.CanvasRenderingContext2D) = {
+    ctx.fill()
     strokeWidth += 0.1
     val base = 240
     val rest = 255 - base
