@@ -118,8 +118,8 @@ object Form{
 
     (space.staticBody, shapes, points.map(p => (p.x, p.y)))
   }
-  def flatten(pts: Seq[cp.Vect]) =
-    pts.flatMap(p => Seq(p.x, p.y)).toArray
+  def flatten(pts: Seq[cp.Vect]) = pts.flatMap(p => Seq(p.x, p.y)).toArray
+  def flatten2(pts: Seq[(Double, Double)]) = pts.flatMap(p => Seq(p._1, p._2)).toArray
   def makePoly(points: Seq[cp.Vect],
                density: Double,
                friction: Double,

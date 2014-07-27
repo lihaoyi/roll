@@ -105,39 +105,43 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     kill = if (player.dead == 0.0) player.dead = 1.0
   )
 
-//  val fields: Seq[Field] = {
-//    val beamElements = xmlTree("Fields").children
-//    val (directions, fields) = beamElements.partition(_.isInstanceOf[Xml.Line])
-//    for {
-//      elem <- fields
-//      form <- Form.processElement(elem, true, Layers.Fields).map(_.copy(color = Color.Red))
-//    } yield {
-//      val vects: Stream[cp.Vect] = for{
-//        direction <- directions.toStream
-//        start = new cp.Vect(
-//          direction.getAttribute("x1").toDouble,
-//          direction.getAttribute("y1").toDouble
-//        )
-//        end = new cp.Vect(
-//          direction.getAttribute("x2").toDouble,
-//          direction.getAttribute("y2").toDouble
-//        )
-//        _ = dom.console.log(start.x, start.y, end.x, end.y)
-//        shape <- form.shapes
-//        _ = dom.console.log(shape)
-//        if shape.pointQuery(start).isDefined
-//      } yield {
-//        val d = end - start
-//        d / d.length
-//      }
-//      Field(form, vects.head)
-//    }
-//  }
-//  val antigravity = new Antigravity(
-//    Nil,
-//    query = space.segmentQuery(_, _, _, 0, _),
-//    pointQuery = space.pointQueryFirst(_, _, 0)
-//  )
+  val fields: Seq[Field] = {
+    val beamElements = xmlTree("Fields").children
+    val (directions, fields) = beamElements.partition(_.isInstanceOf[Xml.Line])
+    for {
+      elem <- fields
+    } yield {
+      val (center, drawable, shape) = elem match{
+        case Xml.Polygon(pts, misc) => (
+          (0.0, 0.0),
+          Drawable.Polygon(pts),
+          new cp.PolyShape(space.staticBody, Form.flatten2(pts), (0, 0))
+        )
+        case Xml.Circle(x, y, r, misc) => (
+          (x, y),
+          Drawable.Circle(r),
+          new cp.CircleShape(space.staticBody, r, (x, y))
+        )
+      }
+      shape.layers = Layers.Fields
+      val vects: Stream[cp.Vect] = for{
+        dir0 <- directions.toStream
+        dir = dir0.cast[Xml.Line]
+        start = new cp.Vect(dir.x1, dir.y1)
+        end = new cp.Vect(dir.x2, dir.y2)
+        if shape.pointQuery(start).isDefined
+      } yield {
+        val d = end - start
+        d / d.length
+      }
+      Field(center, drawable, shape, vects.head)
+    }
+  }
+  val antigravity = new Antigravity(
+    fields,
+    query = (s, f) => space.shapeQuery(s, f),
+    pointQuery = space.pointQueryFirst(_, _, 0)
+  )
 
   var camera: Camera = new Camera.Pan(
     initialDims,
@@ -171,19 +175,19 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       }
 
       lasers.draw(ctx)
-//      antigravity.draw(ctx)
+      antigravity.draw(ctx)
       player.draw(ctx)
       goal.draw(ctx)
 
-//      staticJoints.foreach{ jform  =>
-//        ctx.save()
-//        ctx.fillStyle = jform.fillStyle.toString
-//        ctx.strokeStyle = jform.strokeStyle.toString
-//        ctx.translate(jform.joint.a.getPos().x, jform.joint.a.getPos().y)
-//        ctx.rotate(jform.joint.a.a)
-//        ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)
-//        ctx.restore()
-//      }
+      staticJoints.foreach{ jform  =>
+        ctx.save()
+        ctx.fillStyle = jform.fillStyle.toString
+        ctx.strokeStyle = jform.strokeStyle.toString
+        ctx.translate(jform.joint.a.getPos().x, jform.joint.a.getPos().y)
+        ctx.rotate(jform.joint.a.a)
+        ctx.fillCircle(jform.joint.anchr1.x, jform.joint.anchr1.y, 5)
+        ctx.restore()
+      }
 
       strokes.draw(ctx)
     }
@@ -209,7 +213,7 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
 
       if (goal.update()) Level.Result.Next
       else {
-//        antigravity.update()
+        antigravity.update()
         space.step(1.0 / 60)
         lasers.update()
 

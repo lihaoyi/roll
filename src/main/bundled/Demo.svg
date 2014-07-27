@@ -108,6 +108,9 @@
 <g id="Fields">
 	<rect x="452.896" y="30.327" opacity="0.5" fill="#888888" width="357.604" height="175.173"/>
 	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="631.698" y1="175.5" x2="631.698" y2="58.5"/>
+	<rect x="469.534" y="695.683" opacity="0.5" fill="#888888" width="72.161" height="175.173"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="505.615" y1="840.855" x2="505.615" y2="723.855"/>
 </g>
 <polygon fill="#888888" points="1012.796,311.298 981.203,298.018 976.907,264.018 1004.204,243.298 1035.797,256.578 
 	1040.093,290.578 "/>

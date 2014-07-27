@@ -6,7 +6,7 @@ import org.scalajs.dom
 import roll.cp
 import roll.cp.Implicits._
 import roll.cp.SegmentQueryInfo
-import roll.gameplay.{Layers, Form}
+import roll.gameplay.{Drawable, Layers, Form}
 import scala.collection.mutable
 
 case class Beam(start: cp.Vect,
@@ -54,35 +54,29 @@ class Lasers(player: Form,
     }
   }
 }
-case class Field(form: Form, direction: cp.Vect)
+case class Field(center: cp.Vect, drawable: Drawable, shape: cp.Shape, direction: cp.Vect)
 
-class Antigravity(beamElements: Seq[dom.Element],
-                 query: (cp.Vect, cp.Vect, js.Number, js.Function3[cp.Shape, Double, cp.Vect, Unit]) => Unit,
-                 pointQuery: (cp.Vect, js.Number) => cp.Shape) extends Beams(beamElements, Color.Blue){
-  println("Antigravity " + beamElements.length)
+class Antigravity(fields: Seq[Field],
+                 query: (cp.Shape, Function2[cp.Shape, js.Any, Unit]) => Unit,
+                 pointQuery: (cp.Vect, js.Number) => cp.Shape){
+
+  var strokeWidth = 0.0
+  def draw(ctx: dom.CanvasRenderingContext2D) = {
+    for(field <- fields){
+      ctx.strokeStyle = "rgba(128, 128, 128, 0.5)"
+      ctx.fillStyle = "rgba(128, 128, 128, 0.5)"
+      field.drawable.draw(ctx)
+    }
+  }
 
   def update() = {
     val hitMap = mutable.Map.empty[cp.Body, List[cp.Vect]]
                             .withDefaultValue(Nil)
-    for (laser <- beams){
-      laser.hit = None
-      if (laser.hit == None){
-        val hits = mutable.Buffer.empty[cp.Shape]
-        query(
-          laser.start,
-          laser.end,
-          Layers.Strokes | Layers.DynamicRange,
-          (s: cp.Shape, d: Double, v: cp.Vect) => hits.append(s)
-        )
 
-        for(shape <- hits) {
-          val body = shape.getBody()
-          if (!body.isStatic()) {
-            val d = laser.end - laser.start
-            hitMap(body) = d / d.length :: hitMap(body)
-          }
-        }
-      }
+    for(field <- fields){
+      field.shape.layers = Layers.DynamicRange
+      query(field.shape, (s, _) => hitMap(s.getBody()) ::= field.direction)
+      field.shape.layers = Layers.Fields
     }
     for((body, hits) <- hitMap){
       val cancelGravity = new cp.Vect(0, -400)
