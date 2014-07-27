@@ -54,6 +54,7 @@ class Lasers(player: Form,
     }
   }
 }
+
 case class Field(center: cp.Vect, drawable: Drawable, shape: cp.Shape, direction: cp.Vect)
 
 class Antigravity(fields: Seq[Field],
@@ -62,9 +63,14 @@ class Antigravity(fields: Seq[Field],
 
   var strokeWidth = 0.0
   def draw(ctx: dom.CanvasRenderingContext2D) = {
+    strokeWidth += 0.1
+    val base = 240
+    val rest = 255 - base
+    val g = (base + rest * Math.sin(strokeWidth)).toInt
+    val b = (base - rest * Math.sin(strokeWidth)).toInt
     for(field <- fields){
-      ctx.strokeStyle = "rgba(128, 128, 128, 0.5)"
-      ctx.fillStyle = "rgba(128, 128, 128, 0.5)"
+      ctx.strokeStyle = s"rgba(0, $g, $b, 0.5)"
+      ctx.fillStyle = s"rgba(0, $g, $b, 0.5)"
       field.drawable.draw(ctx)
     }
   }

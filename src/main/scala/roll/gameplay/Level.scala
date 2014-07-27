@@ -105,37 +105,37 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     kill = if (player.dead == 0.0) player.dead = 1.0
   )
 
-  val fields: Seq[Field] = {
-    val beamElements = xmlTree("Fields").children
-    val (directions, fields) = beamElements.partition(_.isInstanceOf[Xml.Line])
-    for {
-      elem <- fields
-    } yield {
-      val (center, drawable, shape) = elem match{
-        case Xml.Polygon(pts, misc) => (
-          (0.0, 0.0),
-          Drawable.Polygon(pts),
-          new cp.PolyShape(space.staticBody, Form.flatten2(pts), (0, 0))
-        )
-        case Xml.Circle(x, y, r, misc) => (
-          (x, y),
-          Drawable.Circle(r),
-          new cp.CircleShape(space.staticBody, r, (x, y))
-        )
-      }
-      shape.layers = Layers.Fields
-      val vects: Stream[cp.Vect] = for{
-        dir0 <- directions.toStream
-        dir = dir0.cast[Xml.Line]
-        start = new cp.Vect(dir.x1, dir.y1)
-        end = new cp.Vect(dir.x2, dir.y2)
-        if shape.pointQuery(start).isDefined
-      } yield {
-        val d = end - start
-        d / d.length
-      }
-      Field(center, drawable, shape, vects.head)
+  val fields: Seq[Field] = for{
+    fieldElem <- xmlTree.get("Fields").toSeq
+    beamElements = fieldElem.children
+    (directions, fields) = beamElements.partition(_.isInstanceOf[Xml.Line])
+    elem <- fields
+  } yield {
+    val (center, drawable, shape) = elem match{
+      case Xml.Polygon(pts, misc) => (
+        (0.0, 0.0),
+        Drawable.Polygon(pts),
+        new cp.PolyShape(space.staticBody, Form.flatten2(pts), (0, 0))
+      )
+      case Xml.Circle(x, y, r, misc) => (
+        (x, y),
+        Drawable.Circle(r),
+        new cp.CircleShape(space.staticBody, r, (x, y))
+      )
     }
+    shape.layers = Layers.Fields
+    val vects: Stream[cp.Vect] = for{
+      dir0 <- directions.toStream
+      dir = dir0.cast[Xml.Line]
+      start = new cp.Vect(dir.x1, dir.y1)
+      end = new cp.Vect(dir.x2, dir.y2)
+      if shape.pointQuery(start).isDefined
+    } yield {
+      val d = end - start
+      d / d.length
+    }
+    Field(center, drawable, shape, vects.head)
+
   }
   val antigravity = new Antigravity(
     fields,

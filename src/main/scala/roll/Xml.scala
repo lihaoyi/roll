@@ -14,11 +14,12 @@ import roll.cp.Cp
  * shapes.
  */
 sealed trait Xml{
-  def apply(s: String) =
+  def get(s: String) =
     this.cast[Xml.Group]
-        .children
-        .find(_.misc.id == s)
-        .get
+      .children
+      .find(_.misc.id == s)
+
+  def apply(s: String) = get(s).get
   def children: Seq[Xml] = {
     this.cast[Xml.Group]
         .children
