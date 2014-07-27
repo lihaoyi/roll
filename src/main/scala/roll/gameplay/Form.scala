@@ -45,9 +45,12 @@ class JointForm(val joint: cp.PivotJoint,
 
 object Layers{
   val Common = 1
-  val Static = 2
-  val Strokes = 4
-  val Fields = 8
+  val Static = Common << 1
+  val Strokes = Static << 1
+  val Fields = Strokes << 1
+
+  val FirstNonReserved = Fields << 1
+
   val All = ~0
   val DynamicRange = All & ~Static & ~Strokes & ~Common & ~Fields
 }
@@ -164,7 +167,7 @@ object Form{
     space.pointQuery((elem.x, elem.y), ~0, 0, {(s: cp.Shape) => shapes += s; ()})
 
     var existing = Layers.Common | Layers.Static | Layers.Strokes
-    var current = 4
+    var current = Layers.FirstNonReserved
 
     shapes.foreach{s =>
       val n = s.layers.toInt
@@ -200,7 +203,6 @@ object Form{
         space.addConstraint(motorJoint)
       }
       if (s.layers.toInt == (Layers.Common | Layers.DynamicRange) && !static){
-
         while((current & existing) != 0) {
           current <<= 1
         }

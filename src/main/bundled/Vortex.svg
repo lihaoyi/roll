@@ -2,58 +2,54 @@
 <!-- Generator: Adobe Illustrator 17.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="1600px" height="1600px" viewBox="0 0 1600 1600" enable-background="new 0 0 1600 1600" xml:space="preserve">
+	 width="3200px" height="3200px" viewBox="0 0 3200 3200" enable-background="new 0 0 3200 3200" xml:space="preserve">
 <g id="Foreground">
 </g>
 <g id="Dynamic">
-	<circle fill="#8B7765" cx="1100.727" cy="605.583" r="38.998"/>
-	<circle fill="#8B7765" cx="489.777" cy="747.481" r="38.998"/>
-	<circle fill="#8B7765" cx="981.273" cy="1266.401" r="38.998"/>
+	<circle fill="#8B7765" cx="2057.53" cy="1302.68" r="58.497"/>
+	<circle fill="#8B7765" cx="1141.105" cy="1515.527" r="58.497"/>
+	<circle fill="#8B7765" cx="1878.349" cy="2293.907" r="58.497"/>
 	
-		<rect x="1193.549" y="976.533" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 2809.9392 1064.7566)" fill="#8B7765" width="21.408" height="171.089"/>
+		<rect x="2196.75" y="1859.101" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -761.3036 1955.5635)" fill="#8B7765" width="32.112" height="256.636"/>
 	
-		<rect x="580.974" y="329.479" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 1310.0817 336.1232)" fill="#8B7765" width="21.408" height="171.089"/>
+		<rect x="1277.898" y="888.521" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -349.239 1107.3591)" fill="#8B7765" width="32.112" height="256.636"/>
 	
-		<rect x="1230.356" y="606.788" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 2691.8945 509.8961)" fill="#8B7765" width="38.942" height="311.214"/>
+		<rect x="2251.963" y="1304.484" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -447.5158 1888.8081)" fill="#8B7765" width="58.413" height="466.826"/>
 	
-		<rect x="627.665" y="1172.441" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 1948.3606 1781.4042)" fill="#8B7765" width="21.408" height="171.089"/>
-	<rect x="292.616" y="936.084" fill="#8B7765" width="82.496" height="79.496"/>
-	<rect x="1020.481" y="345.031" fill="#8B7765" width="82.496" height="79.496"/>
-	<circle fill="#8B7765" cx="331.319" cy="569.615" r="67.842"/>
-	<rect x="758.481" y="1278.13" fill="#8B7765" width="37.226" height="35.872"/>
-	<rect x="780.481" y="228.787" fill="#8B7765" width="37.226" height="35.872"/>
+		<rect x="1347.927" y="2152.957" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -1166.5826 1468.3174)" fill="#8B7765" width="32.112" height="256.636"/>
+	<rect x="845.363" y="1798.432" fill="#8B7765" width="123.744" height="119.244"/>
+	<rect x="1937.161" y="911.852" fill="#8B7765" width="123.744" height="119.244"/>
+	<circle fill="#8B7765" cx="903.418" cy="1248.728" r="101.763"/>
+	<rect x="1544.161" y="2311.5" fill="#8B7765" width="55.839" height="53.808"/>
+	<rect x="1577.161" y="737.486" fill="#8B7765" width="55.839" height="53.808"/>
 </g>
 <g id="Background">
 </g>
 <g id="Joints">
 </g>
 <g id="Special">
-	<circle id="Player" fill="#FF8877" cx="477.777" cy="1202.248" r="38.998"/>
-	<polygon id="Goal" fill="#00FFFF" points="773.652,841.996 751.597,803.796 773.652,765.595 817.762,765.595 839.817,803.796 
-		817.762,841.996 	"/>
+	<circle id="Player" fill="#FF8877" cx="1123.105" cy="2197.678" r="30"/>
+	<polygon id="Goal" fill="#00FFFF" points="1566.917,1657.299 1533.835,1600 1566.917,1542.698 1633.082,1542.698 1666.165,1600 
+		1633.082,1657.299 	"/>
 </g>
 <g id="Fields">
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="795.707,803.796 12.312,803.796 404.009,1482.236 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1579.102,803.796 795.707,803.796 1187.405,1482.236 	
-		"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1187.405,125.356 404.009,125.356 795.707,803.796 	
-		"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="795.707,803.796 1187.405,1482.236 404.009,1482.236 	
-		"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="12.312,803.796 795.707,803.796 404.009,125.356 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="795.707,803.796 1579.102,803.796 1187.405,125.356 	
-		"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1600,1600 424.907,1600 1012.453,2617.66 	"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="2775.093,1600 1600,1600 2187.547,2617.66 	"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="2187.547,582.34 1012.453,582.34 1600,1600 	"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1600,1600 2187.547,2617.66 1012.453,2617.66 	"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="424.907,1600 1600,1600 1012.453,582.34 	"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1600,1600 2775.093,1600 2187.547,582.34 	"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="399.161" y1="125.356" x2="399.161" y2="803.796"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1140.137" y1="540.444" x2="963.422" y2="1542.643"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="13.312" y1="805.222" x2="600.858" y2="1144.442"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="457.697" y1="1464.909" x2="1237.27" y2="2119.047"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="409.102" y1="1483.612" x2="996.648" y2="1144.392"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="916.425" y1="2524.57" x2="1872.712" y2="2176.51"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1187.405" y1="1482.236" x2="1187.405" y2="803.796"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="2052.595" y1="2659.481" x2="2229.309" y2="1657.282"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1573.819" y1="802.277" x2="986.273" y2="463.057"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="2735.89" y1="1734.952" x2="1956.318" y2="1080.813"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1185.405" y1="125.356" x2="597.858" y2="464.576"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="2287.993" y1="678.45" x2="1331.703" y2="1026.509"/>
 </g>
 </svg>
