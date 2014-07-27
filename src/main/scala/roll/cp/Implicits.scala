@@ -22,11 +22,18 @@ object Implicits {
     def length: Double = Math.sqrt(lengthSquared)
     def lengthSquared = x * x + y * y
     def within(a: cp.Vect, b: cp.Vect, extra: cp.Vect = new cp.Vect(0, 0)) = {
+
       import math.{min, max}
-      x >= min(a.x, b.x) - extra.x &&
+      if (extra.x != 0 || extra.y != 0)
+        x >= min(a.x, b.x) - extra.x &&
         x < max(a.x, b.x) + extra.y &&
         y >= min(a.y, b.y) - extra.x &&
         y < max(a.y, b.y) + extra.y
+      else
+        x >= min(a.x, b.x) &&
+        x < max(a.x, b.x) &&
+        y >= min(a.y, b.y) &&
+        y < max(a.y, b.y)
     }
     def rotate(theta: Double) = {
       val (cos, sin) = (Math.cos(theta), math.sin(theta))

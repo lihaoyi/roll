@@ -12,8 +12,9 @@ case class Field(center: cp.Vect,
                  drawable: Drawable,
                  shape: cp.Shape,
                  dir: cp.Vect,
-                 area: Double,
                  var sparkles: Vector[(cp.Vect)] = Vector()){
+  val bb = shape.getBB()
+  val idealCount = math.abs((bb.l - bb.r) * (bb.t - bb.b)  / 10000).toInt
 
 }
 
@@ -21,6 +22,13 @@ class Antigravity(fields: Seq[Field],
                   query: (cp.Shape, Function2[cp.Shape, js.Any, Unit]) => Unit,
                   pointQuery: (cp.Vect, js.Number) => cp.Shape){
 
+  def rand = util.Random.nextDouble()
+  for(field <- fields){
+    import field._
+    field.sparkles = (0 until (idealCount - sparkles.length)).map{_ =>
+      new cp.Vect(rand * (bb.l - bb.r) + bb.r, rand * (bb.t - bb.b) + bb.b)
+    }.toVector
+  }
   var strokeWidth = 0.0
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     strokeWidth += 0.1
@@ -30,17 +38,16 @@ class Antigravity(fields: Seq[Field],
     val b = (base - rest * Math.sin(strokeWidth)).toInt
     for(field <- fields){
 
-      val bb = field.shape.getBB()
+
       ctx.strokeStyle = s"rgba(128, $g, $b, 0.2)"
       ctx.fillStyle = s"rgba(128, $g, $b, 0.2)"
 
-      val idealCount = math.abs((bb.l - bb.r) * (bb.t - bb.b)  / 10000).toInt
-
+      import field._
       val newSparkles = for{
         x <- 0 until (idealCount - field.sparkles.length)
         if scala.util.Random.nextFloat() > 0.95
       } yield {
-        def rand = util.Random.nextDouble()
+
 
         // Random points along the four edges of the bounding box
         def randT = new cp.Vect(rand * (bb.r - bb.l) + bb.l, bb.t)

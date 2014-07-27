@@ -144,14 +144,13 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       center,
       drawable,
       shape,
-      vects.reduce(_ + _) / vects.length,
-      area
+      vects.reduceOption(_ + _).fold(new cp.Vect(0, 0))(_ / vects.length)
     )
   }
   println("antigravity " + fields.map(_.dir).map(p => (p.x, p.y)))
   val antigravity = new Antigravity(
     fields,
-    query = (s, f) => space.shapeQuery(s, f),
+    query = space.shapeQuery(_, _),
     pointQuery = space.pointQueryFirst(_, _, 0)
   )
   println("camera")
