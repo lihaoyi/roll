@@ -10,13 +10,13 @@
 	<circle fill="#8B7765" cx="489.777" cy="747.481" r="38.998"/>
 	<circle fill="#8B7765" cx="981.273" cy="1266.401" r="38.998"/>
 	
-		<rect x="1193.537" y="976.534" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -401.4362 1059.391)" fill="#8B7765" width="21.408" height="171.088"/>
+		<rect x="1193.549" y="976.533" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 2809.9392 1064.7566)" fill="#8B7765" width="21.408" height="171.089"/>
 	
-		<rect x="580.969" y="329.481" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -126.7266 493.9214)" fill="#8B7765" width="21.408" height="171.088"/>
+		<rect x="580.974" y="329.479" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 1310.0817 336.1232)" fill="#8B7765" width="21.408" height="171.089"/>
 	
-		<rect x="1230.345" y="606.791" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -192.2442 1014.8872)" fill="#8B7765" width="38.942" height="311.212"/>
+		<rect x="1230.356" y="606.788" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 2691.8945 509.8961)" fill="#8B7765" width="38.942" height="311.214"/>
 	
-		<rect x="627.655" y="1172.438" transform="matrix(0.7511 -0.6602 0.6602 0.7511 -671.6221 734.5604)" fill="#8B7765" width="21.408" height="171.088"/>
+		<rect x="627.665" y="1172.441" transform="matrix(-0.7511 0.6602 -0.6602 -0.7511 1948.3606 1781.4042)" fill="#8B7765" width="21.408" height="171.089"/>
 	<rect x="292.616" y="936.084" fill="#8B7765" width="82.496" height="79.496"/>
 	<rect x="1020.481" y="345.031" fill="#8B7765" width="82.496" height="79.496"/>
 	<circle fill="#8B7765" cx="331.319" cy="569.615" r="67.842"/>
@@ -25,32 +25,35 @@
 </g>
 <g id="Background">
 </g>
-<g id="Static">
-	<rect x="413.057" y="103.773" fill="#8B7765" width="776.301" height="22.408"/>
-	<g id="Static_1_">
-		<rect x="413.115" y="1475.233" fill="#8B7765" width="776.301" height="22.408"/>
-	</g>
-	<g id="Static_2_">
-		
-			<rect x="-179.234" y="442.647" transform="matrix(-0.5038 0.8638 -0.8638 -0.5038 706.1935 502.0513)" fill="#8B7765" width="776.273" height="22.408"/>
-		<g id="Static_3_">
-			
-				<rect x="1005.484" y="1133.515" transform="matrix(-0.5038 0.8638 -0.8638 -0.5038 3084.5637 517.6075)" fill="#8B7765" width="776.273" height="22.408"/>
-		</g>
-	</g>
-	<g id="Static_4_">
-		
-			<rect x="-183.75" y="1132.359" transform="matrix(0.4954 0.8686 -0.8686 0.4954 1096.4661 399.4954)" fill="#8B7765" width="776.213" height="22.406"/>
-		<g id="Static_5_">
-			
-				<rect x="1007.538" y="452.848" transform="matrix(0.4954 0.8686 -0.8686 0.4954 1107.3007 -978.178)" fill="#8B7765" width="776.213" height="22.406"/>
-		</g>
-	</g>
-</g>
 <g id="Joints">
 </g>
 <g id="Special">
 	<circle id="Player" fill="#FF8877" cx="477.777" cy="1202.248" r="38.998"/>
-	<rect id="Goal" x="759.119" y="767.217" fill="#00FFFF" width="73.177" height="73.177"/>
+	<polygon id="Goal" fill="#00FFFF" points="773.652,841.996 751.597,803.796 773.652,765.595 817.762,765.595 839.817,803.796 
+		817.762,841.996 	"/>
+</g>
+<g id="Fields">
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="795.707,803.796 12.312,803.796 404.009,1482.236 	"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1579.102,803.796 795.707,803.796 1187.405,1482.236 	
+		"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1187.405,125.356 404.009,125.356 795.707,803.796 	
+		"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="795.707,803.796 1187.405,1482.236 404.009,1482.236 	
+		"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="12.312,803.796 795.707,803.796 404.009,125.356 	"/>
+	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="795.707,803.796 1579.102,803.796 1187.405,125.356 	
+		"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="399.161" y1="125.356" x2="399.161" y2="803.796"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="13.312" y1="805.222" x2="600.858" y2="1144.442"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="409.102" y1="1483.612" x2="996.648" y2="1144.392"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1187.405" y1="1482.236" x2="1187.405" y2="803.796"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1573.819" y1="802.277" x2="986.273" y2="463.057"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1185.405" y1="125.356" x2="597.858" y2="464.576"/>
 </g>
 </svg>

@@ -29,7 +29,7 @@ class Shape(body: Body) extends js.Object{
 @JSName("cp.PointQueryExtendedInfo")
 class PointQueryExtendedInfo(var shape: Shape) extends js.Object
 @JSName("cp.NearestPointQueryInfo")
-class NearestPointQueryInfo(var shape: Shape, p: Vect, d: Double) extends js.Object
+class NearestPointQueryInfo(var shape: Shape, p: Vect, val d: Double) extends js.Object
 @JSName("cp.SegmentQueryInfo")
 class SegmentQueryInfo(var shape: Shape, var t: Double, var n: Vect) extends js.Object
 

@@ -3,7 +3,7 @@ package roll.gameplay.modules
 import scala.scalajs.js
 import org.scalajs.dom.extensions._
 import org.scalajs.dom
-import roll.cp
+import roll.{Xml, cp}
 import roll.cp.Implicits._
 import roll.cp.SegmentQueryInfo
 import roll.gameplay.{Drawable, Layers, Form}
@@ -13,11 +13,15 @@ case class Beam(start: cp.Vect,
                  end: cp.Vect,
                  var hit: Option[cp.Vect])
 
-class Beams(beamElements: Seq[dom.Element], color: dom.extensions.Color){
+class Beams(beamLines: Seq[Xml.Line], color: dom.extensions.Color){
   var strokeWidth = 1
-  val beams: Seq[Beam] =
-    beamElements
-      .map{ case (e: dom.SVGLineElement) => Beam((e.x1, e.y1), (e.x2, e.y2), None) }
+  val beams: Seq[Beam] = for{
+    Xml.Line(x1, y1, x2, y2, misc) <- beamLines
+  } yield {
+    Beam((x1, y1), (x2, y2), None)
+  }
+
+
 
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     for(beam <- beams){
@@ -35,7 +39,7 @@ class Beams(beamElements: Seq[dom.Element], color: dom.extensions.Color){
   }
 }
 class Lasers(player: Form,
-             laserElements: Seq[dom.Element],
+             laserElements: Seq[Xml.Line],
              query: (cp.Vect, cp.Vect, js.Number) => SegmentQueryInfo,
              pointQuery: (cp.Vect, js.Number) => cp.Shape,
              kill: => Unit) extends Beams(laserElements, Color.Red){

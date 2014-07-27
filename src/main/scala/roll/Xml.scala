@@ -21,6 +21,7 @@ sealed trait Xml{
       .find(_.misc.id == s)
 
   def apply(s: String) = get(s).get
+
   def children: Seq[Xml] = {
     this.cast[Xml.Group]
         .children

@@ -44,15 +44,15 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
 
   println("Static!")
   val staticShapes =
-    xmlTree("Static")
-      .children
+    xmlTree.get("Static").toSeq
+      .flatMap(_.children)
       .flatMap(Form.processElement(_, static = true))
 
 
   println("Dynamic!")
   val dynamicShapes =
-    xmlTree("Dynamic")
-      .children
+    xmlTree.get("Dynamic").toSeq
+      .flatMap(_.children)
       .flatMap(Form.processElement(_, static = false))
 
   val widest = new cp.Vect(svgElement.width, svgElement.height)
@@ -71,8 +71,8 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
 
   println("staticJoints")
   val staticJoints =
-    xmlTree("Joints")
-      .children
+    xmlTree.get("Joints").toSeq
+      .flatMap(_.children)
       .collect{case x: Xml.Circle => x}
       .flatMap(Form.processJoint)
 
@@ -87,7 +87,7 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     widest = widest
   )
 
-//  println("Goal")
+  println("Goal")
   val goal = new Goal(
     Form.processElement(xmlTree("Special")("Goal"), static = true).head
   )
@@ -97,9 +97,9 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
 
   val lasers = new Lasers(
     player = player.form,
-    laserElements = svgDoc.getElementById("Lasers")
-                          .children
-                          .filter(_.getAttribute("stroke") == "#FF0000"),
+    laserElements = xmlTree.get("Lasers").toSeq
+                           .flatMap(_.children)
+                           .collect{case el: Xml.Line if el.misc.stroke == "#FF0000" => el},
     query = space.segmentQueryFirst(_, _, _, 0),
     pointQuery = space.pointQueryFirst(_, _, 0),
     kill = if (player.dead == 0.0) player.dead = 1.0
@@ -111,6 +111,7 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     (directions, fields) = beamElements.partition(_.isInstanceOf[Xml.Line])
     elem <- fields
   } yield {
+    println("Rendering Field")
     val (center, drawable, shape) = elem match{
       case Xml.Polygon(pts, misc) => (
         (0.0, 0.0),
@@ -123,26 +124,34 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
         new cp.CircleShape(space.staticBody, r, (x, y))
       )
     }
+    space.addShape(shape)
     shape.layers = Layers.Fields
-    val vects: Stream[cp.Vect] = for{
-      dir0 <- directions.toStream
+    val vects: Seq[cp.Vect] = for{
+      dir0 <- directions
       dir = dir0.cast[Xml.Line]
       start = new cp.Vect(dir.x1, dir.y1)
       end = new cp.Vect(dir.x2, dir.y2)
-      if shape.pointQuery(start).isDefined
+      middle = (start + end) / 2
+      _ = dom.console.log(middle)
+      res = shape.pointQuery(middle)
+      if res.isDefined
+      _ = println("res.get.d " + res.get.d)
+
     } yield {
+      dom.console.log(res)
       val d = end - start
       d / d.length
     }
-    Field(center, drawable, shape, vects.head)
-
+    println("VECTS LENGTH " + vects.length)
+    Field(center, drawable, shape, vects.reduce(_ + _) / vects.length)
   }
+  println("antigravity " + fields.map(_.direction).map(p => (p.x, p.y)))
   val antigravity = new Antigravity(
     fields,
     query = (s, f) => space.shapeQuery(s, f),
     pointQuery = space.pointQueryFirst(_, _, 0)
   )
-
+  println("camera")
   var camera: Camera = new Camera.Pan(
     initialDims,
     widest,

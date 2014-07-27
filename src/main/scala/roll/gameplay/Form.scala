@@ -134,7 +134,7 @@ object Form{
 
     val area = Cp.areaForPoly(flatPoints)
     val mass = math.abs(density * area)
-    println(flatPoints.toSeq, area, mass)
+
     assert(mass > 0, (density, area))
     val body = space.addBody(
       new cp.Body(mass, Cp.momentForPoly(mass, flatPoints, (0, 0)))
@@ -165,7 +165,7 @@ object Form{
 
     var existing = Layers.Common | Layers.Static | Layers.Strokes
     var current = 4
-    println("Lawls " + (elem.x, elem.y) + " " + shapes.length)
+
     shapes.foreach{s =>
       val n = s.layers.toInt
       if (n != (Layers.Common | Layers.DynamicRange)) existing |= n
@@ -201,9 +201,7 @@ object Form{
       }
       if (s.layers.toInt == (Layers.Common | Layers.DynamicRange) && !static){
 
-
         while((current & existing) != 0) {
-          println(current)
           current <<= 1
         }
         s.setLayers(current)
@@ -252,7 +250,6 @@ object Form{
 //    dom.console.log("processElement", elem)
     elem match{
       case Xml.Polygon(pts, misc) =>
-        println("Porygon")
         val (friction, density, elasticity) = splitFill(misc.fill)
         val (body, shapes, flatPoints) =
           if (static) makePolySegments(pts.map(x => x: cp.Vect), density, friction, elasticity, layers)
