@@ -4,6 +4,7 @@ import org.scalajs.dom
 import org.scalajs.dom.extensions._
 import cp.Implicits._
 import roll.cp.Cp
+import roll.gameplay.Form
 
 /**
  * A basic AST for the SVG documents that represent the levels in Roll.
@@ -74,11 +75,11 @@ object Xml {
             }
 
           }
-        val flat = transformedPoints.flatMap(p => Seq(p._1, p._2)).toArray
-        println(
-          Cp.areaForPoly(flat)
-        )
-        Polygon(transformedPoints, misc) :: Nil
+
+        val finalPoints =
+          if(Cp.areaForPoly(Form.flatten2(transformedPoints)) > 0) transformedPoints
+          else transformedPoints.reverse
+        Polygon(finalPoints, misc) :: Nil
 
       case "line" => Line(d("x1"), d("y1"), d("x2"), d("y2"), misc) :: Nil
       case "polyline" | "polygon" =>
@@ -89,7 +90,11 @@ object Xml {
           .map(_.split(","))
           .map{ case Array(x, y) => (x.toDouble, y.toDouble)}
 
-        Polygon(pts, misc) :: Nil
+        val finalPoints =
+          if(Cp.areaForPoly(Form.flatten2(pts)) > 0) pts
+          else pts.reverse
+        Polygon(finalPoints, misc) :: Nil
+
       case "g" | "svg" =>
         Group(el.children.flatMap(parse), misc) :: Nil
       case _ =>
