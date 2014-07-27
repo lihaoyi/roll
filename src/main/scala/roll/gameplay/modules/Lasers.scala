@@ -8,32 +8,45 @@ import roll.cp.Implicits._
 import roll.cp.SegmentQueryInfo
 import roll.gameplay.{Drawable, Layers, Form}
 import scala.collection.mutable
+import java.util.Random
 
 case class Beam(start: cp.Vect,
                  end: cp.Vect,
-                 var hit: Option[cp.Vect])
+                 var hit: Option[cp.Vect],
+                 var strokeWidth: Double = 1.0,
+                 var spots: List[Double] = Nil)
 
 class Beams(beamLines: Seq[Xml.Line], color: dom.extensions.Color){
-  var strokeWidth = 1
+
   val beams: Seq[Beam] = for{
     Xml.Line(x1, y1, x2, y2, misc) <- beamLines
   } yield {
     Beam((x1, y1), (x2, y2), None)
   }
 
-
-
   def draw(ctx: dom.CanvasRenderingContext2D) = {
     for(beam <- beams){
       ctx.strokeStyle = color.toString()
       ctx.fillStyle = color.toString()
-      strokeWidth += 1
-      ctx.lineWidth = (math.sin(strokeWidth / 5) + 1) * 1 + 2
+      beam.strokeWidth += 1
+      if(scala.util.Random.nextFloat() > 0.9 && !beam.spots.headOption.exists(_ < 200)) beam.spots ::= 0
+
+      ctx.lineWidth = (math.sin(beam.strokeWidth / 5) + 1) * 1 + 2
       val realEnd = beam.hit.fold(beam.end){ hit =>
         ctx.fillCircle(hit.x, hit.y, ctx.lineWidth)
         hit
       }
 
+      beam.spots =
+        beam.spots
+            .map(_ + 10)
+            .filter(_ < (beam.start - realEnd).length)
+
+      for(spot <- beam.spots){
+        val d = beam.end - beam.start
+        val pos = d / d.length * spot + beam.start
+        ctx.fillCircle(pos.x, pos.y, ctx.lineWidth)
+      }
       ctx.strokePathOpen(beam.start, realEnd)
     }
   }

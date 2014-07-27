@@ -202,7 +202,7 @@ object Form{
         motorJoint.maxForce = math.abs(speed) * effectiveI * 10
         space.addConstraint(motorJoint)
       }
-      if (s.layers.toInt == (Layers.Common | Layers.DynamicRange) && !static){
+      if (s.layers == (Layers.Common | Layers.DynamicRange) && !static){
         while((current & existing) != 0) {
           current <<= 1
         }

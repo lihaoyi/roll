@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="3200px" height="2400px" viewBox="0 0 3200 2400" enable-background="new 0 0 3200 2400" xml:space="preserve">
+<g id="Foreground">
+</g>
+<g id="Static">
+	<rect x="1243.938" y="866.761" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="1481.312" y="866.761" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="1481.312" y="664.047" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="1481.312" y="1472.859" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="1718.688" y="866.761" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="466.25" y="1067.431" fill="#8B7765" width="2267.5" height="202.714"/>
+	<rect x="1243.938" y="1270.145" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="1481.312" y="1270.145" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="1718.688" y="1270.145" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="466.25" y="1270.145" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="466.25" y="1471.502" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="2496.375" y="664.726" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="2496.375" y="866.082" fill="#8B7765" width="237.375" height="202.714"/>
+	<rect x="2259" y="866.082" fill="#8B7765" width="237.375" height="202.714"/>
+</g>
+<g id="Special">
+	<circle id="Player" fill="#FF8877" cx="1022.213" cy="1030.477" r="38.998"/>
+	<rect id="Goal" x="703.625" y="1271.502" fill="#00FFFF" width="237.375" height="200"/>
+</g>
+<g id="Background">
+</g>
+<g id="Lasers">
+</g>
+<g id="Joints">
+</g>
+<g id="Fields">
+	<rect x="703.625" y="1271.502" opacity="0.5" fill="#888888" enable-background="new    " width="2030.125" height="424.998"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="5" stroke-miterlimit="10" x1="2088.368" y1="1696.5" x2="2088.368" y2="1271.502"/>
+</g>
+</svg>

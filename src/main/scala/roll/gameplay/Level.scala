@@ -76,12 +76,10 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       .collect{case x: Xml.Circle => x}
       .flatMap(Form.processJoint)
 
-
-  val pElem = xmlTree("Special")("Player")
-//  println("player " + pElem)
+  println("player")
   val player = new Player(
     Form.processElement(
-      pElem,
+      xmlTree("Special")("Player"),
       static = false
     ).head,
     widest = widest
@@ -111,7 +109,7 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     (directions, fields) = beamElements.partition(_.isInstanceOf[Xml.Line])
     elem <- fields
   } yield {
-    println("Rendering Field")
+
     val (center, drawable, shape) = elem match{
       case Xml.Polygon(pts, misc) => (
         (0.0, 0.0),
@@ -132,13 +130,10 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       start = new cp.Vect(dir.x1, dir.y1)
       end = new cp.Vect(dir.x2, dir.y2)
       middle = (start + end) / 2
-      _ = dom.console.log(middle)
       res = shape.pointQuery(middle)
       if res.isDefined
-      _ = println("res.get.d " + res.get.d)
 
     } yield {
-      dom.console.log(res)
       val d = end - start
       d / d.length
     }
