@@ -4,13 +4,13 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="3200px" height="3200px" viewBox="0 0 3200 3200" enable-background="new 0 0 3200 3200" xml:space="preserve">
 <g id="Fields">
-	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 3152.553,3152.553 3152.553,47.447 	"/>
+	<polyline opacity="0.5" fill="#111188" enable-background="new    " points="1600,1600 3152.553,3152.553 3152.553,47.447 	"/>
 	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="3152.553" y2="1600"/>
-	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 3152.553,47.447 47.447,47.447 	"/>
+	<polyline opacity="0.5" fill="#111188" enable-background="new    " points="1600,1600 3152.553,47.447 47.447,47.447 	"/>
 	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="1600" y2="47.447"/>
-	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 47.447,47.447 47.447,3152.553 	"/>
+	<polyline opacity="0.5" fill="#111188" enable-background="new    " points="1600,1600 47.447,47.447 47.447,3152.553 	"/>
 	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="47.447" y2="1600"/>
-	<polyline opacity="0.5" fill="#110088" enable-background="new    " points="1600,1600 47.447,3152.553 3152.553,3152.553 	"/>
+	<polyline opacity="0.5" fill="#111188" enable-background="new    " points="1600,1600 47.447,3152.553 3152.553,3152.553 	"/>
 	<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1600" y1="1600" x2="1600" y2="3152.553"/>
 </g>
 <g id="Foreground">
