@@ -110,16 +110,18 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
     elem <- fields
   } yield {
 
-    val (center, drawable, shape) = elem match{
+    val (center, drawable, shape, area) = elem match{
       case Xml.Polygon(pts, misc) => (
         (0.0, 0.0),
         Drawable.Polygon(pts),
-        new cp.PolyShape(space.staticBody, Form.flatten2(pts), (0, 0))
+        new cp.PolyShape(space.staticBody, Form.flatten2(pts), (0, 0)),
+        cp.Cp.areaForPoly(Form.flatten2(pts))
       )
       case Xml.Circle(x, y, r, misc) => (
         (x, y),
         Drawable.Circle(r),
-        new cp.CircleShape(space.staticBody, r, (x, y))
+        new cp.CircleShape(space.staticBody, r, (x, y)),
+        math.Pi * r * r
       )
     }
     space.addShape(shape)
@@ -138,9 +140,15 @@ class Level(src: String, initialDims: cp.Vect) extends Level.Result{
       d / d.length
     }
     println("VECTS LENGTH " + vects.length)
-    Field(center, drawable, shape, vects.reduce(_ + _) / vects.length)
+    Field(
+      center,
+      drawable,
+      shape,
+      vects.reduce(_ + _) / vects.length,
+      area
+    )
   }
-  println("antigravity " + fields.map(_.direction).map(p => (p.x, p.y)))
+  println("antigravity " + fields.map(_.dir).map(p => (p.x, p.y)))
   val antigravity = new Antigravity(
     fields,
     query = (s, f) => space.shapeQuery(s, f),

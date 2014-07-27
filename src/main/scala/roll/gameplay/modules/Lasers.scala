@@ -42,12 +42,14 @@ class Beams(beamLines: Seq[Xml.Line], color: dom.extensions.Color){
             .map(_ + 10)
             .filter(_ < (beam.start - realEnd).length)
 
+
+      ctx.strokePathOpen(beam.start, realEnd)
+
       for(spot <- beam.spots){
         val d = beam.end - beam.start
         val pos = d / d.length * spot + beam.start
         ctx.fillCircle(pos.x, pos.y, ctx.lineWidth)
       }
-      ctx.strokePathOpen(beam.start, realEnd)
     }
   }
 }
@@ -72,43 +74,3 @@ class Lasers(player: Form,
   }
 }
 
-case class Field(center: cp.Vect, drawable: Drawable, shape: cp.Shape, direction: cp.Vect)
-
-class Antigravity(fields: Seq[Field],
-                 query: (cp.Shape, Function2[cp.Shape, js.Any, Unit]) => Unit,
-                 pointQuery: (cp.Vect, js.Number) => cp.Shape){
-
-  var strokeWidth = 0.0
-  def draw(ctx: dom.CanvasRenderingContext2D) = {
-    strokeWidth += 0.1
-    val base = 240
-    val rest = 255 - base
-    val g = (base + rest * Math.sin(strokeWidth)).toInt
-    val b = (base - rest * Math.sin(strokeWidth)).toInt
-    for(field <- fields){
-      ctx.strokeStyle = s"rgba(0, $g, $b, 0.5)"
-      ctx.fillStyle = s"rgba(0, $g, $b, 0.5)"
-      field.drawable.draw(ctx)
-    }
-  }
-
-  def update() = {
-    val hitMap = mutable.Map.empty[cp.Body, List[cp.Vect]]
-                            .withDefaultValue(Nil)
-
-    for(field <- fields){
-      field.shape.layers = Layers.DynamicRange
-      query(field.shape, (s, _) => hitMap(s.getBody()) ::= field.direction)
-      field.shape.layers = Layers.Fields
-    }
-    for((body, hits) <- hitMap){
-      val cancelGravity = new cp.Vect(0, -400)
-      val forwardMotion = hits.reduce(_ + _) / hits.length * 400
-      val drag = body.getVel() * -1
-      body.applyImpulse(
-        (cancelGravity + forwardMotion + drag) * body.m / 60,
-        (0, 0)
-      )
-    }
-  }
-}

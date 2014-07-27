@@ -7,7 +7,7 @@ import scala.scalajs.js
 @JSName("cp.Vect")
 class Vect(var x: Double, var y: Double) extends js.Object
 @JSName("cp.BB")
-class BB(var l: Double, var b: Double, var r: Double, var t: Double)
+class BB(var l: Double, var b: Double, var r: Double, var t: Double) extends js.Object
 
 @JSName("cp.Shape")
 class Shape(body: Body) extends js.Object{
@@ -20,6 +20,7 @@ class Shape(body: Body) extends js.Object{
   def active(): js.Boolean = ???
   def setBody(b: Body) = ???
   def cacheBB(): js.Any = ???
+  def getBB(): BB = ???
   def update(pos: Vect, rot: Double): js.Any = ???
   def pointQuery(p: Vect): js.UndefOr[NearestPointQueryInfo] = ???
   var layers: Int = ???

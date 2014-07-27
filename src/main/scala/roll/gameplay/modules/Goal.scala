@@ -31,7 +31,7 @@ class Goal(var goal: Form){
       goal.drawable,
       Color.Yellow
     )
-    text = "Success!\n\nTouch to\nContinue"
+    text = "Success!"
     won = true
   }
   def update() = {
