@@ -13,7 +13,7 @@ case class Field(center: cp.Vect,
                  shape: cp.Shape,
                  dir: cp.Vect,
                  area: Double,
-                 var sparkles: List[(cp.Vect)] = Nil){
+                 var sparkles: Vector[(cp.Vect)] = Vector()){
 
 }
 
@@ -36,35 +36,40 @@ class Antigravity(fields: Seq[Field],
 
       val idealCount = math.abs((bb.l - bb.r) * (bb.t - bb.b)  / 10000).toInt
 
-      for{
+      val newSparkles = for{
         x <- 0 until (idealCount - field.sparkles.length)
         if scala.util.Random.nextFloat() > 0.95
-      }{
+      } yield {
         def rand = util.Random.nextDouble()
 
         // Random points along the four edges of the bounding box
-        def randT = (rand * (bb.r - bb.l) + bb.l, bb.t)
-        def randL = (bb.l, rand * (bb.t - bb.b) + bb.b)
-        def randB = (rand * (bb.r - bb.l) + bb.l, bb.b)
-        def randR = (bb.r, rand * (bb.t - bb.b) + bb.b)
+        def randT = new cp.Vect(rand * (bb.r - bb.l) + bb.l, bb.t)
+        def randL = new cp.Vect(bb.l, rand * (bb.t - bb.b) + bb.b)
+        def randB = new cp.Vect(rand * (bb.r - bb.l) + bb.l, bb.b)
+        def randR = new cp.Vect(bb.r, rand * (bb.t - bb.b) + bb.b)
 
+        // Some clever math to distribute the new sparkles around the
+        // two up-stream edges of the bounding box in a way that makes
+        // the distribution of sparkles uniform while avoiding singularities
         val (absY, absX) = (math.abs(field.dir.y), math.abs(field.dir.x))
 
-        val pt: cp.Vect =
-          if (rand < absX / (absX + absY))
-            if (field.dir.x < 0)  randR
-            else randL
-          else
-            if (field.dir.y < 0) randT
-            else randB
-
-        field.sparkles = pt :: field.sparkles
+        if (rand < absX / (absX + absY)) {
+          if (field.dir.x < 0) randR
+          else randL
+        }else {
+          if (field.dir.y < 0) randT
+          else randB
+        }
       }
+
       field.drawable.draw(ctx)
       field.sparkles =
         field.sparkles
+             .iterator
              .map(_ + field.dir * 4)
              .filter(p => p.within((bb.l, bb.t), (bb.r, bb.b)))
+             .++(newSparkles)
+             .toVector
 
       ctx.fillStyle = s"rgba(255, 255, 255, 0.8)"
       for{
