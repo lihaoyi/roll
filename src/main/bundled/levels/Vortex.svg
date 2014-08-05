@@ -4,30 +4,42 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="3200px" height="3200px" viewBox="0 0 3200 3200" enable-background="new 0 0 3200 3200" xml:space="preserve">
 <g id="Fields">
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1793.927,1264.398 1987.817,1600.226 2775.093,1600 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1985.911,928.343 2372.845,1597.918 2775.093,1600 
 		2187.547,582.34 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1793.927,1264.398 1600.036,1600.226 
-		1987.817,1600.226 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1406.428,1264.48 1794.209,1264.48 2187.546,582.71 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1793.927,1264.398 1600.036,1600.226 
+		1987.676,1599.268 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1210.068,928.018 1985.911,928.343 2187.546,582.71 
 		1012.454,582.71 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1406.428,1264.48 1600.319,1600.308 1794.209,1264.48 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1406.428,1264.48 1600.036,1600.226 1794.209,1264.48 
 			"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1212.397,1598.942 1406.428,1264.48 1012.24,582.958 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="822.287,1599.673 1210.068,928.018 1012.24,582.958 
 		424.693,1600.618 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1212.397,1600.146 1600.178,1600.146 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1212.397,1598.942 1600.036,1600.226 
 		1406.288,1264.318 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1405.864,1931.521 1212.397,1598.942 
-		425.121,1599.043 1012.667,2616.703 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1406.287,1934.77 1600.178,1598.942 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1209.221,2268.922 822.287,1599.673 425.121,1599.043 
+		1012.667,2616.703 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1405.864,1934.77 1600.036,1600.226 
 		1212.397,1598.942 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1793.786,1935.096 1405.864,1931.521 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1985.065,2269.574 1209.221,2268.922 
 		1012.454,2611.533 2187.546,2611.533 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1793.645,1934.77 1599.754,1598.942 1405.864,1934.77 
-			"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1987.676,1599.268 1793.786,1935.096 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1793.786,1935.096 1600.036,1600.226 
+		1405.864,1934.77 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="2372.845,1597.918 1985.065,2269.574 
 		2187.761,2616.455 2775.308,1598.796 	"/>
-	<polyline opacity="0.5" fill="#888888" enable-background="new    " points="1987.676,1599.268 1599.896,1599.268 
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1987.676,1599.268 1600.036,1600.226 
 		1793.786,1935.096 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1985.346,928.179 1794.209,1264.48 1987.676,1599.268 
+		2372.845,1597.918 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1210.349,928.342 1406.288,1264.318 1794.209,1264.48 
+		1985.911,928.343 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="822.287,1599.673 1212.397,1598.942 
+		1406.288,1264.318 1210.068,928.018 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1210.068,2268.923 1405.864,1934.77 
+		1212.397,1598.942 822.287,1599.673 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="1984.782,2268.923 1793.786,1935.096 
+		1405.864,1934.77 1209.221,2268.922 	"/>
+	<polyline opacity="0.5" fill="#888C88" enable-background="new    " points="2372.845,1597.918 1987.676,1599.268 
+		1793.786,1935.096 1985.065,2269.574 	"/>
 	
 		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1238.032" y1="1564.482" x2="1523.309" y2="1849.758"/>
 	
@@ -43,7 +55,7 @@
 	
 		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="753.303" y1="949.404" x2="1038.579" y2="1234.681"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1396.735" y1="1940.339" x2="1753.506" y2="1844.742"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1408.753" y1="1940.905" x2="1765.523" y2="1845.308"/>
 	
 		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1786.834" y1="1889.983" x2="1862.166" y2="1608.84"/>
 	
@@ -51,7 +63,19 @@
 	
 		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1731.582" y1="1318.779" x2="1377.859" y2="1413.559"/>
 	
-		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1736.289" y1="693.963" x2="1607.266" y2="1175.481"/>
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1704.872" y1="596.105" x2="1627.458" y2="885.016"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="962.512" y1="1797.511" x2="1364.419" y2="1832.674"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1125.872" y1="1272.104" x2="1273.345" y2="1588.363"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1448.794" y1="2290.154" x2="1660.648" y2="1987.595"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="2088.251" y1="2065.641" x2="1965.243" y2="1801.851"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="2263.335" y1="1467.76" x2="1903.296" y2="1436.26"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="10" stroke-miterlimit="10" x1="1627.766" y1="986.508" x2="1417.722" y2="1286.482"/>
 </g>
 <g id="Foreground">
 </g>
@@ -76,8 +100,8 @@
 		2660.187,1758.177 	"/>
 	<polyline fill="#555555" points="1730.246,1172.996 1730.246,1373.198 1857.043,1301.198 	"/>
 	<polyline fill="#887766" points="1673.659,1941.075 1717.659,1889.983 1695.659,2125.983 1673.659,2181.983 	"/>
-	<polyline fill="#999999" points="1739.817,1808.244 1721.437,1884.244 1769.817,1948.244 1849.182,1948.244 1866.98,1878.244 
-		1849.182,1833.784 1799.817,1794.433 	"/>
+	<polyline fill="#999999" points="1767.817,1784.096 1749.437,1860.096 1797.817,1924.096 1877.182,1924.096 1894.98,1854.096 
+		1877.182,1809.636 1827.817,1770.285 	"/>
 </g>
 <g id="Background">
 </g>
@@ -85,7 +109,7 @@
 </g>
 <g id="Special">
 	<circle id="Player" fill="#FF8877" cx="788.14" cy="691.231" r="30"/>
-	<polygon id="Goal" fill="#00FFFF" points="1566.917,1657.299 1533.835,1600 1566.917,1542.698 1633.082,1542.698 1666.165,1600 
-		1633.082,1657.299 	"/>
+	<polygon id="Goal" fill="#00FFFF" points="1566.742,1657.527 1533.66,1600.228 1566.742,1542.926 1632.907,1542.926 
+		1665.99,1600.228 1632.907,1657.527 	"/>
 </g>
 </svg>

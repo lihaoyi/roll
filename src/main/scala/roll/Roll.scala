@@ -116,7 +116,7 @@ object Roll extends scalajs.js.JSApp{
         .getElementById("canvas")
         .cast[dom.HTMLCanvasElement]
 
-    val gameHolder = new GameHolder(canvas)
+    val  gameHolder = new GameHolder(canvas)
     val touches = mutable.Buffer.empty[Touch]
 
 

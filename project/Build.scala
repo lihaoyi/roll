@@ -57,7 +57,7 @@ object Build extends sbt.Build {
     .settings(workbenchSettings: _*)
     .settings(
       name := "games",
-      scalaVersion := "2.11.1",
+      scalaVersion := "2.11.2",
       bootSnippet := "roll.Roll().main();",
       libraryDependencies ++= Seq(
         "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",

@@ -95,7 +95,7 @@ class Antigravity(fields: Seq[Field],
     for((body, fields) <- hitMap){
       val cancelGravity = new cp.Vect(0, -400)
       val forwardMotion = fields.map(x => x.dir * x.acceleration).reduce(_ + _) / fields.length * 400
-      def dragEquation(v: cp.Vect, linearDrag: Double, quadraticDrag: Double = 0.0001) = {
+      def dragEquation(v: cp.Vect, linearDrag: Double, quadraticDrag: Double = 0.00015) = {
         v * -linearDrag - v * v.length * quadraticDrag
       }
       val drag = fields.map(f => dragEquation(body.getVel(), f.drag)).reduce(_ + _) / fields.length
